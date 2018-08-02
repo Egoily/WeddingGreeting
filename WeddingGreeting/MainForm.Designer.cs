@@ -29,67 +29,37 @@
         private void InitializeComponent()
         {
             this.picbVideoContainer = new System.Windows.Forms.PictureBox();
-            this.picbRecognisedFace = new System.Windows.Forms.PictureBox();
-            this.rtbMessage = new System.Windows.Forms.RichTextBox();
-            this.picbCapturedFace = new System.Windows.Forms.PictureBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiRegister = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiPlayVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiStopVideo = new System.Windows.Forms.ToolStripMenuItem();
-            this.imageViewer = new EAlbums.ImageViewer();
+            this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.guestViewer = new EAlbums.ImageViewer();
+            this.hostViewer = new EAlbums.ImageViewer();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picbRecognisedFace)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picbCapturedFace)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // picbVideoContainer
             // 
-            this.picbVideoContainer.BackColor = System.Drawing.Color.Black;
-            this.picbVideoContainer.Location = new System.Drawing.Point(12, 39);
+            this.picbVideoContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.picbVideoContainer.Location = new System.Drawing.Point(2, 24);
             this.picbVideoContainer.Name = "picbVideoContainer";
-            this.picbVideoContainer.Size = new System.Drawing.Size(446, 303);
+            this.picbVideoContainer.Size = new System.Drawing.Size(148, 104);
+            this.picbVideoContainer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picbVideoContainer.TabIndex = 0;
             this.picbVideoContainer.TabStop = false;
-            // 
-            // picbRecognisedFace
-            // 
-            this.picbRecognisedFace.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.picbRecognisedFace.Location = new System.Drawing.Point(623, 39);
-            this.picbRecognisedFace.Name = "picbRecognisedFace";
-            this.picbRecognisedFace.Size = new System.Drawing.Size(153, 177);
-            this.picbRecognisedFace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picbRecognisedFace.TabIndex = 2;
-            this.picbRecognisedFace.TabStop = false;
-            // 
-            // rtbMessage
-            // 
-            this.rtbMessage.Location = new System.Drawing.Point(464, 222);
-            this.rtbMessage.Name = "rtbMessage";
-            this.rtbMessage.ReadOnly = true;
-            this.rtbMessage.Size = new System.Drawing.Size(312, 120);
-            this.rtbMessage.TabIndex = 3;
-            this.rtbMessage.Text = "";
-            // 
-            // picbCapturedFace
-            // 
-            this.picbCapturedFace.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.picbCapturedFace.Location = new System.Drawing.Point(464, 39);
-            this.picbCapturedFace.Name = "picbCapturedFace";
-            this.picbCapturedFace.Size = new System.Drawing.Size(153, 177);
-            this.picbCapturedFace.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picbCapturedFace.TabIndex = 2;
-            this.picbCapturedFace.TabStop = false;
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRegister,
-            this.tsmiVideo});
+            this.tsmiVideo,
+            this.tsmiRefresh});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(892, 25);
+            this.menuStrip.Size = new System.Drawing.Size(916, 25);
             this.menuStrip.TabIndex = 4;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -123,39 +93,77 @@
             this.tsmiStopVideo.Text = "停止";
             this.tsmiStopVideo.Click += new System.EventHandler(this.tsmiStopVideo_Click);
             // 
-            // imageViewer
+            // tsmiRefresh
             // 
-            this.imageViewer.AllowDrop = true;
-            this.imageViewer.Alpha = 0F;
-            this.imageViewer.AutoScroll = true;
-            this.imageViewer.AutoSize = true;
-            this.imageViewer.BackColor = System.Drawing.Color.Black;
-            this.imageViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.imageViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
-            this.imageViewer.Location = new System.Drawing.Point(22, 362);
-            this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Pattern = EAlbums.ViewPatterns.Pending;
-            this.imageViewer.Size = new System.Drawing.Size(858, 381);
-            this.imageViewer.TabIndex = 5;
+            this.tsmiRefresh.Name = "tsmiRefresh";
+            this.tsmiRefresh.Size = new System.Drawing.Size(44, 21);
+            this.tsmiRefresh.Text = "刷新";
+            this.tsmiRefresh.Click += new System.EventHandler(this.tsmiRefresh_Click);
+            // 
+            // guestViewer
+            // 
+            this.guestViewer.AllowDrop = true;
+            this.guestViewer.Alpha = 0.1F;
+            this.guestViewer.AutoScroll = true;
+            this.guestViewer.AutoSize = true;
+            this.guestViewer.BackColor = System.Drawing.Color.Black;
+            this.guestViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.guestViewer.CircleCapacity = 4;
+            this.guestViewer.CircleVerInterval = 100;
+            this.guestViewer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guestViewer.DestinationSize = new System.Drawing.Size(0, 0);
+            this.guestViewer.DisplayCenterOffset = new System.Drawing.Point(100, 0);
+            this.guestViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
+            this.guestViewer.Location = new System.Drawing.Point(2, 28);
+            this.guestViewer.MaxCapacityInCircle = 360;
+            this.guestViewer.MaxImageLength = 120;
+            this.guestViewer.Name = "guestViewer";
+            this.guestViewer.Pattern = EAlbums.ViewPatterns.Pending;
+            this.guestViewer.ScalingOption = EgoDevil.Utilities.ThumbnailCreator.ScalingOptions.MaintainAspect;
+            this.guestViewer.Size = new System.Drawing.Size(858, 307);
+            this.guestViewer.SourceFolder = "";
+            this.guestViewer.TabIndex = 5;
+            // 
+            // hostViewer
+            // 
+            this.hostViewer.AllowDrop = true;
+            this.hostViewer.Alpha = 0.1F;
+            this.hostViewer.AutoScroll = true;
+            this.hostViewer.AutoSize = true;
+            this.hostViewer.BackColor = System.Drawing.Color.Black;
+            this.hostViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.hostViewer.CircleCapacity = 1;
+            this.hostViewer.CircleVerInterval = 100;
+            this.hostViewer.DestinationSize = new System.Drawing.Size(80, 120);
+            this.hostViewer.DisplayCenterOffset = new System.Drawing.Point(0, 0);
+            this.hostViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
+            this.hostViewer.Location = new System.Drawing.Point(12, 341);
+            this.hostViewer.MaxCapacityInCircle = 360;
+            this.hostViewer.MaxImageLength = 160;
+            this.hostViewer.Name = "hostViewer";
+            this.hostViewer.Pattern = EAlbums.ViewPatterns.Pending;
+            this.hostViewer.ScalingOption = EgoDevil.Utilities.ThumbnailCreator.ScalingOptions.MaintainAspect;
+            this.hostViewer.Size = new System.Drawing.Size(858, 255);
+            this.hostViewer.SourceFolder = "HostImages";
+            this.hostViewer.TabIndex = 5;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 882);
-            this.Controls.Add(this.imageViewer);
-            this.Controls.Add(this.menuStrip);
-            this.Controls.Add(this.rtbMessage);
-            this.Controls.Add(this.picbCapturedFace);
-            this.Controls.Add(this.picbRecognisedFace);
+            this.ClientSize = new System.Drawing.Size(916, 593);
             this.Controls.Add(this.picbVideoContainer);
+            this.Controls.Add(this.guestViewer);
+            this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.hostViewer);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "婚礼签到指引";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picbRecognisedFace)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picbCapturedFace)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -166,15 +174,14 @@
         #endregion
 
         private System.Windows.Forms.PictureBox picbVideoContainer;
-        private System.Windows.Forms.PictureBox picbRecognisedFace;
-        private System.Windows.Forms.RichTextBox rtbMessage;
-        private System.Windows.Forms.PictureBox picbCapturedFace;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem tsmiRegister;
         private System.Windows.Forms.ToolStripMenuItem tsmiVideo;
         private System.Windows.Forms.ToolStripMenuItem tsmiPlayVideo;
         private System.Windows.Forms.ToolStripMenuItem tsmiStopVideo;
-        private EAlbums.ImageViewer imageViewer;
+        private EAlbums.ImageViewer guestViewer;
+        private EAlbums.ImageViewer hostViewer;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRefresh;
     }
 }
 

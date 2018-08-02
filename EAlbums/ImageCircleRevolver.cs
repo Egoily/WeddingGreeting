@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,67 +10,81 @@ namespace EAlbums
     public class ImageCircleRevolver : IImageCircleRevolver
     {
         public List<ImageCircle> Circles { get; set; }
-        public int CircleCapacity { get; set; }
-
-        public int MaxCapacityInCircle { get; set; }
-        public Point Radius { get; set; }
-
-        /// <summary>
-        /// the interval of Circle in vertical
-        /// </summary>
-        public int CircleVerInterval { get; set; }
-
-        public Point OrginalCenter { get; set; }
-
-        public float Alpha { get; set; }
-
-        public Color BackgroundColor { get; set; }
+        public ImageCircleParameter CircleParameter { get; set; }
         public ThumbElement SelectedObject { get; set; }
 
         public int CircleCount { get; protected set; }
-
+        public int CapacityInCircle { get; protected set; }
         public ImageCircleRevolver()
         {
             Circles = new List<ImageCircle>();
-            MaxCapacityInCircle = 64;
-            Radius = new Point(400, 400);
+            CircleParameter = new ImageCircleParameter()
+            {
+                Alpha = 0.0F,
+                MaxCircleCapacity = 10,
+                MaxCapacityInCircle = 360,
+                Radius = new Point(480, 120),
+                MaxImageLength = 120,
+                DestinationSize = new Size(80, 120),
+            };
+
         }
 
         public void Load(List<string> filePaths)
         {
             var imageCount = filePaths.Count;
-            CircleCount = (int)Math.Ceiling(imageCount / (MaxCapacityInCircle * 1d));
-            if (CircleCount > CircleCapacity)
+            var thumbElements = new List<ThumbElement>();
+            for (var i = 0; i < imageCount; i++)
             {
-                CircleCount = CircleCapacity;
+                thumbElements.Add(new ThumbElement()
+                {
+                    FullPath = filePaths[i],
+                    Name = Path.GetFileNameWithoutExtension(filePaths[i]),
+                });
             }
-            var startPoint = new Point(OrginalCenter.X, OrginalCenter.Y - (int)(CircleCount - 1) * CircleVerInterval / 2);
+            Load(thumbElements);
+        }
+
+        public void Load(List<ThumbElement> thumbElements)
+        {
+            if (thumbElements == null || !thumbElements.Any()) return;
+            Circles.Clear();
+
+            var imageCount = thumbElements.Count;
+            CircleCount = (int)Math.Ceiling(imageCount / (CircleParameter.MaxCapacityInCircle * 1d));
+            if (CircleCount > CircleParameter.MaxCircleCapacity)
+            {
+                CircleCount = CircleParameter.MaxCircleCapacity;
+            }
+            CapacityInCircle = (int)Math.Ceiling(imageCount / (CircleCount * 1d));
+            if (CapacityInCircle > CircleParameter.MaxCapacityInCircle)
+            {
+                CapacityInCircle = CircleParameter.MaxCapacityInCircle;
+            }
+            var startPoint = new Point(CircleParameter.OrginalCenter.X, CircleParameter.OrginalCenter.Y - (int)(CircleCount - 1) * CircleParameter.CircleVerInterval / 2);
+
             for (var i = 0; i < CircleCount; i++)
             {
-                var center = new Point(startPoint.X, startPoint.Y + i * CircleVerInterval);
+                var center = new Point(startPoint.X, startPoint.Y + i * CircleParameter.CircleVerInterval);
                 var circle = new ImageCircle()
                 {
-                    
+
                     Index = i,
-                    BackgroundColor = BackgroundColor,
                     HoverColor = Color.White,
                     Perspective = 4,
                     CircleCenter = center,
-                    Radius = Radius,
-                    FixedAlphaAccel = 0.1f,
-                    MaxCapacity = MaxCapacityInCircle,
+                    MaxCapacity = CapacityInCircle,
                     RevolveType = RevolveTypes.Fixed,
+                    Radius = CircleParameter.Radius,
+                    FixedAlphaAccel = CircleParameter.Alpha,
+                    BackgroundColor = CircleParameter.BackgroundColor,
+                    MaxImageLength = CircleParameter.MaxImageLength,
+                    ScalingOption = CircleParameter.ScalingOption,
+                    DestinationSize = CircleParameter.DestinationSize,
                 };
                 Circles.Add(circle);
 
-                var paths = new List<string>();
-                for (int j = i * circle.MaxCapacity; j < (i + 1) * circle.MaxCapacity; j++)
-                {
-                    if (j >= filePaths.Count)
-                        break;
-                    paths.Add(filePaths[j]);
-                }
-                circle.Load(paths);
+                circle.Load(thumbElements);
             }
         }
 
@@ -115,9 +130,14 @@ namespace EAlbums
 
         public void DrawImages(Graphics g)
         {
-            foreach (var obj in Circles)
+            //foreach (var obj in Circles)
+            //{
+            //    obj.DrawImages(g);
+            //}
+
+            for (int i = Circles.Count() - 1; i >= 0; i--)
             {
-                obj.DrawImages(g);
+                Circles[i].DrawImages(g);
             }
         }
 
@@ -151,14 +171,19 @@ namespace EAlbums
 
         public void SetOrginalCenter(Point orginalCenter)
         {
-            this.OrginalCenter = orginalCenter;
-            if (Circles.Any())
+            lock (this)
             {
-                var startPoint = new Point(OrginalCenter.X, OrginalCenter.Y - (int)(CircleCount - 1) * CircleVerInterval / 2);
-                for (var i = 0; i < CircleCount; i++)
+                CircleParameter.OrginalCenter = orginalCenter;
+                if (Circles.Any())
                 {
-                    var center = new Point(startPoint.X, startPoint.Y + i * CircleVerInterval);
-                    Circles[i].CircleCenter = center;
+                    var startPoint = new Point(CircleParameter.OrginalCenter.X, CircleParameter.OrginalCenter.Y - (int)(CircleCount - 1) * CircleParameter.CircleVerInterval / 2);
+
+                    for (var i = 0; i < Circles.Count; i++)
+                    {
+                        var center = new Point(startPoint.X, startPoint.Y + i * CircleParameter.CircleVerInterval);
+                        Circles[i].CircleCenter = center;
+                        Circles[i].Radius = new Point(center.X * 4 / 5, center.Y * 1 / 5);
+                    }
                 }
             }
         }
@@ -169,6 +194,6 @@ namespace EAlbums
             return circle?.SelectedObject;
         }
 
-     
+
     }
 }

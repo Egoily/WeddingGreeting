@@ -13,6 +13,9 @@ namespace WeddingGreeting
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            GlobalConfig.Load();
+
             Application.Run(new MainForm());
         }
     }

@@ -5,13 +5,13 @@ namespace ee.Models
     /// <summary>
     /// 贵宾信息
     /// </summary>
-    public class GustInfo
+    public class GuestInfo
     {
         public virtual string Id { get; set; }
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 性别:0女,1男
+        /// 性别:0未定义,1男,2女
         /// </summary>
         public virtual int Gender { get; set; }
 
@@ -25,7 +25,7 @@ namespace ee.Models
         /// <summary>
         /// 贵宾类型(0其他方,1新郎方,2,新娘方)
         /// </summary>
-        public virtual int GustType { get; set; }
+        public virtual int GuestType { get; set; }
 
         /// <summary>
         /// 随行人员(以逗号分隔)
@@ -51,5 +51,16 @@ namespace ee.Models
         /// 是否已出席
         /// </summary>
         public virtual bool IsAttend { get; set; }
+        /// <summary>
+        /// 签到时间
+        /// </summary>
+        public virtual DateTime? AttendTime { get; set; }
+        /// <summary>
+        /// 相片路径
+        /// </summary>
+        public virtual string ImagePath { get; set; }
+
+
+        public virtual DateTime CreateTime { get; set; }
     }
 }

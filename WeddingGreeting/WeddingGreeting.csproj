@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>wedding_rings_128px.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AipSdk, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Baidu.AI.3.6.2\lib\net45\AipSdk.dll</HintPath>
@@ -61,6 +64,7 @@
     <Compile Include="Forms\FrmRegister.Designer.cs">
       <DependentUpon>FrmRegister.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalConfig.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +128,9 @@
       <Project>{eed98acf-105a-45af-af05-8e7a0ca64b88}</Project>
       <Name>ee.Utility.Player</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wedding_rings_128px.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

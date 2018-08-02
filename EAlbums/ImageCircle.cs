@@ -1,6 +1,8 @@
 ﻿using EgoDevil.Utilities.ThumbnailCreator;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,18 +14,13 @@ namespace EAlbums
     {
         public ImageCircle()
         {
-            MaxCapacity = 10;
+            MaxCapacity = 100;
             AlphaAccel = 0.0f;
+            MaxImageLength = 120;
             Images = new List<ThumbElement>();
+            DestinationSize = new Size(80, 120);
         }
 
-        public ImageCircle(Point circleCenter)
-        {
-            MaxCapacity = 10;
-            AlphaAccel = 0.0f;
-            Images = new List<ThumbElement>();
-            CircleCenter = circleCenter;
-        }
 
         public int Index { get; set; }
         public float AngleOffset { get; set; }
@@ -37,10 +34,12 @@ namespace EAlbums
         public float FixedAlphaAccel { get; set; }
 
         public Color HoverColor { get; set; }
+        [DefaultValue(120)]
+        public int MaxImageLength { get; set; }
 
         public List<ThumbElement> Images { get; set; }
 
-        [DefaultValue(10)]
+        [DefaultValue(100)]
         public int MaxCapacity { get; set; }
 
         public float Perspective { get; set; }
@@ -48,12 +47,11 @@ namespace EAlbums
         public RevolveTypes RevolveType { get; set; }
         public ThumbElement SelectedObject { get; set; }
 
+        public ScalingOptions ScalingOption { get; set; }
+        public Size DestinationSize { get; set; }
         public void Clear()
         {
-            if (Images != null)
-            {
-                Images.Clear();
-            }
+            Images?.Clear();
         }
 
         public void DrawImages(Graphics g)
@@ -66,24 +64,46 @@ namespace EAlbums
 
         public void Load(List<string> filePaths)
         {
-            Clear();
             var count = filePaths.Count;
+            var thumbElements = new List<ThumbElement>();
+            for (var i = 0; i < count; i++)
+            {
+                var filePath = filePaths[i];
+
+
+                var thumbElement = new ThumbElement()
+                {
+                    FullPath = filePath,
+                    Name = Path.GetFileNameWithoutExtension(filePaths[i]),
+                    Description = string.Empty,
+                };
+                thumbElements.Add(thumbElement);
+            }
+            Load(thumbElements);
+        }
+        public void Load(List<ThumbElement> thumbElements)
+        {
+            if (thumbElements == null || !thumbElements.Any()) return;
+            Clear();
+            var count = thumbElements.Count;
 
             if (count > MaxCapacity)
             {
                 count = MaxCapacity;
             }
-            var thumbnailCreation = new ThumbnailCreation();
+            var thumbnailCreation = new ThumbnailCreation() { MaxImageLength = MaxImageLength };
             for (var i = 0; i < count; i++)
             {
-                var filePath = filePaths[i];
+                var item = thumbElements[i];
+                if (Images.Any(x => x.FullPath == item.FullPath))
+                    continue;
 
-                var bitmap = thumbnailCreation.CreateThumbnailImage(filePath);
+                var bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption,DestinationSize);
 
                 var angle = (double)((i * 360.0f) / count);
                 var thumbImage = new ThumbImage()
                 {
-                    Name = filePath,
+                    Name = item.Name,
                     ThumbOriginalBitmap = new Bitmap(bitmap),
                     OriginalAngle = angle,
                     CircleCenter = CircleCenter,
@@ -92,15 +112,14 @@ namespace EAlbums
                 bitmap.Dispose();
                 var thumbElement = new ThumbElement()
                 {
-                    FullPath = filePath,
-                    Name = Path.GetFileNameWithoutExtension(filePaths[i]),
-                    Description = string.Empty,
+                    FullPath = item.FullPath,
+                    Name = item.Name,
+                    Description = item.Description,
                     ThumbImage = thumbImage,
                 };
                 Images.Add(thumbElement);
             }
         }
-
         public void ClearHover()
         {
             foreach (var item in Images.Where(x => x.ThumbImage.IsHover))
@@ -120,6 +139,7 @@ namespace EAlbums
             });
 
             Images.Sort((p1, p2) => p2.ThumbImage.DistanceFromScreen.CompareTo(p1.ThumbImage.DistanceFromScreen));
+
         }
 
         public bool SelectHoverItem(Point location)
@@ -134,7 +154,7 @@ namespace EAlbums
         public bool SelectHoverItem(string name)
         {
             SelectedObject = null;
-            Parallel.ForEach(Images.Where(obj => obj.ThumbImage.Name == name), obj =>
+            Parallel.ForEach(Images.Where(obj => obj.Name == name), obj =>
               {
                   SelectedObject = obj;
               });

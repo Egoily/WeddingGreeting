@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using EAlbums;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
@@ -12,38 +14,71 @@ namespace WeddingGreeting
         public MainForm()
         {
             InitializeComponent();
+            ResizeControlls();
             player = new VideoPlayer(this.picbVideoContainer);
             player.FaceRecognised += Player_FaceRecognised;
             player.NotRecognisedLongTime += Player_NotRecognisedLongTime;
-            imageViewer.Loading();
+
+
+            guestViewer.Loading();
+            hostViewer.Loading();
+
+            RefreshGuests();
+        }
+        private void MainForm_Resize(object sender, System.EventArgs e)
+        {
+            ResizeControlls();
+        }
+        private void ResizeControlls()
+        {
+            picbVideoContainer.Location = new Point(0, menuStrip.Height);
+            picbVideoContainer.Size = new Size(256, 192);
+            guestViewer.Location = new Point(0, menuStrip.Height);
+            guestViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
+            guestViewer.ResetOrginalCenter();
+            hostViewer.Location = new Point(0, menuStrip.Height + (Height - menuStrip.Height) / 2 + 2);
+            hostViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
+            hostViewer.ResetOrginalCenter();
 
         }
 
         private static bool isProcessing = false;
+        private static string currentUserId = "";
+        private static int sameUserCount = 0;
+        private static int maxSameUserCont = 100;
         private void Player_FaceRecognised(System.Drawing.Bitmap image, string userId, string userInfo)
         {
             if (isProcessing) return;
             isProcessing = true;
             try
             {
-
-
-                picbCapturedFace.Image = new Bitmap(image);
-                if (picbRecognisedFace.Tag == null
-                    || (picbRecognisedFace.Tag != null && picbRecognisedFace.Tag.ToString().ToLower() != userId.ToLower()))
+                if (currentUserId != userId)
                 {
-                    picbRecognisedFace.Image = GetFaceImageByUserId(userId);
-                    picbRecognisedFace.Tag = userId;
+
+                    currentUserId = userId;
+                    guestViewer.InvokeIfRequired(c => c.ShowItem(currentUserId));
+
+
+                    var imageFileName = $"Attend\\{currentUserId}.jpg";
+
+                    if (File.Exists(imageFileName))
+                        File.Delete(imageFileName);
+                    var img = (Bitmap)image.Clone();
+                    img.Save(imageFileName, ImageFormat.Jpeg);
+                    img.Dispose();
                 }
-                rtbMessage.InvokeIfRequired(c => c.Text = userInfo);
+                else
+                {
+                    sameUserCount++;
+                    if (sameUserCount > maxSameUserCont)
+                    {
+                        //guestViewer.InvokeIfRequired(c => c.ShowItem(""));
+                        currentUserId = "";
+                        sameUserCount = 0;
+                    }
+                }
+                guestViewer.InvokeIfRequired(c => c.ShowItem(currentUserId));
 
-                var imageFileName = $"Attend\\{userId}.jpg";
-
-                if (File.Exists(imageFileName))
-                    File.Delete(imageFileName);
-                var img = (Bitmap)image.Clone();
-                img.Save(imageFileName, ImageFormat.Jpeg);
-                img.Dispose();
             }
             catch (System.Exception ex)
             {
@@ -54,14 +89,17 @@ namespace WeddingGreeting
         private void Player_NotRecognisedLongTime()
         {
             Clear();
+            currentUserId = "";
+            sameUserCount = 0;
+            guestViewer.InvokeIfRequired(c => c.ShowItem(""));
         }
 
         private Bitmap GetFaceImageByUserId(string userId)
         {
             try
             {
-
-                var image = Bitmap.FromFile($"Images\\{userId}.jpg");
+                var imageFileName = Path.Combine(System.Environment.CurrentDirectory, $"GuestImages\\{userId}.jpg");
+                var image = Bitmap.FromFile(imageFileName);
                 if (image != null)
                 {
                     var img = new Bitmap(image);
@@ -87,6 +125,7 @@ namespace WeddingGreeting
         {
             var frm = new FrmRegister();
             frm.ShowDialog(this);
+            RefreshGuests();
         }
 
         private void tsmiPlayVideo_Click(object sender, System.EventArgs e)
@@ -100,15 +139,30 @@ namespace WeddingGreeting
             picbVideoContainer.Image = null;
             Clear();
         }
+        private void tsmiRefresh_Click(object sender, System.EventArgs e)
+        {
+            RefreshGuests();
+        }
 
+        private void RefreshGuests()
+        {
+            var thumbElements = new List<ThumbElement>();
+            foreach (var item in GlobalConfig.Guests)
+            {
+                thumbElements.Add(new ThumbElement()
+                {
+                    Name = item.Id,
+                    FullPath = item.ImagePath,
+                    Description = $"姓名: {item.Name} \n身份: {item.Labels}\n桌号: {item.TableNo} ",
+                });
+            }
+            guestViewer.LoadingByThumbElements(thumbElements);
+        }
         private void Clear()
         {
 
-            picbCapturedFace.Image = null;
-            picbRecognisedFace.Image = null;
-            picbRecognisedFace.Tag = null;
-
-            rtbMessage.InvokeIfRequired(c => c.Clear());
         }
+
+
     }
 }

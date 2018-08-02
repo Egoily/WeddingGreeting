@@ -91,11 +91,16 @@ namespace WeddingGreeting.Forms
 
                 }
 
-                var imageFileName = $"Images\\{userId}.jpg";
-                image.Save(imageFileName, ImageFormat.Jpeg);
+                var imageFileName = Path.Combine(System.Environment.CurrentDirectory, $"GuestImages\\{userId}.jpg");
+             
+                if (File.Exists(imageFileName))
+                    File.Delete(imageFileName);
+                var img = (Bitmap)image.Clone();
+                img.Save(imageFileName, ImageFormat.Jpeg);
+                img.Dispose();
                 var option = new FaceOption()
                 {
-                    User_Info = $"{name} {status} 请就坐{tableNo}号桌.",
+                    User_Info = $"姓名: {name} \n身份: {status}\n桌号: {tableNo} ",
                 };
 
                 var user = APIBase.GetUserInfo(userId, groupId);
@@ -110,7 +115,34 @@ namespace WeddingGreeting.Forms
                 {
                     jObj = APIBase.FaceRegister(new Bitmap(image), groupId, userId, option);
                 }
-                return (jObj != null && jObj.error_code == 0);
+                var success = (jObj != null && jObj.error_code == 0);
+                if (success)
+                {
+                    var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Id == userId);
+                    if (guest == null)
+                    {
+                        GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                        {
+                            Id = userId,
+                            Name = name,
+                            Labels = status,
+                            TableNo = tableNo,
+                            ImagePath = imageFileName,
+                            CreateTime = DateTime.Now,
+                        });
+                    }
+                    else
+                    {
+                        guest.Name = name;
+                        guest.Labels = status;
+                        guest.TableNo = tableNo;
+                        guest.ImagePath = imageFileName;
+                        guest.CreateTime = DateTime.Now;
+                    }
+                    GlobalConfig.Save();
+                }
+
+                return success;
             }
             catch (Exception ex)
             {

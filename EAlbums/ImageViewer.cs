@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EgoDevil.Utilities.ThumbnailCreator;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -10,13 +11,9 @@ namespace EAlbums
 {
     public partial class ImageViewer : UserControl
     {
-        public int CircleCount = 3;
-
         public List<string> ImagePaths = new List<string>();
 
-        public int CircleVerInterval = 200;
 
-        private readonly IImageCircleRevolver imageCircleRevolver = null;
 
         private Image currentDisplayImage;
 
@@ -26,15 +23,74 @@ namespace EAlbums
 
         private Rectangle desRect;
 
-        //this is the coordinate of the center of the image displayed on the control in reference to
-        //the coordinate system of the original image
-        private Point displayCenter;
+
 
         //the scale by which the current image is zoomed
         private double scale = 1;
 
         private Rectangle srcRect;
 
+
+        private IImageCircleRevolver Revolver { get; set; }
+        [Browsable(true), Category("Custom")]
+        public Color BackgroundColor { get; set; }
+        [Browsable(true), Category("Custom")]
+        /// <summary>
+        /// gets or sets how the mouse behaves on the image control display area
+        /// </summary>
+        public PreviewMode ImagePreviewMode { get; set; }
+        [Browsable(true), Category("Custom")]
+        public ViewPatterns Pattern { get; set; }
+        [Browsable(true), Category("Custom")]
+        public string SourceFolder { get; set; }
+        [Browsable(true), Category("Custom")]
+        public int CircleCapacity
+        {
+            get => Revolver.CircleParameter.MaxCircleCapacity;
+            set => Revolver.CircleParameter.MaxCircleCapacity = value;
+        }
+        [Browsable(true), Category("Custom")]
+        public int MaxCapacityInCircle
+        {
+            get => Revolver.CircleParameter.MaxCapacityInCircle;
+            set => Revolver.CircleParameter.MaxCapacityInCircle = value;
+        }
+        [Browsable(true), Category("Custom")]
+        public int CircleVerInterval
+        {
+            get => Revolver.CircleParameter.CircleVerInterval;
+            set => Revolver.CircleParameter.CircleVerInterval = value;
+        }
+        [Browsable(true), Category("Custom")]
+        public int MaxImageLength
+        {
+            get => Revolver.CircleParameter.MaxImageLength;
+            set => Revolver.CircleParameter.MaxImageLength = value;
+        }
+        [Browsable(true), Category("Custom")]
+        public ScalingOptions ScalingOption
+        {
+            get => Revolver.CircleParameter.ScalingOption;
+            set => Revolver.CircleParameter.ScalingOption = value;
+        }
+        [Browsable(true), Category("Custom")]
+        public Size DestinationSize
+        {
+            get => Revolver.CircleParameter.DestinationSize;
+            set => Revolver.CircleParameter.DestinationSize = value;
+        }
+
+        [Browsable(true), Category("Custom")]
+        [DefaultValue(0.0F)]
+        public float Alpha
+        {
+            get => Revolver.CircleParameter.Alpha;
+            set => Revolver.CircleParameter.Alpha = value;
+        }
+        //this is the coordinate of the center of the image displayed on the control in reference to
+        //the coordinate system of the original image
+        [Browsable(true), Category("Custom")]
+        public Point DisplayCenterOffset { get; set; }
         public ImageViewer()
         {
             InitializeComponent();
@@ -49,39 +105,39 @@ namespace EAlbums
             Pattern = ViewPatterns.Pending;
 
             BackgroundColor = Color.FromArgb(255, 0, 0, 0);
-            imageCircleRevolver = new ImageCircleRevolver()
+
+
+            Revolver = new ImageCircleRevolver()
             {
-                BackgroundColor = BackgroundColor,
-                CircleCapacity = CircleCount,
-                CircleVerInterval = CircleVerInterval,
-                OrginalCenter = new Point(Width / 2, Height / 2),
             };
+            Revolver.CircleParameter.OrginalCenter = new Point(Width / 2, Height / 2);
+
         }
 
-        public float Alpha { get; set; }
-
-        public Color BackgroundColor { get; set; }
-
-        /// <summary>
-        /// gets or sets how the mouse behaves on the image control display area
-        /// </summary>
-        public PreviewMode ImagePreviewMode { get; set; }
-
-        public ViewPatterns Pattern { get; set; }
 
         public void Loading()
         {
+
             this.backgroundWorker.RunWorkerAsync();
 
             SetTimerEnabled(true);
-            //var bt = new BackgroundThread(LoadThumbs);
-            //bt.Start();
         }
+
+
 
         public void LoadThumbs()
         {
-            var dir = Path.Combine(Application.StartupPath, "Images");
-            LoadThumbs(dir);
+            if (!string.IsNullOrEmpty(SourceFolder))
+            {
+                var dir = Path.Combine(Application.StartupPath, SourceFolder);
+                LoadThumbs(dir);
+            }
+
+        }
+
+        public void LoadingByThumbElements(List<ThumbElement> thumbElements)
+        {
+            Revolver.Load(thumbElements);
         }
 
         public void LoadThumbs(string dir)
@@ -96,7 +152,7 @@ namespace EAlbums
 
         public void LoadThumbs(List<string> filePaths)
         {
-            imageCircleRevolver.Load(filePaths);
+            Revolver.Load(filePaths);
         }
 
         /// <summary>
@@ -173,10 +229,10 @@ namespace EAlbums
         {
             srcRect = new Rectangle(0, 0, currentDisplayImage.Width, currentDisplayImage.Height);
             desRect = new Rectangle(
-                          center.X - (int)(currentDisplayImage.Width * amount / 2),
-                          center.Y - (int)(currentDisplayImage.Height * amount / 2),
-                          (int)((double)currentDisplayImage.Width * amount),
-                          (int)((double)currentDisplayImage.Height * amount));
+                          center.X - (int)(currentDisplayImage.Width * amount / 2) - DisplayCenterOffset.X,
+                          center.Y - (int)(currentDisplayImage.Height * amount / 2) - DisplayCenterOffset.Y,
+                          (int)(currentDisplayImage.Width * amount),
+                          (int)(currentDisplayImage.Height * amount));
 
             Refresh();
         }
@@ -224,29 +280,6 @@ namespace EAlbums
             Pattern = ViewPatterns.Ready;
         }
 
-        private void ImageViewer_DoubleClick(object sender, EventArgs e)
-        {
-            switch (Pattern)
-            {
-                case ViewPatterns.Pending:
-                    break;
-
-                case ViewPatterns.Loading:
-                    break;
-
-                case ViewPatterns.Ready:
-                    break;
-
-                case ViewPatterns.Browse:
-                    SetTimerEnabled(true);
-                    Pattern = ViewPatterns.Ready;
-                    Invalidate();
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
         private void ImageViewer_Load(object sender, EventArgs e)
         {
@@ -258,16 +291,16 @@ namespace EAlbums
 
         public void ShowSelectedItem()
         {
-            if (imageCircleRevolver.SelectedObject != null)
+            if (Revolver.SelectedObject != null)
             {
                 isFirstShown = true;
                 SetTimerEnabled(false);
 
-                if (!string.IsNullOrEmpty(imageCircleRevolver.SelectedObject.FullPath)
-                    && currentDisplayImageFullPath != imageCircleRevolver.SelectedObject.FullPath)
+                if (!string.IsNullOrEmpty(Revolver.SelectedObject.FullPath)
+                    && currentDisplayImageFullPath != Revolver.SelectedObject.FullPath)
                 {
-                    currentDisplayImageFullPath = imageCircleRevolver.SelectedObject.FullPath;
-                    currentDisplayImage = Image.FromFile(imageCircleRevolver.SelectedObject.FullPath);
+                    currentDisplayImageFullPath = Revolver.SelectedObject.FullPath;
+                    currentDisplayImage = Image.FromFile(Revolver.SelectedObject.FullPath);
                 }
                 ZoomImage();
 
@@ -275,20 +308,43 @@ namespace EAlbums
             }
         }
 
-        public void Select(string name)
+        public bool ShowItem(string name)
         {
-            var isHover = imageCircleRevolver.SelectHoverItem(name);
+            var isHover = Revolver.SelectHoverItem(name);
             if (isHover)
             {
-                imageCircleRevolver.SetRevolveType(RevolveTypes.None);
+                Revolver.SetRevolveType(RevolveTypes.None);
+                ShowSelectedItem();
             }
+            else
+            {
+                Revolver.SetRevolveType(RevolveTypes.Fixed);
+                SetTimerEnabled(true);
+                Pattern = ViewPatterns.Ready;
+                Invalidate();
+            }
+            return isHover;
+        }
+        public bool Select(string name)
+        {
+            var isHover = Revolver.SelectHoverItem(name);
+            if (isHover)
+            {
+                Revolver.SetRevolveType(RevolveTypes.None);
+            }
+            return isHover;
         }
         public void Select(Point point)
         {
-            var isHover = imageCircleRevolver.SelectHoverItem(point);
+            var isHover = Revolver.SelectHoverItem(point);
             if (isHover)
             {
-                imageCircleRevolver.SetRevolveType(RevolveTypes.None);
+                Cursor = Cursors.Hand;
+                Revolver.SetRevolveType(RevolveTypes.None);
+            }
+            else
+            {
+                Cursor = Cursors.Default;
             }
         }
         private void ImageViewer_MouseDown(object sender, MouseEventArgs e)
@@ -360,19 +416,19 @@ namespace EAlbums
 
                 case ViewPatterns.Ready:
                     {
-                        imageCircleRevolver.SetRevolveType(RevolveTypes.Fixed);
+                        Revolver.SetRevolveType(RevolveTypes.Fixed);
                         var x0 = Width / 2;
                         var y0 = Height / 2;
                         //设置加速步长
-                        imageCircleRevolver.SetAlphaAccel((((float)(e.X - x0)) * 3.0f) / ((float)x0));
+                        Revolver.SetAlphaAccel((((float)(e.X - x0)) * 3.0f) / ((float)x0));
 
                         if ((e.Button & MouseButtons.Right) == MouseButtons.Right)
                         {
-                            imageCircleRevolver.SetPerspective(12 - (((float)(-e.Y + y0)) * 10.0f) / ((float)y0));
+                            Revolver.SetPerspective(12 - (((float)(-e.Y + y0)) * 10.0f) / ((float)y0));
                         }
                         else if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
                         {
-                            imageCircleRevolver.SetRevolveType(RevolveTypes.Transformable);
+                            Revolver.SetRevolveType(RevolveTypes.Transformable);
                         }
                         Select(e.Location);
 
@@ -444,6 +500,29 @@ namespace EAlbums
                     throw new ArgumentOutOfRangeException();
             }
         }
+        private void ImageViewer_DoubleClick(object sender, EventArgs e)
+        {
+            switch (Pattern)
+            {
+                case ViewPatterns.Pending:
+                    break;
+
+                case ViewPatterns.Loading:
+                    break;
+
+                case ViewPatterns.Ready:
+                    break;
+
+                case ViewPatterns.Browse:
+                    SetTimerEnabled(true);
+                    Pattern = ViewPatterns.Ready;
+                    Invalidate();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         private void ImageViewer_Paint(object sender, PaintEventArgs e)
         {
@@ -479,16 +558,24 @@ namespace EAlbums
 
         private void PaintBrowsePattern(Graphics g)
         {
-            if (imageCircleRevolver.SelectedObject != null)
+            if (Revolver.SelectedObject != null)
             {
                 var units = GraphicsUnit.Pixel;
 
                 g.DrawImage(currentDisplayImage, desRect, srcRect, units);
 
-                imageCircleRevolver.ClearHover();
+                Revolver.ClearHover();
                 FontFamily fontFamily = new FontFamily("Arial");
                 Font font = new Font(fontFamily, 36, FontStyle.Regular, GraphicsUnit.Pixel);
-                g.DrawString(imageCircleRevolver.SelectedObject.Name, font, Brushes.Red, new PointF(0, 0));
+                g.DrawString(Revolver.SelectedObject.Name, font, Brushes.Red, new PointF(0, 0));
+
+                var message = Revolver.SelectedObject.Description;
+
+                if (!string.IsNullOrEmpty(message))
+                {
+                    g.DrawString(message, font, Brushes.BlueViolet,
+                        new PointF(Width / 2 + 64, 2));
+                }
             }
         }
 
@@ -505,16 +592,16 @@ namespace EAlbums
 
         private void PaintReadyPattern(Graphics g)
         {
-            imageCircleRevolver.SetOrginalCenter(new Point(Width / 2, Height / 2));
-            imageCircleRevolver.DrawImages(g);
+            Revolver.SetOrginalCenter(new Point(Width / 2, Height / 2));
+            Revolver.DrawImages(g);
         }
 
         private void RefreshImages()
         {
             if (Pattern == ViewPatterns.Ready)
             {
-                imageCircleRevolver.SetAngleOffset();
-                imageCircleRevolver.Refresh();
+                Revolver.SetAngleOffset();
+                Revolver.Refresh();
                 Invalidate();
             }
         }
@@ -537,6 +624,12 @@ namespace EAlbums
         private void TimerTick(object sender, EventArgs e)
         {
             RefreshImages();
+        }
+
+        public void ResetOrginalCenter()
+        {
+            Revolver.SetOrginalCenter(new Point(Width / 2, Height / 2));
+            Revolver.Refresh();
         }
     }
 }

@@ -16,8 +16,8 @@ namespace EAlbums
         private Rectangle shadowRect;
         private Bitmap thumbOriginalBitmap;
 
-        public Size BitmapSize = new Size(64, 64);
-        public int MaxThumbSize = 64;
+        private Size BitmapSize;
+        public int MaxThumbSize = 0;
         public int PixelSize = 4;
 
         public ThumbImage()
@@ -60,15 +60,30 @@ namespace EAlbums
                 {
                     return;
                 }
-                var nWidth = MaxThumbSize;
-                var nHeight = thumbOriginalBitmap.Height * MaxThumbSize / thumbOriginalBitmap.Width;
 
-                if (nHeight > MaxThumbSize)
+                if (MaxThumbSize > 0)
                 {
-                    nHeight = MaxThumbSize;
-                    nWidth = thumbOriginalBitmap.Width * MaxThumbSize / thumbOriginalBitmap.Height;
+                    decimal dcRectangle = (decimal)thumbOriginalBitmap.Width / (decimal)thumbOriginalBitmap.Height;
+                    int iWidth = MaxThumbSize;
+                    int iHeight = MaxThumbSize;
+
+                    if (thumbOriginalBitmap.Width >= thumbOriginalBitmap.Height)
+                    {
+                        iWidth = MaxThumbSize;
+                        iHeight = int.Parse(decimal.Round((decimal)iWidth * dcRectangle, 0).ToString());
+                    }
+                    else
+                    {
+                        iHeight = MaxThumbSize;
+                        iWidth = int.Parse(decimal.Round((decimal)iHeight / dcRectangle, 0).ToString());
+                    }
+                    BitmapSize = new Size(iWidth, iHeight);
                 }
-                BitmapSize = new Size(nWidth, nHeight);
+                else
+                {
+                    BitmapSize = new Size(thumbOriginalBitmap.Width, thumbOriginalBitmap.Height);
+                }
+
                 ThumbFullBitmap = new Bitmap(BitmapSize.Width, BitmapSize.Height * 2);
                 DrawFullBitmap();
             }
