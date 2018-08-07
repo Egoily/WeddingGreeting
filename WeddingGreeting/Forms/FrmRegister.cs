@@ -90,7 +90,7 @@ namespace WeddingGreeting.Forms
 
                 }
 
-                var imageFileName = Path.Combine(System.Environment.CurrentDirectory, $"GuestImages\\{userId}.jpg");
+                var imageFileName = Path.Combine($"GuestImages\\{userId}.jpg");
 
                 if (File.Exists(imageFileName))
                     File.Delete(imageFileName);

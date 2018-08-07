@@ -100,7 +100,8 @@ namespace EAlbums
                     continue;
 
                 var bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption, DestinationSize);
-
+                if (bitmap == null)
+                    continue;
                 var angle = (double)((i * 360.0f) / count);
                 var thumbImage = new ThumbImage()
                 {
