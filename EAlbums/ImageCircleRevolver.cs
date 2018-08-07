@@ -71,6 +71,7 @@ namespace EAlbums
 
                     Index = i,
                     HoverColor = Color.White,
+                    SelectedColor=Color.GreenYellow,
                     Perspective = 4,
                     CircleCenter = center,
                     MaxCapacity = CapacityInCircle,
@@ -161,6 +162,7 @@ namespace EAlbums
             SelectedObject = GetSelectedObject();
             return (SelectedObject != null);
         }
+ 
         public void SetRevolveType(RevolveTypes revolveType)
         {
             Parallel.ForEach(Circles, obj =>

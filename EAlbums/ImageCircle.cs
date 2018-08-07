@@ -34,6 +34,7 @@ namespace EAlbums
         public float FixedAlphaAccel { get; set; }
 
         public Color HoverColor { get; set; }
+        public Color SelectedColor { get; set; }
         [DefaultValue(120)]
         public int MaxImageLength { get; set; }
 
@@ -98,7 +99,7 @@ namespace EAlbums
                 if (Images.Any(x => x.FullPath == item.FullPath))
                     continue;
 
-                var bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption,DestinationSize);
+                var bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption, DestinationSize);
 
                 var angle = (double)((i * 360.0f) / count);
                 var thumbImage = new ThumbImage()
@@ -107,7 +108,9 @@ namespace EAlbums
                     ThumbOriginalBitmap = new Bitmap(bitmap),
                     OriginalAngle = angle,
                     CircleCenter = CircleCenter,
-                    HoverColor = HoverColor
+                    HoverColor = HoverColor,
+                    SelectedColor = SelectedColor,
+                    IsSelected = item.IsSelected,
                 };
                 bitmap.Dispose();
                 var thumbElement = new ThumbElement()
@@ -116,6 +119,7 @@ namespace EAlbums
                     Name = item.Name,
                     Description = item.Description,
                     ThumbImage = thumbImage,
+                    IsSelected = item.IsSelected,
                 };
                 Images.Add(thumbElement);
             }
@@ -156,7 +160,9 @@ namespace EAlbums
             SelectedObject = null;
             Parallel.ForEach(Images.Where(obj => obj.Name == name), obj =>
               {
+                  obj.ThumbImage.IsSelected = true;
                   SelectedObject = obj;
+
               });
             return (SelectedObject != null);
         }

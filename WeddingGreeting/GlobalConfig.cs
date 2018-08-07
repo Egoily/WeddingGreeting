@@ -17,7 +17,7 @@ namespace WeddingGreeting
         private static string ConfigFile = System.Environment.CurrentDirectory + @"\data.json";
         public static List<GuestInfo> Guests { get; set; }
 
-
+        public static string GroupId = "EE";
 
         /// <summary>
         /// 加载系统配置

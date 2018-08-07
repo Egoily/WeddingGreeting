@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace EAlbums
@@ -44,6 +45,11 @@ namespace EAlbums
         public Color HoverColor { get; set; }
 
         public bool IsHover { get; set; }
+
+
+        public Color SelectedColor { get; set; }
+
+        public bool IsSelected { get; set; }
 
         public double OriginalAngle { get; set; }
 
@@ -146,10 +152,21 @@ namespace EAlbums
         private void DrawHoverBitmap(Graphics g)
         {
             if (IsHover)
+            //if (IsHover || IsSelected)
             {
-                var pen = new Pen(HoverColor);
-                g.DrawRectangle(pen, mainRect);
-                pen.Dispose();
+                //if (IsSelected)
+                //{
+                //    var pen = new Pen(SelectedColor, 2);
+                //    g.DrawRectangle(pen, mainRect);
+                //    pen.Dispose();
+                //}
+                if (IsHover)
+                {
+                    var pen = new Pen(HoverColor);
+                    g.DrawRectangle(pen, mainRect);
+                    pen.Dispose();
+                }
+
             }
             else
             {
@@ -159,7 +176,14 @@ namespace EAlbums
                 g.FillRectangle(sb, shadowRect);
                 sb.Dispose();
             }
+
+            if (IsSelected)
+            {
+                Brush b = new SolidBrush(SelectedColor);//声明的画刷
+                g.FillEllipse(b, new RectangleF(mainRect.Right - 10, mainRect.Y - 10, 20, 20));
+            }
         }
+
 
         private void DrawImageFullBitmap(Graphics g)
         {

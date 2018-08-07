@@ -1,8 +1,10 @@
 ﻿using EAlbums;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WeddingGreeting.Forms;
 
@@ -14,6 +16,7 @@ namespace WeddingGreeting
         public MainForm()
         {
             InitializeComponent();
+            this.BackColor = Color.Black;
             ResizeControlls();
             player = new VideoPlayer(this.picbVideoContainer);
             player.FaceRecognised += Player_FaceRecognised;
@@ -32,7 +35,7 @@ namespace WeddingGreeting
         private void ResizeControlls()
         {
             picbVideoContainer.Location = new Point(0, menuStrip.Height);
-            picbVideoContainer.Size = new Size(256, 192);
+            picbVideoContainer.Size = new Size(128, 96);
             guestViewer.Location = new Point(0, menuStrip.Height);
             guestViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
             guestViewer.ResetOrginalCenter();
@@ -58,14 +61,21 @@ namespace WeddingGreeting
                     currentUserId = userId;
                     guestViewer.InvokeIfRequired(c => c.ShowItem(currentUserId));
 
+                    var target = GlobalConfig.Guests.FirstOrDefault(x => x.Id == userId);
+                    if (target != null)
+                    {
+                        target.IsAttend = true;
+                        target.AttendTime = DateTime.Now;
+                        GlobalConfig.Save();
+                    }
 
-                    var imageFileName = $"Attend\\{currentUserId}.jpg";
+                    //var imageFileName = $"Attend\\{currentUserId}.jpg";
 
-                    if (File.Exists(imageFileName))
-                        File.Delete(imageFileName);
-                    var img = (Bitmap)image.Clone();
-                    img.Save(imageFileName, ImageFormat.Jpeg);
-                    img.Dispose();
+                    //if (File.Exists(imageFileName))
+                    //    File.Delete(imageFileName);
+                    //var img = (Bitmap)image.Clone();
+                    //img.Save(imageFileName, ImageFormat.Jpeg);
+                    //img.Dispose();
                 }
                 else
                 {
@@ -154,6 +164,7 @@ namespace WeddingGreeting
                     Name = item.Id,
                     FullPath = item.ImagePath,
                     Description = $"姓名: {item.Name} \n身份: {item.Labels}\n桌号: {item.TableNo} ",
+                    IsSelected=item.IsAttend,
                 });
             }
             guestViewer.LoadingByThumbElements(thumbElements);
@@ -163,6 +174,37 @@ namespace WeddingGreeting
 
         }
 
+        private void tsmiConfigVideoWindow_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmConfigVideoWindow(this.picbVideoContainer);
+            frm.Show(this);
+        }
 
+        private void tsmiExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void menuStrip_MouseEnter(object sender, EventArgs e)
+        {
+            menuStrip.Visible = true;
+        }
+
+        private void menuStrip_MouseLeave(object sender, EventArgs e)
+        {
+            menuStrip.Visible = false;
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.Y<=20)
+            {
+                menuStrip.Visible = true;
+            }
+            else
+            {
+                menuStrip.Visible = false;
+            }
+        }
     }
 }

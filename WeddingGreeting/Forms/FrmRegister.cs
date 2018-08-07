@@ -17,7 +17,6 @@ namespace WeddingGreeting.Forms
     public partial class FrmRegister : Form
     {
 
-        private string groupId = "EE";
         public FrmRegister()
         {
             InitializeComponent();
@@ -92,7 +91,7 @@ namespace WeddingGreeting.Forms
                 }
 
                 var imageFileName = Path.Combine(System.Environment.CurrentDirectory, $"GuestImages\\{userId}.jpg");
-             
+
                 if (File.Exists(imageFileName))
                     File.Delete(imageFileName);
                 var img = (Bitmap)image.Clone();
@@ -103,17 +102,17 @@ namespace WeddingGreeting.Forms
                     User_Info = $"姓名: {name} \n身份: {status}\n桌号: {tableNo} ",
                 };
 
-                var user = APIBase.GetUserInfo(userId, groupId);
+                var user = APIBase.GetUserInfo(userId, GlobalConfig.GroupId);
 
                 BaseResponse<FaceRegisterResult> jObj;
                 if (user != null && user.error_code == 0 && (user.result?.user_list?.Any() ?? false))
                 {
-                    jObj = APIBase.FaceUpdate(new Bitmap(image), groupId, userId, option);
+                    jObj = APIBase.FaceUpdate(new Bitmap(image), GlobalConfig.GroupId, userId, option);
 
                 }
                 else
                 {
-                    jObj = APIBase.FaceRegister(new Bitmap(image), groupId, userId, option);
+                    jObj = APIBase.FaceRegister(new Bitmap(image), GlobalConfig.GroupId, userId, option);
                 }
                 var success = (jObj != null && jObj.error_code == 0);
                 if (success)
@@ -149,6 +148,16 @@ namespace WeddingGreeting.Forms
                 return false;
             }
 
+        }
+
+        private void picbFacePicture_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void picbFacePicture_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
         }
     }
 }

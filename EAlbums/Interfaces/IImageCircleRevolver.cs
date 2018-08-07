@@ -33,6 +33,7 @@ namespace EAlbums
 
         bool SelectHoverItem(Point location);
         bool SelectHoverItem(string name);
+
         void SetRevolveType(RevolveTypes revolveType);
         void SetOrginalCenter(Point orginalCenter);
     }

@@ -100,6 +100,8 @@
             this.picbFacePicture.TabIndex = 2;
             this.picbFacePicture.TabStop = false;
             this.picbFacePicture.DoubleClick += new System.EventHandler(this.picbFacePicture_DoubleClick);
+            this.picbFacePicture.MouseEnter += new System.EventHandler(this.picbFacePicture_MouseEnter);
+            this.picbFacePicture.MouseLeave += new System.EventHandler(this.picbFacePicture_MouseLeave);
             // 
             // btnOk
             // 

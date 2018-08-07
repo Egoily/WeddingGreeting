@@ -37,6 +37,10 @@
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.guestViewer = new EAlbums.ImageViewer();
             this.hostViewer = new EAlbums.ImageViewer();
+            this.tsmiConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiConfigVideoWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSystem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +50,7 @@
             this.picbVideoContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.picbVideoContainer.Location = new System.Drawing.Point(2, 24);
             this.picbVideoContainer.Name = "picbVideoContainer";
-            this.picbVideoContainer.Size = new System.Drawing.Size(148, 104);
+            this.picbVideoContainer.Size = new System.Drawing.Size(128, 96);
             this.picbVideoContainer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picbVideoContainer.TabIndex = 0;
             this.picbVideoContainer.TabStop = false;
@@ -54,14 +58,18 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSystem,
             this.tsmiRegister,
             this.tsmiVideo,
-            this.tsmiRefresh});
+            this.tsmiRefresh,
+            this.tsmiConfig});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(916, 25);
             this.menuStrip.TabIndex = 4;
             this.menuStrip.Text = "menuStrip";
+            this.menuStrip.MouseEnter += new System.EventHandler(this.menuStrip_MouseEnter);
+            this.menuStrip.MouseLeave += new System.EventHandler(this.menuStrip_MouseLeave);
             // 
             // tsmiRegister
             // 
@@ -147,6 +155,36 @@
             this.hostViewer.SourceFolder = "HostImages";
             this.hostViewer.TabIndex = 5;
             // 
+            // tsmiConfig
+            // 
+            this.tsmiConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiConfigVideoWindow});
+            this.tsmiConfig.Name = "tsmiConfig";
+            this.tsmiConfig.Size = new System.Drawing.Size(44, 21);
+            this.tsmiConfig.Text = "配置";
+            // 
+            // tsmiConfigVideoWindow
+            // 
+            this.tsmiConfigVideoWindow.Name = "tsmiConfigVideoWindow";
+            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(152, 22);
+            this.tsmiConfigVideoWindow.Text = "视频窗口...";
+            this.tsmiConfigVideoWindow.Click += new System.EventHandler(this.tsmiConfigVideoWindow_Click);
+            // 
+            // tsmiSystem
+            // 
+            this.tsmiSystem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiExit});
+            this.tsmiSystem.Name = "tsmiSystem";
+            this.tsmiSystem.Size = new System.Drawing.Size(44, 21);
+            this.tsmiSystem.Text = "系统";
+            // 
+            // tsmiExit
+            // 
+            this.tsmiExit.Name = "tsmiExit";
+            this.tsmiExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExit.Text = "退出";
+            this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -156,12 +194,14 @@
             this.Controls.Add(this.guestViewer);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.hostViewer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "婚礼签到指引";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).EndInit();
             this.menuStrip.ResumeLayout(false);
@@ -182,6 +222,10 @@
         private EAlbums.ImageViewer guestViewer;
         private EAlbums.ImageViewer hostViewer;
         private System.Windows.Forms.ToolStripMenuItem tsmiRefresh;
+        private System.Windows.Forms.ToolStripMenuItem tsmiConfig;
+        private System.Windows.Forms.ToolStripMenuItem tsmiConfigVideoWindow;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSystem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiExit;
     }
 }
 
