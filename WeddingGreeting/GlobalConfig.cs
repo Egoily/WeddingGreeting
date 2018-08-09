@@ -18,11 +18,9 @@ namespace WeddingGreeting
         public static List<GuestInfo> Guests { get; set; }
 
         public static string GroupId = "EE";
+        public static double Threshold = 50d;
 
-        /// <summary>
-        /// 加载系统配置
-        /// </summary>
-        public static void Load()
+        public static void LoadGuests()
         {
             if (!File.Exists(ConfigFile))
             {
@@ -41,10 +39,8 @@ namespace WeddingGreeting
             }
 
         }
-        /// <summary>
-        /// 保存配置数据到文件
-        /// </summary>
-        public static void Save()
+
+        public static void SaveGuests()
         {
             var jsonSetting = new JsonSerializerSettings
             {

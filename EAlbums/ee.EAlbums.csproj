@@ -60,18 +60,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Animations, Version=1.1.0.0, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ShareDll\Animations.dll</HintPath>
-    </Reference>
-    <Reference Include="EgoDevil.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ShareDll\EgoDevil.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="ExtendedPictureBoxLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ShareDll\ExtendedPictureBoxLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -148,6 +136,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EgoDevil.Utilities\EgoDevil.Utilities.csproj">
+      <Project>{79e58bd0-d40c-4899-bc83-c1f1b2230332}</Project>
+      <Name>EgoDevil.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtendedPictureBoxLib\ExtendedPictureBoxLib.csproj">
+      <Project>{0ee73a2c-6f5d-4f45-bcbd-35f908193343}</Project>
+      <Name>ExtendedPictureBoxLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

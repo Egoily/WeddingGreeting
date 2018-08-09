@@ -12,7 +12,18 @@ namespace WeddingGreeting
 {
     public partial class MainForm : Form
     {
+
+
+        private static bool isProcessing = false;
+        private static string currentUserId = "";
+        private static int sameUserCount = 0;
+        private static int maxSameUserCont = 100;
+
+
+
         private VideoPlayer player;
+
+
         public MainForm()
         {
             InitializeComponent();
@@ -28,27 +39,7 @@ namespace WeddingGreeting
 
             RefreshGuests();
         }
-        private void MainForm_Resize(object sender, System.EventArgs e)
-        {
-            ResizeControlls();
-        }
-        private void ResizeControlls()
-        {
-            picbVideoContainer.Location = new Point(0, menuStrip.Height);
-            picbVideoContainer.Size = new Size(128, 96);
-            guestViewer.Location = new Point(0, menuStrip.Height);
-            guestViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
-            guestViewer.ResetOrginalCenter();
-            hostViewer.Location = new Point(0, menuStrip.Height + (Height - menuStrip.Height) / 2 + 2);
-            hostViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
-            hostViewer.ResetOrginalCenter();
 
-        }
-
-        private static bool isProcessing = false;
-        private static string currentUserId = "";
-        private static int sameUserCount = 0;
-        private static int maxSameUserCont = 100;
         private void Player_FaceRecognised(System.Drawing.Bitmap image, string userId, string userInfo)
         {
             if (isProcessing) return;
@@ -66,16 +57,10 @@ namespace WeddingGreeting
                     {
                         target.IsAttend = true;
                         target.AttendTime = DateTime.Now;
-                        GlobalConfig.Save();
+                        GlobalConfig.SaveGuests();
+
+                        SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
                     }
-
-                    //var imageFileName = $"Attend\\{currentUserId}.jpg";
-
-                    //if (File.Exists(imageFileName))
-                    //    File.Delete(imageFileName);
-                    //var img = (Bitmap)image.Clone();
-                    //img.Save(imageFileName, ImageFormat.Jpeg);
-                    //img.Dispose();
                 }
                 else
                 {
@@ -103,86 +88,92 @@ namespace WeddingGreeting
             sameUserCount = 0;
             guestViewer.InvokeIfRequired(c => c.ShowItem(""));
         }
-
-        private Bitmap GetFaceImageByUserId(string userId)
+        private void ResizeControlls()
         {
-            try
-            {
-                var imageFileName = Path.Combine(System.Environment.CurrentDirectory, $"GuestImages\\{userId}.jpg");
-                var image = Bitmap.FromFile(imageFileName);
-                if (image != null)
-                {
-                    var img = new Bitmap(image);
-                    image.Dispose();
-                    return img;
-                }
-            }
-            catch (System.Exception)
-            {
+            picbVideoContainer.Location = new Point(0, menuStrip.Height);
+            picbVideoContainer.Size = new Size(128, 96);
+            guestViewer.Location = new Point(0, menuStrip.Height);
+            guestViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
+            guestViewer.ResetOrginalCenter();
+            hostViewer.Location = new Point(0, menuStrip.Height + (Height - menuStrip.Height) / 2 + 2);
+            hostViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
+            hostViewer.ResetOrginalCenter();
 
-            }
-            return null;
+            dmAttendance.Location = new Point(this.Width - dmAttendance.Width, menuStrip.Height);
+
         }
-
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            player?.Stop();
-            player?.Dispose();
-        }
-
-        private void tsmiRegister_Click(object sender, System.EventArgs e)
-        {
-            var frm = new FrmRegister();
-            frm.ShowDialog(this);
-            RefreshGuests();
-        }
-
-        private void tsmiPlayVideo_Click(object sender, System.EventArgs e)
+        private void StartVideo()
         {
             player?.Play();
         }
-
-        private void tsmiStopVideo_Click(object sender, System.EventArgs e)
+        private void StopVideo()
         {
             player?.Stop();
             picbVideoContainer.Image = null;
             Clear();
         }
-        private void tsmiRefresh_Click(object sender, System.EventArgs e)
-        {
-            RefreshGuests();
-        }
-
         private void RefreshGuests()
         {
             var thumbElements = new List<ThumbElement>();
-            foreach (var item in GlobalConfig.Guests)
+            foreach (var item in GlobalConfig.Guests.Where(x => x.ImagePath != null && x.ImagePath != ""))
             {
                 thumbElements.Add(new ThumbElement()
                 {
                     Name = item.Id,
                     FullPath = item.ImagePath,
                     Description = $"姓名: {item.Name} \n身份: {item.Labels}\n桌号: {item.TableNo} ",
-                    IsSelected=item.IsAttend,
+                    IsSelected = item.IsAttend,
                 });
             }
             guestViewer.LoadingByThumbElements(thumbElements);
+
+            SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
+        }
+        private void SetAttendance(int count)
+        {
+            if (count >= 0)
+            {
+                dmAttendance.Value = count;
+            }
+            else
+            {
+                dmAttendance.Value += 1;
+            }
         }
         private void Clear()
         {
 
         }
 
-        private void tsmiConfigVideoWindow_Click(object sender, EventArgs e)
+
+
+
+
+
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            var frm = new FrmConfigVideoWindow(this.picbVideoContainer);
-            frm.Show(this);
+            new MoveControl(this.picbVideoContainer);
+        }
+        private void MainForm_Resize(object sender, System.EventArgs e)
+        {
+            ResizeControlls();
         }
 
-        private void tsmiExit_Click(object sender, EventArgs e)
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            this.Close();
+            if (e.Y <= 20)
+            {
+                menuStrip.Visible = true;
+            }
+            else
+            {
+                menuStrip.Visible = false;
+            }
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            player?.Stop();
+            player?.Dispose();
         }
 
         private void menuStrip_MouseEnter(object sender, EventArgs e)
@@ -195,16 +186,45 @@ namespace WeddingGreeting
             menuStrip.Visible = false;
         }
 
-        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        private void tsmiRegister_Click(object sender, System.EventArgs e)
         {
-            if(e.Y<=20)
+            var frm = new FrmRegister();
+            frm.ShowDialog(this);
+            RefreshGuests();
+        }
+        private void tsmiControlVideo_Click(object sender, EventArgs e)
+        {
+            if (tsmiControlVideo.Text == "开始")
             {
-                menuStrip.Visible = true;
+                StartVideo();
+                tsmiControlVideo.Text = "停止";
             }
             else
             {
-                menuStrip.Visible = false;
+                StopVideo();
+                tsmiControlVideo.Text = "开始";
             }
         }
+
+        private void tsmiRefresh_Click(object sender, System.EventArgs e)
+        {
+            RefreshGuests();
+        }
+        private void tsmiConfigVideoWindow_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmConfigVideoWindow(this.picbVideoContainer);
+            frm.Show(this);
+        }
+        private void tsmiStatistics_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmStatistics();
+            frm.ShowDialog(this);
+        }
+        private void tsmiExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
     }
 }

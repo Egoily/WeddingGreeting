@@ -96,10 +96,21 @@ namespace EAlbums
             for (var i = 0; i < count; i++)
             {
                 var item = thumbElements[i];
-                if (Images.Any(x => x.FullPath == item.FullPath))
-                    continue;
 
-                var bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption, DestinationSize);
+                Image bitmap = null;
+                if (!string.IsNullOrEmpty(item.ImageBase64String))
+                {
+                    if (Images.Any(x => x.ImageBase64String == item.ImageBase64String))
+                        continue;
+                    bitmap = thumbnailCreation.CreateFromBase64String(item.ImageBase64String, ScalingOption, DestinationSize);
+                }
+                else
+                {
+                    if (Images.Any(x => x.FullPath == item.FullPath))
+                        continue;
+                    bitmap = thumbnailCreation.CreateThumbnailImage(item.FullPath, ScalingOption, DestinationSize);
+                }
+
                 if (bitmap == null)
                     continue;
                 var angle = (double)((i * 360.0f) / count);

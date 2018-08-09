@@ -8,6 +8,7 @@ namespace ee.Models
     public class GuestInfo
     {
         public virtual string Id { get; set; }
+        public virtual string ParentId { get; set; }
         public virtual string Name { get; set; }
 
         /// <summary>

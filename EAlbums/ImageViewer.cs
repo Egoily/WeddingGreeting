@@ -91,6 +91,8 @@ namespace EAlbums
         //the coordinate system of the original image
         [Browsable(true), Category("Custom")]
         public Point DisplayCenterOffset { get; set; }
+        [Browsable(true), Category("Custom")]
+        public bool ShownTitle { get; set; }
         public ImageViewer()
         {
             InitializeComponent();
@@ -301,6 +303,15 @@ namespace EAlbums
                 {
                     currentDisplayImageFullPath = Revolver.SelectedObject.FullPath;
                     currentDisplayImage = Image.FromFile(Revolver.SelectedObject.FullPath);
+                }
+                else if (!string.IsNullOrEmpty(Revolver.SelectedObject.ImageBase64String))
+                {
+                    byte[] bytes = Convert.FromBase64String((Revolver.SelectedObject.ImageBase64String));
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        currentDisplayImage = new System.Drawing.Bitmap(ms);
+                    }
+
                 }
                 ZoomImage();
 
@@ -567,8 +578,11 @@ namespace EAlbums
                 Revolver.ClearHover();
                 FontFamily fontFamily = new FontFamily("Arial");
                 Font font = new Font(fontFamily, 36, FontStyle.Regular, GraphicsUnit.Pixel);
-                g.DrawString(Revolver.SelectedObject.Name, font, Brushes.Red, new PointF(0, 0));
+                if (ShownTitle)
+                {
 
+                    g.DrawString(Revolver.SelectedObject.Name, font, Brushes.Red, new PointF(0, 0));
+                }
                 var message = Revolver.SelectedObject.Description;
 
                 if (!string.IsNullOrEmpty(message))

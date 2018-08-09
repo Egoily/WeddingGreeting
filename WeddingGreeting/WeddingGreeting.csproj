@@ -38,14 +38,16 @@
     <Reference Include="AipSdk, Version=3.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Baidu.AI.3.6.2\lib\net45\AipSdk.dll</HintPath>
     </Reference>
-    <Reference Include="EgoDevil.Utilities">
-      <HintPath>..\EAlbums\ShareDll\EgoDevil.Utilities.dll</HintPath>
+    <Reference Include="Animations">
+      <HintPath>..\ShareDll\Animations.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +72,15 @@
     <Compile Include="Forms\FrmRegister.Designer.cs">
       <DependentUpon>FrmRegister.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmStatistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmStatistics.Designer.cs">
+      <DependentUpon>FrmStatistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrameControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -77,6 +88,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MoveControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VideoPlayer.cs" />
@@ -85,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmRegister.resx">
       <DependentUpon>FrmRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmStatistics.resx">
+      <DependentUpon>FrmStatistics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -136,6 +151,14 @@
     <ProjectReference Include="..\ee.Utility.Player\ee.Utility.Player.csproj">
       <Project>{eed98acf-105a-45af-af05-8e7a0ca64b88}</Project>
       <Name>ee.Utility.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EgoDevil.Utilities\EgoDevil.Utilities.csproj">
+      <Project>{79e58bd0-d40c-4899-bc83-c1f1b2230332}</Project>
+      <Name>EgoDevil.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtendedPictureBoxLib\ExtendedPictureBoxLib.csproj">
+      <Project>{0EE73A2C-6F5D-4F45-BCBD-35F908193343}</Project>
+      <Name>ExtendedPictureBoxLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
