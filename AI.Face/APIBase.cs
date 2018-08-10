@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Baidu.AI.Face
 {
@@ -172,6 +173,19 @@ namespace Baidu.AI.Face
         {
             var imageByte = image.ToBytes();
             return FaceRegister(imageByte, groupId, userId, option);
+        }
+
+        public static BaseResponse<FaceRegisterResult> FaceSaveOrUpdate(Bitmap image, string groupId, string userId, FaceOption option = null)
+        {
+            var user = GetUserInfo(userId, groupId);
+            if (user != null && user.error_code == 0 && (user.result?.user_list?.Any() ?? false))
+            {
+                return FaceUpdate(image, groupId, userId, option);
+            }
+            else
+            {
+                return FaceRegister(image, groupId, userId, option);
+            }
         }
 
         public static BaseResponse<FaceSearchResult> FaceSearch(byte[] imageByte, string[] groupIds, SearchFaceOption option = null)

@@ -1,58 +1,20 @@
 ﻿using Baidu.AI.Face;
 using Baidu.AI.Face.Models;
 using ee.Models;
-using EgoDevil.Utilities.UI.MessageForm;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WeddingGreeting.Forms
+namespace WeddingGreeting
 {
-    public partial class FrmRegister : Form
+    public class GuestManagement
     {
-
-
-        private string currentImagePath;
-
-        public FrmRegister()
-        {
-            InitializeComponent();
-        }
-
-        private bool Validation()
-        {
-            if (string.IsNullOrEmpty(txtName.Text))
-            {
-                txtName.Focus();
-                MsgForm.Show("请输入姓名");
-                return false;
-            }
-            if (string.IsNullOrEmpty(txtLabels.Text))
-            {
-                txtLabels.Focus();
-                MsgForm.Show("请输入标签");
-                return false;
-            }
-            if (string.IsNullOrEmpty(txtTableNo.Text))
-            {
-                txtTableNo.Focus();
-                MsgForm.Show("请输入桌号");
-                return false;
-            }
-            if (picbFacePicture.Image == null)
-            {
-                picbFacePicture.Focus();
-                MsgForm.Show("请选择相片");
-                return false;
-
-            }
-            return true;
-        }
-
-        private bool? SaveOrUpdate(GuestInfo info)
+        public static bool SaveOrUpdate(GuestInfo info)
         {
             bool success = false;
             try
@@ -153,7 +115,7 @@ namespace WeddingGreeting.Forms
                         guest.EntourageNum = entourageNum;
                         guest.Labels = labels;
                         guest.TableNo = tableNo;
-                        guest.ImagePath = null;
+                        guest.ImagePath = imageFileName;
                         guest.CreateTime = DateTime.Now;
 
                         for (int i = 0; i < GlobalConfig.Guests.Count; i++)
@@ -206,79 +168,6 @@ namespace WeddingGreeting.Forms
             }
 
         }
-
-        private object Register(object obj)
-        {
-            var success = SaveOrUpdate(obj as GuestInfo);
-            if (success.HasValue)
-            {
-                var message = success.Value ? "录入成功" : "录入失败";
-                lbOperationResult.InvokeIfRequired(c => c.ForeColor = success.Value ? Color.GreenYellow : Color.Red);
-                lbOperationResult.InvokeIfRequired(c => c.Text = message);
-            }
-            return success;
-        }
-        private void FrmRegister_Load(object sender, EventArgs e)
-        {
-            cbbGender.SelectedIndex = 0;
-            cbbGuestType.SelectedIndex = 0;
-        }
-        private void picbFacePicture_DoubleClick(object sender, EventArgs e)
-        {
-            var ofd = new OpenFileDialog
-            {
-                Filter = "(*.jpg,*.png,*.jpeg,*.bmp)|*.jpg;*.png;*.jpeg;*.bmp",
-                Multiselect = false
-            };
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                currentImagePath = ofd.FileName;
-                var image = Bitmap.FromFile(ofd.FileName);
-                if (image != null)
-                {
-                    picbFacePicture.Image = new Bitmap(image);
-                    image.Dispose();
-                }
-            }
-        }
-
-
-        private void btnRegister_Click(object sender, EventArgs e)
-        {
-
-            var val = Validation();
-            if (val)
-            {
-
-                var info = new GuestInfo()
-                {
-                    Id = txtNamePinyin.Text.Trim(),
-                    Name = txtName.Text,
-                    Gender = cbbGender.SelectedIndex,
-                    Labels = txtLabels.Text,
-                    TableNo = txtTableNo.Text,
-                    ImagePath = currentImagePath,
-                    Entourage = txtEntourage.Text ?? "",
-                    GuestType = cbbGuestType.SelectedIndex,
-                };
-                var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
-                thread.Start(info);
-            }
-
-        }
-
-
-
-        private void picbFacePicture_MouseEnter(object sender, EventArgs e)
-        {
-            Cursor = Cursors.Hand;
-        }
-
-        private void picbFacePicture_MouseLeave(object sender, EventArgs e)
-        {
-            Cursor = Cursors.Default;
-        }
-
 
     }
 }

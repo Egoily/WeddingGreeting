@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Drawing;
 
 namespace ee.Models
 {
@@ -15,8 +17,17 @@ namespace ee.Models
         /// 性别:0未定义,1男,2女
         /// </summary>
         public virtual int Gender { get; set; }
+        [JsonIgnore]
+        public virtual string GenderStr
+        {
+            get
+            {
+                if (Gender == 1) return "男";
+                else if (Gender == 2) return "女";
+                else return "未定义";
+            }
+        }
 
-        public virtual DateTime? Birthday { get; set; }
 
         /// <summary>
         /// 标签
@@ -27,7 +38,16 @@ namespace ee.Models
         /// 贵宾类型(0其他方,1新郎方,2,新娘方)
         /// </summary>
         public virtual int GuestType { get; set; }
-
+        [JsonIgnore]
+        public virtual string GuestTypeStr
+        {
+            get
+            {
+                if (GuestType == 1) return "新郎方";
+                else if (GuestType == 2) return "新娘方";
+                else return "其他方";
+            }
+        }
         /// <summary>
         /// 随行人员(以逗号分隔)
         /// </summary>
@@ -46,12 +66,21 @@ namespace ee.Models
         /// <summary>
         /// 座位号
         /// </summary>
-        public virtual int SeatNo { get; set; }
+        public virtual string SeatNo { get; set; }
 
         /// <summary>
         /// 是否已出席
         /// </summary>
         public virtual bool IsAttend { get; set; }
+        [JsonIgnore]
+        public virtual string IsAttendStr
+        {
+            get
+            {
+                if (IsAttend) return "是";
+                else return "否";
+            }
+        }
         /// <summary>
         /// 签到时间
         /// </summary>
@@ -60,8 +89,7 @@ namespace ee.Models
         /// 相片路径
         /// </summary>
         public virtual string ImagePath { get; set; }
-
-
+  
         public virtual DateTime CreateTime { get; set; }
     }
 }

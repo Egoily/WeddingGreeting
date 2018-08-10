@@ -35,7 +35,6 @@
             this.lbTableNo = new System.Windows.Forms.Label();
             this.txtTableNo = new System.Windows.Forms.TextBox();
             this.picbFacePicture = new System.Windows.Forms.PictureBox();
-            this.btnOk = new System.Windows.Forms.Button();
             this.lbUserId = new System.Windows.Forms.Label();
             this.txtNamePinyin = new System.Windows.Forms.TextBox();
             this.lbIdDesc = new System.Windows.Forms.Label();
@@ -47,6 +46,8 @@
             this.txtEntourage = new System.Windows.Forms.TextBox();
             this.lbEntourageDesc = new System.Windows.Forms.Label();
             this.lbOperationResult = new System.Windows.Forms.Label();
+            this.btnRegister = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.btnLoadFromFile = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -110,16 +111,6 @@
             this.picbFacePicture.DoubleClick += new System.EventHandler(this.picbFacePicture_DoubleClick);
             this.picbFacePicture.MouseEnter += new System.EventHandler(this.picbFacePicture_MouseEnter);
             this.picbFacePicture.MouseLeave += new System.EventHandler(this.picbFacePicture_MouseLeave);
-            // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(282, 279);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "确定";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // lbUserId
             // 
@@ -218,22 +209,41 @@
             // lbOperationResult
             // 
             this.lbOperationResult.AutoSize = true;
+            this.lbOperationResult.BackColor = System.Drawing.Color.Blue;
             this.lbOperationResult.Font = new System.Drawing.Font("SimSun", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbOperationResult.ForeColor = System.Drawing.Color.LimeGreen;
+            this.lbOperationResult.ForeColor = System.Drawing.Color.GreenYellow;
             this.lbOperationResult.Location = new System.Drawing.Point(12, 211);
             this.lbOperationResult.Name = "lbOperationResult";
             this.lbOperationResult.Size = new System.Drawing.Size(82, 24);
             this.lbOperationResult.TabIndex = 0;
             this.lbOperationResult.Text = "......";
             // 
+            // btnRegister
+            // 
+            this.btnRegister.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegister.Location = new System.Drawing.Point(302, 272);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.TabIndex = 5;
+            this.btnRegister.Text = "录入";
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
+            // btnLoadFromFile
+            // 
+            this.btnLoadFromFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoadFromFile.Location = new System.Drawing.Point(16, 302);
+            this.btnLoadFromFile.Name = "btnLoadFromFile";
+            this.btnLoadFromFile.TabIndex = 5;
+            this.btnLoadFromFile.Text = "从文件加载";
+            // 
             // FrmRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(658, 344);
+            this.Controls.Add(this.btnRegister);
+            this.Controls.Add(this.btnLoadFromFile);
             this.Controls.Add(this.cbbGuestType);
             this.Controls.Add(this.cbbGender);
-            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.picbFacePicture);
             this.Controls.Add(this.txtEntourage);
             this.Controls.Add(this.lbEntourage);
@@ -271,7 +281,6 @@
         private System.Windows.Forms.Label lbTableNo;
         private System.Windows.Forms.TextBox txtTableNo;
         private System.Windows.Forms.PictureBox picbFacePicture;
-        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label lbUserId;
         private System.Windows.Forms.TextBox txtNamePinyin;
         private System.Windows.Forms.Label lbIdDesc;
@@ -283,5 +292,7 @@
         private System.Windows.Forms.TextBox txtEntourage;
         private System.Windows.Forms.Label lbEntourageDesc;
         private System.Windows.Forms.Label lbOperationResult;
+        private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnLoadFromFile;
+        private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnRegister;
     }
 }

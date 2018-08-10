@@ -5,12 +5,12 @@ namespace EgoDevil.Utilities.BkWorker
 {
     public class BackgroundThread
     {
-        public delegate void RunFunction();
+        public delegate object RunFunction(object obj);
 
         public BackgroundWorker Bw;
         public RunFunction thisFunction;
         private BackgroundForm frmBackground;
-
+        public event RunWorkerCompletedEventHandler RunWorkerCompleted;
         public BackgroundThread(RunFunction newFunction)
         {
             thisFunction = newFunction;
@@ -19,32 +19,29 @@ namespace EgoDevil.Utilities.BkWorker
             Bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Bw_RunWorkerCompleted);
         }
 
-        public void Start()
+        public void Start(object obj)
         {
-            Bw.RunWorkerAsync();
+            Bw.RunWorkerAsync(obj);
             frmBackground = new BackgroundForm();
             frmBackground.ShowDialog();
         }
 
-        public void Start(Size formSize)
+        public void Start(object obj, Size formSize)
         {
-            Bw.RunWorkerAsync();
+            Bw.RunWorkerAsync(obj);
             frmBackground = new BackgroundForm(formSize);
             frmBackground.ShowDialog();
         }
 
         private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            RunWorkerCompleted?.Invoke(sender, e);
             frmBackground.Dispose();
-            //MessageBox.Show("Complete");
         }
 
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (thisFunction != null)
-            {
-                thisFunction();
-            }
+            e.Result = thisFunction?.Invoke(e.Argument);
         }
     }
 }

@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EgoDevil.Utilities", "EgoDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedPictureBoxLib", "ExtendedPictureBoxLib\ExtendedPictureBoxLib.csproj", "{0EE73A2C-6F5D-4F45-BCBD-35F908193343}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ee.Utility.Npoi", "ee.Utility.Npoi\ee.Utility.Npoi.csproj", "{434C7301-0B32-4044-84CA-BB40413C7861}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,18 @@ Global
 		{0EE73A2C-6F5D-4F45-BCBD-35F908193343}.Release|x64.Build.0 = Release|Any CPU
 		{0EE73A2C-6F5D-4F45-BCBD-35F908193343}.Release|x86.ActiveCfg = Release|Any CPU
 		{0EE73A2C-6F5D-4F45-BCBD-35F908193343}.Release|x86.Build.0 = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|x64.Build.0 = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Debug|x86.Build.0 = Debug|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|x64.ActiveCfg = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|x64.Build.0 = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|x86.ActiveCfg = Release|Any CPU
+		{434C7301-0B32-4044-84CA-BB40413C7861}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
