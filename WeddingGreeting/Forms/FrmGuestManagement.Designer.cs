@@ -1,6 +1,6 @@
 ﻿namespace WeddingGreeting.Forms
 {
-    partial class FrmStatistics
+    partial class FrmGuestManagement
     {
         /// <summary>
         /// Required designer variable.
@@ -30,22 +30,6 @@
         {
             ee.Models.GuestInfo guestInfo1 = new ee.Models.GuestInfo();
             this.dgvGuests = new System.Windows.Forms.DataGridView();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.tsbNew = new System.Windows.Forms.ToolStripButton();
-            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
-            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tscbbFilter = new System.Windows.Forms.ToolStripComboBox();
-            this.tslbName = new System.Windows.Forms.ToolStripLabel();
-            this.tstxtName = new System.Windows.Forms.ToolStripTextBox();
-            this.tsbQuery = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tspbPercentage = new EgoDevil.Utilities.UI.EPanels.EToolStripProgressBar();
-            this.tslbStatisticInfo = new System.Windows.Forms.ToolStripLabel();
-            this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.btnCancelRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
-            this.btnRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
-            this.guestInfoCtrl = new WeddingGreeting.UserControls.GuestInfoCtrl();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTableNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colGuestTypeStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,6 +46,22 @@
             this.colImagePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsAttend = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.tsbNew = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
+            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tscbbFilter = new System.Windows.Forms.ToolStripComboBox();
+            this.tslbName = new System.Windows.Forms.ToolStripLabel();
+            this.tstxtName = new System.Windows.Forms.ToolStripTextBox();
+            this.tsbQuery = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tspbPercentage = new EgoDevil.Utilities.UI.EPanels.EToolStripProgressBar();
+            this.tslbStatisticInfo = new System.Windows.Forms.ToolStripLabel();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.btnCancelRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.btnRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.guestInfoCtrl = new WeddingGreeting.UserControls.GuestInfoCtrl();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -103,6 +103,123 @@
             this.dgvGuests.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvGuests.Size = new System.Drawing.Size(629, 705);
             this.dgvGuests.TabIndex = 0;
+            // 
+            // colId
+            // 
+            this.colId.DataPropertyName = "Id";
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Visible = false;
+            // 
+            // colTableNo
+            // 
+            this.colTableNo.DataPropertyName = "TableNo";
+            this.colTableNo.HeaderText = "桌号";
+            this.colTableNo.Name = "colTableNo";
+            this.colTableNo.ReadOnly = true;
+            // 
+            // colGuestTypeStr
+            // 
+            this.colGuestTypeStr.DataPropertyName = "GuestTypeStr";
+            this.colGuestTypeStr.HeaderText = "贵宾类型";
+            this.colGuestTypeStr.Name = "colGuestTypeStr";
+            this.colGuestTypeStr.ReadOnly = true;
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "姓名";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            // 
+            // colGenderStr
+            // 
+            this.colGenderStr.DataPropertyName = "GenderStr";
+            this.colGenderStr.HeaderText = "性别";
+            this.colGenderStr.Name = "colGenderStr";
+            this.colGenderStr.ReadOnly = true;
+            // 
+            // colLabels
+            // 
+            this.colLabels.DataPropertyName = "Labels";
+            this.colLabels.HeaderText = "身份";
+            this.colLabels.Name = "colLabels";
+            this.colLabels.ReadOnly = true;
+            // 
+            // colEntourage
+            // 
+            this.colEntourage.DataPropertyName = "Entourage";
+            this.colEntourage.HeaderText = "随行人员";
+            this.colEntourage.Name = "colEntourage";
+            this.colEntourage.ReadOnly = true;
+            // 
+            // colEntourageNum
+            // 
+            this.colEntourageNum.DataPropertyName = "EntourageNum";
+            this.colEntourageNum.HeaderText = "随行人数";
+            this.colEntourageNum.Name = "colEntourageNum";
+            this.colEntourageNum.ReadOnly = true;
+            // 
+            // colSeatNo
+            // 
+            this.colSeatNo.DataPropertyName = "SeatNo";
+            this.colSeatNo.HeaderText = "座位号";
+            this.colSeatNo.Name = "colSeatNo";
+            this.colSeatNo.ReadOnly = true;
+            this.colSeatNo.Visible = false;
+            // 
+            // colIsAttendStr
+            // 
+            this.colIsAttendStr.DataPropertyName = "IsAttendStr";
+            this.colIsAttendStr.HeaderText = "是否签到";
+            this.colIsAttendStr.Name = "colIsAttendStr";
+            this.colIsAttendStr.ReadOnly = true;
+            // 
+            // colAttendTime
+            // 
+            this.colAttendTime.DataPropertyName = "AttendTime";
+            this.colAttendTime.HeaderText = "签到时间";
+            this.colAttendTime.Name = "colAttendTime";
+            this.colAttendTime.ReadOnly = true;
+            // 
+            // colGender
+            // 
+            this.colGender.HeaderText = "Gender";
+            this.colGender.Name = "colGender";
+            this.colGender.ReadOnly = true;
+            this.colGender.Visible = false;
+            // 
+            // colGuestType
+            // 
+            this.colGuestType.HeaderText = "GuestType";
+            this.colGuestType.Name = "colGuestType";
+            this.colGuestType.ReadOnly = true;
+            this.colGuestType.Visible = false;
+            // 
+            // colImagePath
+            // 
+            this.colImagePath.DataPropertyName = "ImagePath";
+            this.colImagePath.HeaderText = "ImagePath";
+            this.colImagePath.Name = "colImagePath";
+            this.colImagePath.ReadOnly = true;
+            this.colImagePath.Visible = false;
+            // 
+            // colIsAttend
+            // 
+            this.colIsAttend.DataPropertyName = "IsAttend";
+            this.colIsAttend.HeaderText = "IsAttend";
+            this.colIsAttend.Name = "colIsAttend";
+            this.colIsAttend.ReadOnly = true;
+            this.colIsAttend.Visible = false;
+            // 
+            // colCreateTime
+            // 
+            this.colCreateTime.DataPropertyName = "CreateTime";
+            this.colCreateTime.HeaderText = "CreateTime";
+            this.colCreateTime.Name = "colCreateTime";
+            this.colCreateTime.ReadOnly = true;
+            this.colCreateTime.Visible = false;
             // 
             // toolStrip
             // 
@@ -257,7 +374,7 @@
             // guestInfoCtrl
             // 
             guestInfo1.AttendTime = null;
-            guestInfo1.CreateTime = new System.DateTime(2018, 8, 10, 17, 50, 52, 829);
+            guestInfo1.CreateTime = new System.DateTime(2018, 8, 13, 10, 27, 22, 478);
             guestInfo1.Entourage = "";
             guestInfo1.EntourageNum = 0;
             guestInfo1.Gender = 0;
@@ -276,124 +393,7 @@
             this.guestInfoCtrl.Size = new System.Drawing.Size(359, 204);
             this.guestInfoCtrl.TabIndex = 0;
             // 
-            // colId
-            // 
-            this.colId.DataPropertyName = "Id";
-            this.colId.HeaderText = "Id";
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Visible = false;
-            // 
-            // colTableNo
-            // 
-            this.colTableNo.DataPropertyName = "TableNo";
-            this.colTableNo.HeaderText = "桌号";
-            this.colTableNo.Name = "colTableNo";
-            this.colTableNo.ReadOnly = true;
-            // 
-            // colGuestTypeStr
-            // 
-            this.colGuestTypeStr.DataPropertyName = "GuestTypeStr";
-            this.colGuestTypeStr.HeaderText = "贵宾类型";
-            this.colGuestTypeStr.Name = "colGuestTypeStr";
-            this.colGuestTypeStr.ReadOnly = true;
-            // 
-            // colName
-            // 
-            this.colName.DataPropertyName = "Name";
-            this.colName.HeaderText = "姓名";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            // 
-            // colGenderStr
-            // 
-            this.colGenderStr.DataPropertyName = "GenderStr";
-            this.colGenderStr.HeaderText = "性别";
-            this.colGenderStr.Name = "colGenderStr";
-            this.colGenderStr.ReadOnly = true;
-            // 
-            // colLabels
-            // 
-            this.colLabels.DataPropertyName = "Labels";
-            this.colLabels.HeaderText = "身份";
-            this.colLabels.Name = "colLabels";
-            this.colLabels.ReadOnly = true;
-            // 
-            // colEntourage
-            // 
-            this.colEntourage.DataPropertyName = "Entourage";
-            this.colEntourage.HeaderText = "随行人员";
-            this.colEntourage.Name = "colEntourage";
-            this.colEntourage.ReadOnly = true;
-            // 
-            // colEntourageNum
-            // 
-            this.colEntourageNum.DataPropertyName = "EntourageNum";
-            this.colEntourageNum.HeaderText = "随行人数";
-            this.colEntourageNum.Name = "colEntourageNum";
-            this.colEntourageNum.ReadOnly = true;
-            // 
-            // colSeatNo
-            // 
-            this.colSeatNo.DataPropertyName = "SeatNo";
-            this.colSeatNo.HeaderText = "座位号";
-            this.colSeatNo.Name = "colSeatNo";
-            this.colSeatNo.ReadOnly = true;
-            this.colSeatNo.Visible = false;
-            // 
-            // colIsAttendStr
-            // 
-            this.colIsAttendStr.DataPropertyName = "IsAttendStr";
-            this.colIsAttendStr.HeaderText = "是否签到";
-            this.colIsAttendStr.Name = "colIsAttendStr";
-            this.colIsAttendStr.ReadOnly = true;
-            // 
-            // colAttendTime
-            // 
-            this.colAttendTime.DataPropertyName = "AttendTime";
-            this.colAttendTime.HeaderText = "签到时间";
-            this.colAttendTime.Name = "colAttendTime";
-            this.colAttendTime.ReadOnly = true;
-            // 
-            // colGender
-            // 
-            this.colGender.HeaderText = "Gender";
-            this.colGender.Name = "colGender";
-            this.colGender.ReadOnly = true;
-            this.colGender.Visible = false;
-            // 
-            // colGuestType
-            // 
-            this.colGuestType.HeaderText = "GuestType";
-            this.colGuestType.Name = "colGuestType";
-            this.colGuestType.ReadOnly = true;
-            this.colGuestType.Visible = false;
-            // 
-            // colImagePath
-            // 
-            this.colImagePath.DataPropertyName = "ImagePath";
-            this.colImagePath.HeaderText = "ImagePath";
-            this.colImagePath.Name = "colImagePath";
-            this.colImagePath.ReadOnly = true;
-            this.colImagePath.Visible = false;
-            // 
-            // colIsAttend
-            // 
-            this.colIsAttend.DataPropertyName = "IsAttend";
-            this.colIsAttend.HeaderText = "IsAttend";
-            this.colIsAttend.Name = "colIsAttend";
-            this.colIsAttend.ReadOnly = true;
-            this.colIsAttend.Visible = false;
-            // 
-            // colCreateTime
-            // 
-            this.colCreateTime.DataPropertyName = "CreateTime";
-            this.colCreateTime.HeaderText = "CreateTime";
-            this.colCreateTime.Name = "colCreateTime";
-            this.colCreateTime.ReadOnly = true;
-            this.colCreateTime.Visible = false;
-            // 
-            // FrmStatistics
+            // FrmGuestManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -401,11 +401,11 @@
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.toolStrip);
             this.MinimizeBox = false;
-            this.Name = "FrmStatistics";
+            this.Name = "FrmGuestManagement";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "统计";
+            this.Text = "宾客管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.FrmStatistics_Load);
+            this.Load += new System.EventHandler(this.FrmGuestManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

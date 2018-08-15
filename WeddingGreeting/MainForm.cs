@@ -1,4 +1,7 @@
 ﻿using EAlbums;
+using ee.Models;
+using ee.Utility.Npoi;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +30,7 @@ namespace WeddingGreeting
         public MainForm()
         {
             InitializeComponent();
+
             this.BackColor = Color.Black;
             ResizeControlls();
             player = new VideoPlayer(this.picbVideoContainer);
@@ -186,12 +190,6 @@ namespace WeddingGreeting
             menuStrip.Visible = false;
         }
 
-        private void tsmiRegister_Click(object sender, System.EventArgs e)
-        {
-            var frm = new FrmRegister();
-            frm.ShowDialog(this);
-            RefreshGuests();
-        }
         private void tsmiControlVideo_Click(object sender, EventArgs e)
         {
             if (tsmiControlVideo.Text == "开始")
@@ -215,16 +213,67 @@ namespace WeddingGreeting
             var frm = new FrmConfigVideoWindow(this.picbVideoContainer);
             frm.Show(this);
         }
-        private void tsmiStatistics_Click(object sender, EventArgs e)
+        private void tsmiGuestManagement_Click(object sender, EventArgs e)
         {
-            var frm = new FrmStatistics();
+            var frm = new FrmGuestManagement();
             frm.ShowDialog(this);
+            RefreshGuests();
         }
         private void tsmiExit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        private void tsmiImportGuest_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Filter = "(Excel文件)|*.xls;*.xlsx;",
+                Multiselect = false
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                NpoiHelper npoi = new NpoiHelper(ofd.FileName);
+                var dt = npoi.ExcelToDataTable("", true, out List<PicturesInfo> pictures);
+                var jsonValue = JsonConvert.SerializeObject(dt);
+                JsonSerializerSettings jsetting = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
 
+                var objects = JsonConvert.DeserializeObject<List<EnrollmentModel>>(jsonValue, jsetting);
+
+                for (int i = 0; i < objects.Count; i++)
+                {
+                    objects[i].相片 = pictures[i].PictureData;
+                    var item = objects[i];
+                    var img = new Bitmap(item.FaceImage);
+                    var imageFileName = Path.Combine($"GuestImages\\{item.ID}.jpg");
+                    if (File.Exists(imageFileName))
+                    {
+                        File.Delete(imageFileName);
+                    }
+                    img.Save(imageFileName);
+                    img.Dispose();
+                    var info = new GuestInfo()
+                    {
+                        Id = item.ID,
+                        Name = item.Name,
+                        Gender = item.Gender,
+                        GuestType = item.GuestType,
+                        Entourage = item.Entourage,
+                        Labels = item.Labels,
+                        ImagePath = imageFileName,
+                        TableNo = item.TableNo,
+                        CreateTime = DateTime.Now,
+                    };
+                    GuestManagement.SaveOrUpdate(info);
+
+
+                }
+                RefreshGuests();
+                MessageBox.Show("导入完成");
+            }
+        }
     }
 }

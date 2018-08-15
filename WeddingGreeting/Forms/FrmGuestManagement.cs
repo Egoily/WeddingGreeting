@@ -4,23 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WeddingGreeting.Forms
 {
-    public partial class FrmStatistics : Form
+    public partial class FrmGuestManagement : Form
     {
 
         private bool isLoaded = false;
-        public FrmStatistics()
+        public FrmGuestManagement()
         {
             InitializeComponent();
             dgvGuests.AutoGenerateColumns = false;
             tscbbFilter.SelectedIndex = 0;
+            splitContainer.Panel2Collapsed = true;
         }
 
 
@@ -34,7 +32,7 @@ namespace WeddingGreeting.Forms
             tspbPercentage.Text = $"{attendance}/{total}";
             tslbStatisticInfo.Text = $"总数:{total} 已到:{attendance} 未到:{attendance - attendance}";
         }
-        private void FrmStatistics_Load(object sender, EventArgs e)
+        private void FrmGuestManagement_Load(object sender, EventArgs e)
         {
 
             dgvGuests.DataSource = QueryGuests();

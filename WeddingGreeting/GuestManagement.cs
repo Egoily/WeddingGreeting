@@ -24,7 +24,7 @@ namespace WeddingGreeting
                 var labels = info.Labels;
                 var tableNo = info.TableNo;
                 var imagePath = info.ImagePath;
-                var entourageText = info.Entourage;
+                var entourageText = info.Entourage??"";
                 var guestType = info.GuestType;
                 var userId = info.Id;
                 if (string.IsNullOrEmpty(userId))

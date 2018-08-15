@@ -32,9 +32,8 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiSystem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiGuestManage = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiRegister = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiStatistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiGuestManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiControlVideo = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +44,7 @@
             this.guestViewer = new EAlbums.ImageViewer();
             this.hostViewer = new EAlbums.ImageViewer();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
+            this.tsmiImportGuest = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +64,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSystem,
-            this.tsmiGuestManage,
+            this.tsmiManagement,
             this.tsmiVideo,
             this.tsmiConfig});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -90,29 +90,22 @@
             this.tsmiExit.Text = "退出";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
-            // tsmiGuestManage
+            // tsmiManagement
             // 
-            this.tsmiGuestManage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiRegister,
-            this.tsmiStatistics,
+            this.tsmiManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiGuestManagement,
+            this.tsmiImportGuest,
             this.tsmiRefresh});
-            this.tsmiGuestManage.Name = "tsmiGuestManage";
-            this.tsmiGuestManage.Size = new System.Drawing.Size(68, 21);
-            this.tsmiGuestManage.Text = "宾客管理";
+            this.tsmiManagement.Name = "tsmiManagement";
+            this.tsmiManagement.Size = new System.Drawing.Size(44, 21);
+            this.tsmiManagement.Text = "管理";
             // 
-            // tsmiRegister
+            // tsmiGuestManagement
             // 
-            this.tsmiRegister.Name = "tsmiRegister";
-            this.tsmiRegister.Size = new System.Drawing.Size(152, 22);
-            this.tsmiRegister.Text = "录入人员...";
-            this.tsmiRegister.Click += new System.EventHandler(this.tsmiRegister_Click);
-            // 
-            // tsmiStatistics
-            // 
-            this.tsmiStatistics.Name = "tsmiStatistics";
-            this.tsmiStatistics.Size = new System.Drawing.Size(152, 22);
-            this.tsmiStatistics.Text = "统计...";
-            this.tsmiStatistics.Click += new System.EventHandler(this.tsmiStatistics_Click);
+            this.tsmiGuestManagement.Name = "tsmiGuestManagement";
+            this.tsmiGuestManagement.Size = new System.Drawing.Size(152, 22);
+            this.tsmiGuestManagement.Text = "宾客...";
+            this.tsmiGuestManagement.Click += new System.EventHandler(this.tsmiGuestManagement_Click);
             // 
             // tsmiRefresh
             // 
@@ -228,6 +221,13 @@
             this.dmAttendance.TabIndex = 6;
             this.dmAttendance.Value = 0D;
             // 
+            // tsmiImportGuest
+            // 
+            this.tsmiImportGuest.Name = "tsmiImportGuest";
+            this.tsmiImportGuest.Size = new System.Drawing.Size(152, 22);
+            this.tsmiImportGuest.Text = "导入...";
+            this.tsmiImportGuest.Click += new System.EventHandler(this.tsmiImportGuest_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -260,7 +260,6 @@
 
         private System.Windows.Forms.PictureBox picbVideoContainer;
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem tsmiRegister;
         private System.Windows.Forms.ToolStripMenuItem tsmiVideo;
         private System.Windows.Forms.ToolStripMenuItem tsmiControlVideo;
         private EAlbums.ImageViewer guestViewer;
@@ -272,9 +271,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiExit;
         private System.Windows.Forms.ToolStripMenuItem tsmiSetThreshold;
         private System.Windows.Forms.ToolStripTextBox tstbThreshold;
-        private System.Windows.Forms.ToolStripMenuItem tsmiGuestManage;
-        private System.Windows.Forms.ToolStripMenuItem tsmiStatistics;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManagement;
+        private System.Windows.Forms.ToolStripMenuItem tsmiGuestManagement;
         private EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter dmAttendance;
+        private System.Windows.Forms.ToolStripMenuItem tsmiImportGuest;
     }
 }
 

@@ -194,6 +194,8 @@ namespace ee.Utility.Npoi
             }
         }
 
+
+
         /// <summary>  
         /// 将excel中的数据导入到DataTable中  
         /// </summary>  
@@ -202,6 +204,18 @@ namespace ee.Utility.Npoi
         /// <returns>返回的DataTable</returns>  
         public DataTable ExcelToDataTable(string sheetName, bool isFirstRowColumn)
         {
+            return ExcelToDataTable(sheetName, isFirstRowColumn, out List<PicturesInfo> pictures);
+        }
+
+        /// <summary>  
+        /// 将excel中的数据导入到DataTable中  
+        /// </summary>  
+        /// <param name="sheetName">excel工作薄sheet的名称</param>  
+        /// <param name="isFirstRowColumn">第一行是否是DataTable的列名</param>  
+        /// <returns>返回的DataTable</returns>  
+        public DataTable ExcelToDataTable(string sheetName, bool isFirstRowColumn, out List<PicturesInfo> pictures)
+        {
+            pictures = new List<PicturesInfo>();
             ISheet sheet = null;
             DataTable data = new DataTable();
             int startRow = 0;
@@ -212,6 +226,9 @@ namespace ee.Utility.Npoi
                     workbook = new XSSFWorkbook(fs);
                 else if (fileName.IndexOf(".xls") > 0) // 2003版本  
                     workbook = new HSSFWorkbook(fs);
+
+
+
 
                 if (sheetName != null)
                 {
@@ -225,8 +242,12 @@ namespace ee.Utility.Npoi
                 {
                     sheet = workbook.GetSheetAt(0);
                 }
+
+
                 if (sheet != null)
                 {
+
+
                     IRow firstRow = sheet.GetRow(0);
                     int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数  
 
@@ -251,6 +272,13 @@ namespace ee.Utility.Npoi
                     {
                         startRow = sheet.FirstRowNum;
                     }
+
+
+                    #region 获取EXCEL中的图片
+                    pictures = NpoiExtend.GetAllPictureInfos(sheet);
+
+                    pictures.Sort((x, y) => x.MinRow.CompareTo(y.MinRow));
+                    #endregion
 
                     //最后一列的标号  
                     int rowCount = sheet.LastRowNum;
@@ -286,7 +314,7 @@ namespace ee.Utility.Npoi
         /// <param name="isFirstRowColumn">第一张是不是列头</param>
         /// <param name="is2007">是否为2007版EXCEL</param>
         /// <returns></returns>
-        public DataTable ExcelToDataTable(Stream stream,string sheetName, bool isFirstRowColumn,bool is2007)
+        public DataTable ExcelToDataTable(Stream stream, string sheetName, bool isFirstRowColumn, bool is2007)
         {
             ISheet sheet = null;
             DataTable data = new DataTable();
@@ -385,4 +413,5 @@ namespace ee.Utility.Npoi
         }
 
     }
+
 }

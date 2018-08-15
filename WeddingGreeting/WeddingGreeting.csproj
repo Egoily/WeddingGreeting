@@ -72,11 +72,11 @@
     <Compile Include="Forms\FrmRegister.Designer.cs">
       <DependentUpon>FrmRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmStatistics.cs">
+    <Compile Include="Forms\FrmGuestManagement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmStatistics.Designer.cs">
-      <DependentUpon>FrmStatistics.cs</DependentUpon>
+    <Compile Include="Forms\FrmGuestManagement.Designer.cs">
+      <DependentUpon>FrmGuestManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="FrameControl.cs">
       <SubType>UserControl</SubType>
@@ -105,8 +105,8 @@
     <EmbeddedResource Include="Forms\FrmRegister.resx">
       <DependentUpon>FrmRegister.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmStatistics.resx">
-      <DependentUpon>FrmStatistics.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmGuestManagement.resx">
+      <DependentUpon>FrmGuestManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -154,6 +154,10 @@
     <ProjectReference Include="..\ee.Utilities\ee.Utilities.csproj">
       <Project>{d0aebce7-263a-476d-9c13-90fe3229f7b1}</Project>
       <Name>ee.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ee.Utility.Npoi\ee.Utility.Npoi.csproj">
+      <Project>{434c7301-0b32-4044-84ca-bb40413c7861}</Project>
+      <Name>ee.Utility.Npoi</Name>
     </ProjectReference>
     <ProjectReference Include="..\ee.Utility.OpenCv\ee.Utility.OpenCv.csproj">
       <Project>{9fe5b6bf-d050-4555-bfc4-ed694873f99f}</Project>
