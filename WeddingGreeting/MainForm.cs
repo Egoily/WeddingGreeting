@@ -37,6 +37,16 @@ namespace WeddingGreeting
             player.FaceRecognised += Player_FaceRecognised;
             player.NotRecognisedLongTime += Player_NotRecognisedLongTime;
 
+            var devs = player?.GetDevices()?.Select(x => x.Value)?.ToArray();
+            tscbbVideoSource.Items.AddRange(devs);
+            tscbbVideoSource.SelectedIndex = 0;
+
+
+
+            //tscbbVideoSource.ComboBox.DataSource = player?.GetDevices()?.Select(x =>)?.ToArray();
+            //tscbbVideoSource.ComboBox.DisplayMember = "Value";   // Text，即显式的文本
+            //tscbbVideoSource.ComboBox.ValueMember = "Key";    // Value，即实际的值
+            //tscbbVideoSource.SelectedIndex = 0;        //  设置为默认选中第一个
 
             guestViewer.Loading();
             hostViewer.Loading();
@@ -203,7 +213,10 @@ namespace WeddingGreeting
                 tsmiControlVideo.Text = "开始";
             }
         }
+        private void tscbbVideoSource_Click(object sender, EventArgs e)
+        {
 
+        }
         private void tsmiRefresh_Click(object sender, System.EventArgs e)
         {
             RefreshGuests();
@@ -275,5 +288,7 @@ namespace WeddingGreeting
                 MessageBox.Show("导入完成");
             }
         }
+
+
     }
 }

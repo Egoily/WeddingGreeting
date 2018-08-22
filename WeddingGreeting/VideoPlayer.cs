@@ -114,6 +114,11 @@ namespace WeddingGreeting
             }
         }
 
+        public Dictionary<string, string> GetDevices()
+        {
+            return player?.Devices;
+        }
+
         public void Play()
         {
             player?.Play();

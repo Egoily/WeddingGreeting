@@ -34,6 +34,7 @@
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiGuestManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiImportGuest = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiControlVideo = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +45,8 @@
             this.guestViewer = new EAlbums.ImageViewer();
             this.hostViewer = new EAlbums.ImageViewer();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
-            this.tsmiImportGuest = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiVideoSource = new System.Windows.Forms.ToolStripMenuItem();
+            this.tscbbVideoSource = new System.Windows.Forms.ToolStripComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -103,14 +105,21 @@
             // tsmiGuestManagement
             // 
             this.tsmiGuestManagement.Name = "tsmiGuestManagement";
-            this.tsmiGuestManagement.Size = new System.Drawing.Size(152, 22);
+            this.tsmiGuestManagement.Size = new System.Drawing.Size(109, 22);
             this.tsmiGuestManagement.Text = "宾客...";
             this.tsmiGuestManagement.Click += new System.EventHandler(this.tsmiGuestManagement_Click);
+            // 
+            // tsmiImportGuest
+            // 
+            this.tsmiImportGuest.Name = "tsmiImportGuest";
+            this.tsmiImportGuest.Size = new System.Drawing.Size(109, 22);
+            this.tsmiImportGuest.Text = "导入...";
+            this.tsmiImportGuest.Click += new System.EventHandler(this.tsmiImportGuest_Click);
             // 
             // tsmiRefresh
             // 
             this.tsmiRefresh.Name = "tsmiRefresh";
-            this.tsmiRefresh.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRefresh.Size = new System.Drawing.Size(109, 22);
             this.tsmiRefresh.Text = "刷新";
             this.tsmiRefresh.Click += new System.EventHandler(this.tsmiRefresh_Click);
             // 
@@ -118,6 +127,7 @@
             // 
             this.tsmiVideo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiControlVideo,
+            this.tsmiVideoSource,
             this.tsmiConfigVideoWindow});
             this.tsmiVideo.Name = "tsmiVideo";
             this.tsmiVideo.Size = new System.Drawing.Size(44, 21);
@@ -126,14 +136,14 @@
             // tsmiControlVideo
             // 
             this.tsmiControlVideo.Name = "tsmiControlVideo";
-            this.tsmiControlVideo.Size = new System.Drawing.Size(133, 22);
+            this.tsmiControlVideo.Size = new System.Drawing.Size(152, 22);
             this.tsmiControlVideo.Text = "开始";
             this.tsmiControlVideo.Click += new System.EventHandler(this.tsmiControlVideo_Click);
             // 
             // tsmiConfigVideoWindow
             // 
             this.tsmiConfigVideoWindow.Name = "tsmiConfigVideoWindow";
-            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(133, 22);
+            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(152, 22);
             this.tsmiConfigVideoWindow.Text = "视频窗口...";
             this.tsmiConfigVideoWindow.Click += new System.EventHandler(this.tsmiConfigVideoWindow_Click);
             // 
@@ -150,7 +160,7 @@
             this.tsmiSetThreshold.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tstbThreshold});
             this.tsmiSetThreshold.Name = "tsmiSetThreshold";
-            this.tsmiSetThreshold.Size = new System.Drawing.Size(100, 22);
+            this.tsmiSetThreshold.Size = new System.Drawing.Size(152, 22);
             this.tsmiSetThreshold.Text = "阈值";
             // 
             // tstbThreshold
@@ -221,12 +231,21 @@
             this.dmAttendance.TabIndex = 6;
             this.dmAttendance.Value = 0D;
             // 
-            // tsmiImportGuest
+            // tsmiVideoSource
             // 
-            this.tsmiImportGuest.Name = "tsmiImportGuest";
-            this.tsmiImportGuest.Size = new System.Drawing.Size(152, 22);
-            this.tsmiImportGuest.Text = "导入...";
-            this.tsmiImportGuest.Click += new System.EventHandler(this.tsmiImportGuest_Click);
+            this.tsmiVideoSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tscbbVideoSource});
+            this.tsmiVideoSource.Name = "tsmiVideoSource";
+            this.tsmiVideoSource.Size = new System.Drawing.Size(152, 22);
+            this.tsmiVideoSource.Text = "视频源";
+            // 
+            // tscbbVideoSource
+            // 
+            this.tscbbVideoSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbbVideoSource.Name = "tscbbVideoSource";
+            this.tscbbVideoSource.Size = new System.Drawing.Size(160, 25);
+            this.tscbbVideoSource.Sorted = true;
+            this.tscbbVideoSource.Click += new System.EventHandler(this.tscbbVideoSource_Click);
             // 
             // MainForm
             // 
@@ -275,6 +294,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiGuestManagement;
         private EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter dmAttendance;
         private System.Windows.Forms.ToolStripMenuItem tsmiImportGuest;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVideoSource;
+        private System.Windows.Forms.ToolStripComboBox tscbbVideoSource;
     }
 }
 
