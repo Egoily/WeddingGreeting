@@ -46,7 +46,7 @@ namespace ee.Utility.Player
         /// </summary>
         public bool IsRunning
         {
-            get { return Player.IsRunning; }
+            get { return VideoSource?.IsRunning??false; }
         }
 
         /// <summary>
@@ -58,6 +58,8 @@ namespace ee.Utility.Player
         /// 帧索引
         /// </summary>
         public int FrameIndex { get; protected set; }
+
+        public string VideoSourceName { get; set; }
 
         /// <summary>
         /// 播放新帧的委托
@@ -96,6 +98,8 @@ namespace ee.Utility.Player
         private void Init(bool isOpenFirstDevice = false)
         {
             GetDevices();
+            var firstDev = Devices?.FirstOrDefault();
+            VideoSourceName = firstDev?.Key ?? null;
             if (isOpenFirstDevice)
             {
                 OpenFirstDevice();
@@ -200,7 +204,8 @@ namespace ee.Utility.Player
         {
             if (Devices.Count > 0)
             {
-                OpenDevice(Devices.First().Key);//打开第一个设备
+                var firstDev = Devices.FirstOrDefault();
+                OpenDevice(firstDev.Key);//打开第一个设备
             }
             else
             {
@@ -211,10 +216,10 @@ namespace ee.Utility.Player
         /// <summary>
         /// 打开摄像头
         /// </summary>
-        public virtual void OpenDevice(string deviceName)
+        public virtual void OpenDevice(string device)
         {
-            Console.WriteLine($">>>>Open device:{deviceName}");
-            if (String.IsNullOrEmpty(deviceName))
+            Console.WriteLine($">>>>Open device:[{device}]");
+            if (String.IsNullOrEmpty(device))
                 throw new Exception("Open with null device name.");
             if (VideoSource != null)
             {
@@ -226,14 +231,15 @@ namespace ee.Utility.Player
                 Player.Dispose();
             Player = new VideoSourcePlayer();
             Player.NewFrame += OnNewFrame;
-            VideoSource = new VideoCaptureDevice(deviceName);
-
+            VideoSource = new VideoCaptureDevice(device);
+            VideoSourceName = device;
             VideoCapabilities videoResolution;
             if (CustomResolution == null)
             {
                 videoResolution = GetMaxVideoCapabilities();//获取最大分辨率
                 if (videoResolution == null)
                 {
+                    VideoSourceName = null;
                     throw new Exception("Failed to get video resolution,please set it in configuration manually");
                 }
                 VideoSource.VideoResolution = videoResolution;
@@ -257,18 +263,31 @@ namespace ee.Utility.Player
         /// <summary>
         /// 开始播放
         /// </summary>
-        /// <param name="player"></param>
-        /// <param name="capabilitiy"></param>
-        public virtual void Play()
+        /// <param name="device"></param>
+        public virtual void Play(string device = null)
         {
-            if (Player == null)
-                return;
+
             FrameIndex = 0;
+            if (string.IsNullOrEmpty(device))
+            {
+                OpenFirstDevice();
+            }
+            else
+            {
+                OpenDevice(device);
+            }
             Player.VideoSource = VideoSource;
             Player.Start();
             PlayerState = Enums.PlayerStates.Play;
         }
-
+        /// <summary>
+        /// 开始播放
+        /// </summary>
+        /// <param name="device"></param>
+        public virtual void Play()
+        {
+            Play(VideoSourceName);
+        }
         /// <summary>
         /// 暂停播放，用于拍照，isOpening = true，继续播放调用Play()
         /// </summary>
@@ -288,7 +307,11 @@ namespace ee.Utility.Player
         {
             if (Player == null)
                 return;
-            Player.SignalToStop();
+   
+
+            Player?.SignalToStop();
+            VideoSource?.Stop();
+            VideoSource = null;
             PlayerState = Enums.PlayerStates.Stop;
         }
 

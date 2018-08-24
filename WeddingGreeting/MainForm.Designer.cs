@@ -39,9 +39,9 @@
             this.tsmiRecognise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiControlVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideoSource = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetThreshold = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfigVideoWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSetThreshold = new System.Windows.Forms.ToolStripMenuItem();
             this.guestViewer = new EAlbums.ImageViewer();
             this.hostViewer = new EAlbums.ImageViewer();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
@@ -136,20 +136,26 @@
             // tsmiControlVideo
             // 
             this.tsmiControlVideo.Name = "tsmiControlVideo";
-            this.tsmiControlVideo.Size = new System.Drawing.Size(152, 22);
+            this.tsmiControlVideo.Size = new System.Drawing.Size(133, 22);
             this.tsmiControlVideo.Text = "开始";
             this.tsmiControlVideo.Click += new System.EventHandler(this.tsmiControlVideo_Click);
             // 
             // tsmiVideoSource
             // 
             this.tsmiVideoSource.Name = "tsmiVideoSource";
-            this.tsmiVideoSource.Size = new System.Drawing.Size(152, 22);
+            this.tsmiVideoSource.Size = new System.Drawing.Size(133, 22);
             this.tsmiVideoSource.Text = "视频源";
+            // 
+            // tsmiSetThreshold
+            // 
+            this.tsmiSetThreshold.Name = "tsmiSetThreshold";
+            this.tsmiSetThreshold.Size = new System.Drawing.Size(133, 22);
+            this.tsmiSetThreshold.Text = "阈值";
             // 
             // tsmiConfigVideoWindow
             // 
             this.tsmiConfigVideoWindow.Name = "tsmiConfigVideoWindow";
-            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(152, 22);
+            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(133, 22);
             this.tsmiConfigVideoWindow.Text = "视频窗口...";
             this.tsmiConfigVideoWindow.Click += new System.EventHandler(this.tsmiConfigVideoWindow_Click);
             // 
@@ -158,12 +164,6 @@
             this.tsmiConfig.Name = "tsmiConfig";
             this.tsmiConfig.Size = new System.Drawing.Size(44, 21);
             this.tsmiConfig.Text = "配置";
-            // 
-            // tsmiSetThreshold
-            // 
-            this.tsmiSetThreshold.Name = "tsmiSetThreshold";
-            this.tsmiSetThreshold.Size = new System.Drawing.Size(100, 22);
-            this.tsmiSetThreshold.Text = "阈值";
             // 
             // guestViewer
             // 
@@ -235,6 +235,8 @@
             this.cbbVideoSource.Name = "cbbVideoSource";
             this.cbbVideoSource.Size = new System.Drawing.Size(121, 20);
             this.cbbVideoSource.TabIndex = 7;
+            this.cbbVideoSource.SelectedIndexChanged += new System.EventHandler(this.cbbVideoSource_SelectedIndexChanged);
+            this.cbbVideoSource.Click += new System.EventHandler(this.cbbVideoSource_Click);
             // 
             // MainForm
             // 

@@ -50,24 +50,27 @@ namespace WeddingGreeting
             tsControlHost});
 
 
+           
+
+
+
             this.BackColor = Color.Black;
             ResizeControlls();
             player = new VideoPlayer(this.picbVideoContainer);
             player.FaceRecognised += Player_FaceRecognised;
             player.NotRecognisedLongTime += Player_NotRecognisedLongTime;
 
- 
+
+
+
+
+
 
             var devs = player?.GetDevices()?.Select(x => new KeyValuePair<string, string>(x.Key, x.Value))?.ToArray();
-
-
             cbbVideoSource.DisplayMember = "Value";   // Text，即显式的文本
             cbbVideoSource.ValueMember = "Key";    // Value，即实际的值
             cbbVideoSource.DataSource = devs;
             cbbVideoSource.SelectedIndex = 0;        //  设置为默认选中第一个
-
-
-
 
             var tsControlHost2 = new ToolStripControlHost(this.cbbVideoSource)
             {
@@ -77,9 +80,6 @@ namespace WeddingGreeting
 
             this.tsmiVideoSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             tsControlHost2});
-
-
-
 
 
 
@@ -407,6 +407,25 @@ namespace WeddingGreeting
             {
                 GlobalConfig.Configurations.Threshold = trackBarThreshold.Value;
                 GlobalConfig.SaveConfig();
+            }
+        }
+
+        private void cbbVideoSource_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void cbbVideoSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (player?.IsPlaying ?? false)
+            {
+                player?.Stop();
+                player?.SetVideoSource(cbbVideoSource.SelectedValue.ToString());
+                player?.Play();
+            }
+            else
+            {
+                player?.SetVideoSource(cbbVideoSource.SelectedValue.ToString());
             }
         }
     }

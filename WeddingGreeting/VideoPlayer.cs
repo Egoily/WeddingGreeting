@@ -24,6 +24,8 @@ namespace WeddingGreeting
         public PictureBox Container { get; private set; }
         public bool IsShownFace { get; set; } = true;
 
+        public bool IsPlaying { get => player?.IsRunning ?? false; }
+
         private static bool isProcessing = false;
         private static long recognisedCount = 0;
 
@@ -35,7 +37,7 @@ namespace WeddingGreeting
 
         private void InitPlayer()
         {
-            player = new AForgePlayer(new Size(640, 480), true);
+            player = new AForgePlayer(new Size(640, 480), false);
             player.NewFrame += Player_NewFrame;
         }
 
@@ -128,7 +130,10 @@ namespace WeddingGreeting
         {
             player?.Stop();
         }
-
+        public void SetVideoSource(string devName)
+        {
+            player.VideoSourceName=devName;
+        }
         public void Dispose()
         {
             player?.Dispose();
