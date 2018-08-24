@@ -87,7 +87,7 @@ namespace WeddingGreeting.Forms
                 if (guest == null)//新增
                 {
 
-                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.GroupId, userId, option);
+                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, userId, option);
 
                     success = (jObj != null && jObj.error_code == 0);
 
@@ -137,7 +137,7 @@ namespace WeddingGreeting.Forms
                 }
                 else
                 {
-                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.GroupId, guest.Id, option);
+                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest.Id, option);
                     success = (jObj != null && jObj.error_code == 0);
 
                     if (success)

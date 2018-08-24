@@ -526,6 +526,37 @@ namespace EgoDevil.Utilities.UI
             }
         }
 
+
+        private bool isShowValue = true;
+
+        [Description("Enable to show value")]
+        [Category("TrackBarEx")]
+        [DefaultValue(true)]
+        public bool IsShowValue
+        {
+            get { return isShowValue; }
+            set
+            {
+                isShowValue = value;
+                Invalidate();
+            }
+        }
+
+        private int valueStringSize = 8;
+        [Description("The string size of value")]
+        [Category("TrackBarEx")]
+        [DefaultValue(8)]
+        public int ValueStringSize
+        {
+            get { return valueStringSize; }
+            set
+            {
+                valueStringSize = value;
+                Invalidate();
+            }
+        }
+
+
         #endregion
 
         #region Color schemas
@@ -729,6 +760,7 @@ namespace EgoDevil.Utilities.UI
                     thumbPath.Transform(m);
                 }
 
+
                 //draw bar
                 using (
                     LinearGradientBrush lgbBar =
@@ -758,6 +790,7 @@ namespace EgoDevil.Utilities.UI
                     {
                         e.Graphics.DrawRectangle(barPen, barRect);
                     }
+
                 }
 
                 //draw thumb
@@ -783,13 +816,6 @@ namespace EgoDevil.Utilities.UI
                     {
                         e.Graphics.DrawPath(thumbPen, thumbPath);
                     }
-                    //gp.Dispose();
-                    /*if (Capture || mouseInThumbRegion)
-                        using (LinearGradientBrush lgbThumb2 = new LinearGradientBrush(thumbHalfRect, Color.FromArgb(150, Color.Blue), Color.Transparent, gradientOrientation))
-                        {
-                            lgbThumb2.WrapMode = WrapMode.TileFlipXY;
-                            e.Graphics.FillPath(lgbThumb2, gp);
-                        }*/
                 }
 
                 //draw focusing rectangle
@@ -808,6 +834,18 @@ namespace EgoDevil.Utilities.UI
                             e.Graphics.DrawPath(p, gpBorder);
                         }
                     }
+
+
+                //draw value
+                if (isShowValue)
+                {
+                    using (Font font = new Font(new FontFamily("Arial"), valueStringSize, FontStyle.Regular, GraphicsUnit.Pixel))
+                    {
+                        e.Graphics.DrawString(Value.ToString(), font, Brushes.Black, new PointF(thumbHalfRect.Left, thumbHalfRect.Top + thumbHalfRect.Height / 2));
+                    }
+
+                }
+
             }
             catch (Exception Err)
             {
@@ -869,8 +907,8 @@ namespace EgoDevil.Utilities.UI
             if (e.Button == MouseButtons.Left)
             {
                 Capture = true;
-                if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.ThumbTrack, trackerValue));
-                if (ValueChanged != null) ValueChanged(this, new EventArgs());
+                Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.ThumbTrack, trackerValue));
+                ValueChanged?.Invoke(this, new EventArgs());
                 OnMouseMove(e);
             }
         }
@@ -908,8 +946,8 @@ namespace EgoDevil.Utilities.UI
                     set = ScrollEventType.Last;
                 }
 
-                if (Scroll != null) Scroll(this, new ScrollEventArgs(set, trackerValue));
-                if (ValueChanged != null) ValueChanged(this, new EventArgs());
+                Scroll?.Invoke(this, new ScrollEventArgs(set, trackerValue));
+                ValueChanged?.Invoke(this, new EventArgs());
             }
             Invalidate();
         }
@@ -925,8 +963,8 @@ namespace EgoDevil.Utilities.UI
             base.OnMouseUp(e);
             Capture = false;
             mouseInThumbRegion = IsPointInRect(e.Location, thumbRect);
-            if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.EndScroll, trackerValue));
-            if (ValueChanged != null) ValueChanged(this, new EventArgs());
+            Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.EndScroll, trackerValue));
+            ValueChanged?.Invoke(this, new EventArgs());
             Invalidate();
         }
 
@@ -977,13 +1015,13 @@ namespace EgoDevil.Utilities.UI
                 case Keys.Down:
                 case Keys.Left:
                     SetProperValue(Value - (int)smallChange);
-                    if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.SmallDecrement, Value));
+                    Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.SmallDecrement, Value));
                     break;
 
                 case Keys.Up:
                 case Keys.Right:
                     SetProperValue(Value + (int)smallChange);
-                    if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.SmallIncrement, Value));
+                    Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.SmallIncrement, Value));
                     break;
 
                 case Keys.Home:
@@ -996,12 +1034,12 @@ namespace EgoDevil.Utilities.UI
 
                 case Keys.PageDown:
                     SetProperValue(Value - (int)largeChange);
-                    if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.LargeDecrement, Value));
+                    Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.LargeDecrement, Value));
                     break;
 
                 case Keys.PageUp:
                     SetProperValue(Value + (int)largeChange);
-                    if (Scroll != null) Scroll(this, new ScrollEventArgs(ScrollEventType.LargeIncrement, Value));
+                    Scroll?.Invoke(this, new ScrollEventArgs(ScrollEventType.LargeIncrement, Value));
                     break;
             }
             if (Scroll != null && Value == barMinimum) Scroll(this, new ScrollEventArgs(ScrollEventType.First, Value));

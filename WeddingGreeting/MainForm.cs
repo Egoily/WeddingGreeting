@@ -4,10 +4,12 @@ using ee.Utility.Npoi;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using WeddingGreeting.Forms;
 
@@ -16,20 +18,37 @@ namespace WeddingGreeting
     public partial class MainForm : Form
     {
 
-
         private static bool isProcessing = false;
         private static string currentUserId = "";
         private static int sameUserCount = 0;
         private static int maxSameUserCont = 100;
-
-
+        private static bool disableSpeech = false;
 
         private VideoPlayer player;
-
-
+        EgoDevil.Utilities.UI.TrackBarEx trackBarThreshold;
         public MainForm()
         {
             InitializeComponent();
+
+
+
+            trackBarThreshold = new EgoDevil.Utilities.UI.TrackBarEx()
+            {
+                Height = 24,
+                Value = (int)GlobalConfig.Configurations.Threshold,
+            };
+
+            trackBarThreshold.LostFocus += trackBarThreshold_LostFocus;
+
+            var tsControlHost = new ToolStripControlHost(trackBarThreshold)
+            {
+                Width = 140,
+                AutoSize = false
+            };
+
+            this.tsmiSetThreshold.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            tsControlHost});
+
 
             this.BackColor = Color.Black;
             ResizeControlls();
@@ -37,22 +56,44 @@ namespace WeddingGreeting
             player.FaceRecognised += Player_FaceRecognised;
             player.NotRecognisedLongTime += Player_NotRecognisedLongTime;
 
-            var devs = player?.GetDevices()?.Select(x => x.Value)?.ToArray();
-            tscbbVideoSource.Items.AddRange(devs);
-            tscbbVideoSource.SelectedIndex = 0;
+ 
+
+            var devs = player?.GetDevices()?.Select(x => new KeyValuePair<string, string>(x.Key, x.Value))?.ToArray();
+
+
+            cbbVideoSource.DisplayMember = "Value";   // Text，即显式的文本
+            cbbVideoSource.ValueMember = "Key";    // Value，即实际的值
+            cbbVideoSource.DataSource = devs;
+            cbbVideoSource.SelectedIndex = 0;        //  设置为默认选中第一个
 
 
 
-            //tscbbVideoSource.ComboBox.DataSource = player?.GetDevices()?.Select(x =>)?.ToArray();
-            //tscbbVideoSource.ComboBox.DisplayMember = "Value";   // Text，即显式的文本
-            //tscbbVideoSource.ComboBox.ValueMember = "Key";    // Value，即实际的值
-            //tscbbVideoSource.SelectedIndex = 0;        //  设置为默认选中第一个
+
+            var tsControlHost2 = new ToolStripControlHost(this.cbbVideoSource)
+            {
+                Width = 140,
+                AutoSize = true
+            };
+
+            this.tsmiVideoSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            tsControlHost2});
+
+
+
+
+
+
+
+
+
 
             guestViewer.Loading();
             hostViewer.Loading();
 
             RefreshGuests();
         }
+
+
 
         private void Player_FaceRecognised(System.Drawing.Bitmap image, string userId, string userInfo)
         {
@@ -69,11 +110,8 @@ namespace WeddingGreeting
                     var target = GlobalConfig.Guests.FirstOrDefault(x => x.Id == userId);
                     if (target != null)
                     {
-                        target.IsAttend = true;
-                        target.AttendTime = DateTime.Now;
-                        GlobalConfig.SaveGuests();
-
-                        SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
+                        Attend(target);
+                        Speech(target);
                     }
                 }
                 else
@@ -143,6 +181,13 @@ namespace WeddingGreeting
 
             SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
         }
+        private void Attend(GuestInfo target)
+        {
+            target.IsAttend = true;
+            target.AttendTime = DateTime.Now;
+            GlobalConfig.SaveGuests();
+            SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
+        }
         private void SetAttendance(int count)
         {
             if (count >= 0)
@@ -154,13 +199,79 @@ namespace WeddingGreeting
                 dmAttendance.Value += 1;
             }
         }
+        private void Speech(GuestInfo target)
+        {
+            if (GlobalConfig.Configurations.IsSpeechable)
+            {
+                var message = "";
+                try
+                {
+                    message = string.Format(GlobalConfig.Configurations.GreetFormat, target.Name, target.Labels, target.TableNo);
+                }
+                catch (Exception)
+                {
+
+                    message = $"欢迎光临,{target.Name},{target.Labels}";
+                }
+                if (!disableSpeech)
+                {
+                    new Thread(() =>
+                    {
+                        disableSpeech = true;
+                        SpeechProvider.Speech(message);
+                        disableSpeech = false;
+
+                    }).Start();
+                }
+
+
+            }
+        }
+
         private void Clear()
         {
 
         }
 
 
+        public static bool NumberDotTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var ctl = (Control)sender;
+            //允许输入数字、小数点、删除键和负号
+            if ((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != (char)('.') && e.KeyChar != (char)('-'))
+            {
+                return true;
+            }
+            if (e.KeyChar == (char)('-'))
+            {
+                if (ctl.Text != "")
+                {
+                    return true;
+                }
+            }
+            //小数点只能输入一次
+            if (e.KeyChar == (char)('.') && ctl.Text.IndexOf('.') != -1)
+            {
+                return true;
+            }
+            //第一位不能为小数点
+            if (e.KeyChar == (char)('.') && ctl.Text == "")
+            {
+                return true;
+            }
+            //第一位是0，第二位必须为小数点
+            if (e.KeyChar != (char)('.') && e.KeyChar != 8 && ctl.Text == "0")
+            {
+                return true;
+            }
+            //第一位是负号，第二位不能为小数点
+            if (ctl.Text == "-" && e.KeyChar == (char)('.'))
+            {
+                return true;
+            }
 
+            return false;
+        }
 
 
 
@@ -289,6 +400,14 @@ namespace WeddingGreeting
             }
         }
 
+        private void trackBarThreshold_LostFocus(object sender, EventArgs e)
+        {
 
+            if (GlobalConfig.Configurations.Threshold != trackBarThreshold.Value && trackBarThreshold.Value > 0d)
+            {
+                GlobalConfig.Configurations.Threshold = trackBarThreshold.Value;
+                GlobalConfig.SaveConfig();
+            }
+        }
     }
 }
