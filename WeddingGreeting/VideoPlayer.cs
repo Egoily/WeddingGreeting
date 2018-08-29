@@ -103,7 +103,7 @@ namespace WeddingGreeting
             {
                 Max_User_Num = 1,
             };
-            var jObj = APIBase.FaceSearch(maxFaceImage, groupIds, option);
+            var jObj = FaceApi.FaceSearch(maxFaceImage, groupIds, option);
             if (jObj != null && jObj.error_code == 0 && (jObj.result?.user_list?.Any() ?? false))
             {
                 var target = jObj.result?.user_list.FirstOrDefault();

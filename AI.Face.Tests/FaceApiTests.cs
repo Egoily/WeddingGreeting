@@ -7,7 +7,7 @@ using System.Drawing;
 namespace AI.Face.Tests
 {
     [TestClass()]
-    public class ServiceTests
+    public class FaceApiTests
     {
         [TestInitialize()]
         public void Initialize()
@@ -23,14 +23,14 @@ namespace AI.Face.Tests
                 Start = 0,
                 Length = 100,
             };
-            var jObj = APIBase.GetGroups(options);
+            var jObj = FaceApi.GetGroups(options);
         }
 
         [TestMethod()]
         public void GetUsersTest()
         {
             var groupId = "EE";
-            var jObj = APIBase.GetUsers(groupId);
+            var jObj = FaceApi.GetUsers(groupId);
         }
 
         [TestMethod()]
@@ -42,7 +42,7 @@ namespace AI.Face.Tests
             {
                 Max_User_Num = 10,
             };
-            var jObj = APIBase.FaceSearch(new Bitmap(image), groupIds, option);
+            var jObj = FaceApi.FaceSearch(new Bitmap(image), groupIds, option);
             image.Dispose();
         }
 
@@ -56,7 +56,7 @@ namespace AI.Face.Tests
             {
                 User_Info = "hhhhhhhhhhhhhhh"
             };
-            var jObj = APIBase.FaceRegister(new Bitmap(image), groupId, userId, option);
+            var jObj = FaceApi.FaceRegister(new Bitmap(image), groupId, userId, option);
             image.Dispose();
         }
 
@@ -66,7 +66,7 @@ namespace AI.Face.Tests
             var groupId = "EE";
             var userId = "HuangGuangyi2";
 
-            var jObj = APIBase.GetUserInfo(userId, groupId);
+            var jObj = FaceApi.GetUserInfo(userId, groupId);
         }
 
         [TestMethod()]
@@ -79,7 +79,7 @@ namespace AI.Face.Tests
             {
                 User_Info = "黄广毅  新郎  请就坐1号桌."
             };
-            var jObj = APIBase.FaceUpdate(new Bitmap(image), groupId, userId, option);
+            var jObj = FaceApi.FaceUpdate(new Bitmap(image), groupId, userId, option);
             image.Dispose();
         }
 
@@ -93,7 +93,7 @@ namespace AI.Face.Tests
             {
                 User_Info = "高小娜  新娘  请就坐1号桌."
             };
-            var jObj = APIBase.FaceUpdate(new Bitmap(image), groupId, userId, option);
+            var jObj = FaceApi.FaceUpdate(new Bitmap(image), groupId, userId, option);
             image.Dispose();
         }
 
@@ -103,7 +103,7 @@ namespace AI.Face.Tests
             var groupId = "EE";
             var userId = "HuangGuangyi2";
 
-            var jObj = APIBase.FaceDelete(userId, groupId);
+            var jObj = FaceApi.FaceDelete(userId, groupId);
         }
 
         [TestMethod()]
@@ -115,7 +115,7 @@ namespace AI.Face.Tests
             {
             };
 
-            var jObj = APIBase.FaceDetect(new Bitmap(image), options, 1);
+            var jObj = FaceApi.FaceDetect(new Bitmap(image), options, 1);
             image.Dispose();
         }
     }

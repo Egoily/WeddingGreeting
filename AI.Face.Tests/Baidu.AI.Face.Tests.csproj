@@ -58,6 +58,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpeechApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FaceApiTests.cs" />
   </ItemGroup>

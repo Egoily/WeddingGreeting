@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Baidu.AI.Face
 {
-    public static class APIBase
+    public static class FaceApi
     {
         static private Baidu.Aip.Face.Face client = new Baidu.Aip.Face.Face(Configuration.API_KEY, Configuration.SECRET_KEY);
 

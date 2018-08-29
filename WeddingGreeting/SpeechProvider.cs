@@ -22,13 +22,15 @@ namespace WeddingGreeting
         {
             try
             {
-                using (var voice = new System.Speech.Synthesis.SpeechSynthesizer())  //创建语音实例
-                {
-                    //voice.Rate = 1; //设置语速,[-10,10]
-                    //voice.Volume = 100; //设置音量,[0,100]
-                    voice.Speak(text);  //同步朗读
-                    //voice.SpeakAsync(text);  //播放指定的字符串,这是异步朗读
-                }
+                Instance.Speak(text);  //同步朗读
+
+                //using (var voice = new System.Speech.Synthesis.SpeechSynthesizer())  //创建语音实例
+                //{
+                //    voice.Rate = 1; //设置语速,[-10,10]
+                //    voice.Volume = 100; //设置音量,[0,100]
+                //    voice.Speak(text);  //同步朗读
+                //    //voice.SpeakAsync(text);  //播放指定的字符串,这是异步朗读
+                //}
             }
             catch (Exception ex)
             {

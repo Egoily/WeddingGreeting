@@ -49,7 +49,7 @@ namespace WeddingGreeting
                 if (guest == null)//新增
                 {
 
-                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, userId, option);
+                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, userId, option);
 
                     success = (jObj != null && jObj.error_code == 0);
 
@@ -99,7 +99,7 @@ namespace WeddingGreeting
                 }
                 else
                 {
-                    jObj = APIBase.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest.Id, option);
+                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest.Id, option);
                     success = (jObj != null && jObj.error_code == 0);
 
                     if (success)
