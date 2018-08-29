@@ -170,7 +170,7 @@
       <Name>Baidu.AI.Face</Name>
     </ProjectReference>
     <ProjectReference Include="..\EAlbums\ee.EAlbums.csproj">
-      <Project>{D1F0C7C7-FD57-4A2F-96BD-F193C920B761}</Project>
+      <Project>{d1f0c7c7-fd57-4a2f-96bd-f193c920b761}</Project>
       <Name>ee.EAlbums</Name>
     </ProjectReference>
     <ProjectReference Include="..\ee.Models\ee.Models.csproj">
