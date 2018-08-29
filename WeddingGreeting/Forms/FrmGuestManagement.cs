@@ -30,7 +30,7 @@ namespace WeddingGreeting.Forms
 
             tspbPercentage.Value = attendance * 100 / total;
             tspbPercentage.Text = $"{attendance}/{total}";
-            tslbStatisticInfo.Text = $"总数:{total} 已到:{attendance} 未到:{attendance - attendance}";
+            tslbStatisticInfo.Text = $"总数:{total} 已到:{attendance} 未到:{total - attendance}";
         }
         private void FrmGuestManagement_Load(object sender, EventArgs e)
         {
@@ -76,6 +76,7 @@ namespace WeddingGreeting.Forms
         {
 
             splitContainer.Panel2Collapsed = false;
+            guestInfoCtrl.Information = null;
         }
 
         private void tsbEdit_Click(object sender, EventArgs e)
@@ -85,13 +86,24 @@ namespace WeddingGreeting.Forms
 
             var obj = dgvGuests.SelectedRows[0];
 
-            var information = obj.DataBoundItem as GuestInfo;
-            guestInfoCtrl.Information = information;
+            var guest = obj.DataBoundItem as GuestInfo;
+            guestInfoCtrl.Information = guest;
+            dgvGuests.DataSource = QueryGuests();
         }
 
         private void tsbRemove_Click(object sender, EventArgs e)
         {
             if (dgvGuests.SelectedRows == null) return;
+            var obj = dgvGuests.SelectedRows[0];
+
+            var guest = obj.DataBoundItem as GuestInfo;
+
+            if (MessageBox.Show(this, $"确定要删除{guest.Name} 吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                GlobalConfig.Guests.Remove(guest);
+                GlobalConfig.SaveGuests();
+                dgvGuests.DataSource = QueryGuests();
+            }
         }
 
         private void tsbQuery_Click(object sender, EventArgs e)
@@ -119,6 +131,7 @@ namespace WeddingGreeting.Forms
             var message = success ? "录入成功" : "录入失败";
             MsgForm.Show(message, "提示", success ? MessageBoxIcon.None : MessageBoxIcon.Error);
             splitContainer.InvokeIfRequired(c => c.Panel2Collapsed = success);
+            dgvGuests.InvokeIfRequired(c => c.DataSource = QueryGuests());
         }
 
         private void btnCancelRegisterOrUpdate_Click(object sender, EventArgs e)

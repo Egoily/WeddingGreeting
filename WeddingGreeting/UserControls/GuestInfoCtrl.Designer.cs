@@ -38,7 +38,7 @@
             this.lbTableNo = new System.Windows.Forms.Label();
             this.txtLabels = new System.Windows.Forms.TextBox();
             this.lbLabels = new System.Windows.Forms.Label();
-            this.txtNamePinyin = new System.Windows.Forms.TextBox();
+            this.txtID = new System.Windows.Forms.TextBox();
             this.lbEntourageDesc = new System.Windows.Forms.Label();
             this.lbIdDesc = new System.Windows.Forms.Label();
             this.lbGuestType = new System.Windows.Forms.Label();
@@ -140,12 +140,12 @@
             this.lbLabels.TabIndex = 22;
             this.lbLabels.Text = "标签:";
             // 
-            // txtNamePinyin
+            // txtID
             // 
-            this.txtNamePinyin.Location = new System.Drawing.Point(152, 7);
-            this.txtNamePinyin.Name = "txtNamePinyin";
-            this.txtNamePinyin.Size = new System.Drawing.Size(88, 21);
-            this.txtNamePinyin.TabIndex = 34;
+            this.txtID.Location = new System.Drawing.Point(152, 7);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(88, 21);
+            this.txtID.TabIndex = 34;
             // 
             // lbEntourageDesc
             // 
@@ -236,7 +236,7 @@
             this.Controls.Add(this.lbTableNo);
             this.Controls.Add(this.txtLabels);
             this.Controls.Add(this.lbLabels);
-            this.Controls.Add(this.txtNamePinyin);
+            this.Controls.Add(this.txtID);
             this.Controls.Add(this.lbEntourageDesc);
             this.Controls.Add(this.lbIdDesc);
             this.Controls.Add(this.lbGuestType);
@@ -266,7 +266,7 @@
         private System.Windows.Forms.Label lbTableNo;
         private System.Windows.Forms.TextBox txtLabels;
         private System.Windows.Forms.Label lbLabels;
-        private System.Windows.Forms.TextBox txtNamePinyin;
+        private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.Label lbEntourageDesc;
         private System.Windows.Forms.Label lbIdDesc;
         private System.Windows.Forms.Label lbGuestType;

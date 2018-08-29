@@ -19,7 +19,7 @@ namespace WeddingGreeting.UserControls
             {
                 information = new GuestInfo()
                 {
-                    Id = txtNamePinyin.Text.Trim(),
+                    Id = txtID.Text.Trim(),
                     Name = txtName.Text,
                     Gender = cbbGender.SelectedIndex,
                     GuestType = cbbGuestType.SelectedIndex,
@@ -37,20 +37,20 @@ namespace WeddingGreeting.UserControls
                 information = value;
                 if (information != null)
                 {
-                    txtNamePinyin.ReadOnly = true;
-                    txtNamePinyin.Text = information.Id;
+                    txtID.ReadOnly = true;
+                    txtID.Text = information.Id;
                     txtName.Text = information.Name;
                     cbbGender.SelectedIndex = information.Gender;
                     cbbGuestType.SelectedIndex = information.GuestType;
                     txtLabels.Text = information.Labels;
                     txtTableNo.Text = information.TableNo;
-               
+
                     txtEntourage.Text = information.Entourage;
 
 
                     currentImagePath = information.ImagePath;
 
-                    if(!string.IsNullOrEmpty(currentImagePath))
+                    if (!string.IsNullOrEmpty(currentImagePath))
                     {
                         var img = Bitmap.FromFile(currentImagePath);
                         picbFacePicture.Image = new Bitmap(img);
@@ -60,9 +60,16 @@ namespace WeddingGreeting.UserControls
                 }
                 else
                 {
-                    txtNamePinyin.ReadOnly = false;
+                    txtID.ReadOnly = false;
                     cbbGender.SelectedIndex = 0;
                     cbbGuestType.SelectedIndex = 0;
+                    txtID.Text = string.Empty;
+                    txtName.Text = string.Empty;
+                    txtLabels.Text = string.Empty;
+                    txtTableNo.Text = string.Empty;
+                    txtEntourage.Text = string.Empty;
+
+                    picbFacePicture.Image = null;
                 }
 
             }
@@ -109,7 +116,7 @@ namespace WeddingGreeting.UserControls
         {
             return new GuestInfo()
             {
-                Id = txtNamePinyin.Text.Trim(),
+                Id = txtID.Text.Trim(),
                 Name = txtName.Text,
                 Gender = cbbGender.SelectedIndex,
                 GuestType = cbbGuestType.SelectedIndex,
