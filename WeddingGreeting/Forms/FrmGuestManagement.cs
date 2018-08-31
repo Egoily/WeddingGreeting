@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -81,14 +82,19 @@ namespace WeddingGreeting.Forms
 
         private void tsbEdit_Click(object sender, EventArgs e)
         {
-            if (dgvGuests.SelectedRows == null) return;
+            if (dgvGuests.SelectedRows == null || dgvGuests.SelectedRows.Count == 0) return;
             splitContainer.Panel2Collapsed = false;
 
+            ShowCurrentRowData();
+        }
+
+        private void ShowCurrentRowData()
+        {
+            if (dgvGuests.SelectedRows == null || dgvGuests.SelectedRows.Count == 0) return;
             var obj = dgvGuests.SelectedRows[0];
 
             var guest = obj.DataBoundItem as GuestInfo;
             guestInfoCtrl.Information = guest;
-            dgvGuests.DataSource = QueryGuests();
         }
 
         private void tsbRemove_Click(object sender, EventArgs e)
@@ -117,9 +123,18 @@ namespace WeddingGreeting.Forms
             if (val)
             {
                 var para = guestInfoCtrl.Information;
-                var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
-                thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
-                thread.Start(para);
+                if (guestInfoCtrl.IsPictureChanged)
+                {
+                    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
+                    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
+                    thread.Start(para);
+                }
+                else
+                {
+                    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Update);
+                    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
+                    thread.Start(para);
+                }
             }
 
         }
@@ -144,6 +159,26 @@ namespace WeddingGreeting.Forms
             var success = GuestManagement.SaveOrUpdate(obj as GuestInfo);
 
             return success;
+        }
+        private object Update(object obj)
+        {
+            var success = GuestManagement.UpdateGusetInfo(obj as GuestInfo);
+
+            return success;
+        }
+    
+
+        private void dgvGuests_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowCurrentRowData();
+        }
+
+        private void dgvGuests_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvGuests.SelectedRows == null || dgvGuests.SelectedRows.Count == 0) return;
+            splitContainer.Panel2Collapsed = false;
+
+            ShowCurrentRowData();
         }
     }
 }

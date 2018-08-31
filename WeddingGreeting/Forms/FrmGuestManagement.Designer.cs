@@ -103,6 +103,8 @@
             this.dgvGuests.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvGuests.Size = new System.Drawing.Size(629, 705);
             this.dgvGuests.TabIndex = 0;
+            this.dgvGuests.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_CellDoubleClick);
+            this.dgvGuests.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_RowEnter);
             // 
             // colId
             // 
@@ -356,7 +358,7 @@
             // btnCancelRegisterOrUpdate
             // 
             this.btnCancelRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelRegisterOrUpdate.Location = new System.Drawing.Point(222, 239);
+            this.btnCancelRegisterOrUpdate.Location = new System.Drawing.Point(221, 276);
             this.btnCancelRegisterOrUpdate.Name = "btnCancelRegisterOrUpdate";
             this.btnCancelRegisterOrUpdate.TabIndex = 1;
             this.btnCancelRegisterOrUpdate.Text = "取消";
@@ -365,7 +367,7 @@
             // btnRegisterOrUpdate
             // 
             this.btnRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRegisterOrUpdate.Location = new System.Drawing.Point(79, 239);
+            this.btnRegisterOrUpdate.Location = new System.Drawing.Point(126, 276);
             this.btnRegisterOrUpdate.Name = "btnRegisterOrUpdate";
             this.btnRegisterOrUpdate.TabIndex = 1;
             this.btnRegisterOrUpdate.Text = "确定";
@@ -374,7 +376,7 @@
             // guestInfoCtrl
             // 
             guestInfo1.AttendTime = null;
-            guestInfo1.CreateTime = new System.DateTime(2018, 8, 13, 10, 27, 22, 478);
+            guestInfo1.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
             guestInfo1.Entourage = "";
             guestInfo1.EntourageNum = 0;
             guestInfo1.Gender = 0;
@@ -390,7 +392,7 @@
             this.guestInfoCtrl.Information = guestInfo1;
             this.guestInfoCtrl.Location = new System.Drawing.Point(3, 3);
             this.guestInfoCtrl.Name = "guestInfoCtrl";
-            this.guestInfoCtrl.Size = new System.Drawing.Size(359, 204);
+            this.guestInfoCtrl.Size = new System.Drawing.Size(359, 239);
             this.guestInfoCtrl.TabIndex = 0;
             // 
             // FrmGuestManagement

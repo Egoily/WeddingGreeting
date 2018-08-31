@@ -366,13 +366,14 @@ namespace WeddingGreeting
                 };
 
                 var objects = JsonConvert.DeserializeObject<List<EnrollmentModel>>(jsonValue, jsetting);
-
-                for (int i = 0; i < objects.Count; i++)
+                if (objects == null) return;
+                var persons = objects.Where(x => x.Name != null && x.Name != "").ToList();
+                for (int i = 0; i < persons.Count; i++)
                 {
-                    objects[i].相片 = pictures[i].PictureData;
-                    var item = objects[i];
-                    var img = new Bitmap(item.FaceImage);
-                    var imageFileName = Path.Combine($"GuestImages\\{item.ID}.jpg");
+                    persons[i].相片 = pictures[i].PictureData;
+                    var person = persons[i];
+                    var img = new Bitmap(person.FaceImage);
+                    var imageFileName = Path.Combine($"GuestImages\\{person.ID}.jpg");
                     if (File.Exists(imageFileName))
                     {
                         File.Delete(imageFileName);
@@ -381,14 +382,14 @@ namespace WeddingGreeting
                     img.Dispose();
                     var info = new GuestInfo()
                     {
-                        Id = item.ID,
-                        Name = item.Name,
-                        Gender = item.Gender,
-                        GuestType = item.GuestType,
-                        Entourage = item.Entourage,
-                        Labels = item.Labels,
+                        Id = person.ID,
+                        Name = person.Name,
+                        Gender = person.Gender,
+                        GuestType = person.GuestType,
+                        Entourage = person.Entourage,
+                        Labels = person.Labels,
                         ImagePath = imageFileName,
-                        TableNo = item.TableNo,
+                        TableNo = person.TableNo,
                         CreateTime = DateTime.Now,
                     };
                     GuestManagement.SaveOrUpdate(info);

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ee.Models;
 using EgoDevil.Utilities.UI.MessageForm;
+using System.Linq;
 
 namespace WeddingGreeting.UserControls
 {
@@ -35,6 +36,7 @@ namespace WeddingGreeting.UserControls
             set
             {
                 information = value;
+                IsPictureChanged = false;
                 if (information != null)
                 {
                     txtID.ReadOnly = true;
@@ -56,7 +58,8 @@ namespace WeddingGreeting.UserControls
                         picbFacePicture.Image = new Bitmap(img);
                         img.Dispose();
                     }
-
+                    btnAttendAction.Visible = true;
+                    SetAttend(value.IsAttend);
                 }
                 else
                 {
@@ -70,17 +73,34 @@ namespace WeddingGreeting.UserControls
                     txtEntourage.Text = string.Empty;
 
                     picbFacePicture.Image = null;
+                    SetAttend(false);
+                    btnAttendAction.Visible = false;
                 }
 
             }
         }
 
 
+
+        public bool IsPictureChanged { get; private set; }
+
         public GuestInfoCtrl()
         {
             InitializeComponent();
         }
-
+        private void SetAttend(bool isAttend)
+        {
+            if(isAttend)
+            {
+                btnAttendAction.Label = "消签";
+                btnAttendAction.ButtonColor = Color.GreenYellow;
+            }
+            else
+            {
+                btnAttendAction.Label = "签到";
+                btnAttendAction.ButtonColor = Color.LightCoral;
+            }
+        }
 
         public bool Validation()
         {
@@ -150,6 +170,7 @@ namespace WeddingGreeting.UserControls
                     picbFacePicture.Image = new Bitmap(image);
                     image.Dispose();
                 }
+                IsPictureChanged = true;
             }
         }
 
@@ -163,7 +184,39 @@ namespace WeddingGreeting.UserControls
             Cursor = Cursors.Default;
         }
 
+        private void picbFacePicture_LoadCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            IsPictureChanged = true;
+        }
 
+        private void btnAttendAction_Click(object sender, EventArgs e)
+        {
+            if (btnAttendAction.State == EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonState.Normal)
+            {
+                btnAttendAction.Label = "消签";
+                btnAttendAction.ButtonColor = Color.GreenYellow;
 
+                var person = GlobalConfig.Guests.FirstOrDefault(x => x.Id == Information.Id);
+                if (person != null)
+                {
+                    person.IsAttend = true;
+                    person.AttendTime = DateTime.Now;
+                    GlobalConfig.SaveGuests();
+                }
+            }
+            else
+            {
+                btnAttendAction.Label = "签到";
+                btnAttendAction.ButtonColor = Color.LightCoral;
+                var person = GlobalConfig.Guests.FirstOrDefault(x => x.Id == Information.Id);
+                if (person != null)
+                {
+                    person.IsAttend = false;
+                    person.AttendTime = null;
+                    GlobalConfig.SaveGuests();
+                }
+            }
+
+        }
     }
 }

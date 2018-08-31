@@ -14,6 +14,7 @@ namespace WeddingGreeting
 {
     public class GuestManagement
     {
+
         public static bool SaveOrUpdate(GuestInfo info)
         {
             bool success = false;
@@ -24,7 +25,7 @@ namespace WeddingGreeting
                 var labels = info.Labels;
                 var tableNo = info.TableNo;
                 var imagePath = info.ImagePath;
-                var entourageText = info.Entourage??"";
+                var entourageText = info.Entourage ?? "";
                 var guestType = info.GuestType;
                 var userId = info.Id;
                 if (string.IsNullOrEmpty(userId))
@@ -46,19 +47,15 @@ namespace WeddingGreeting
 
                 var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Name == name);
                 BaseResponse<FaceRegisterResult> jObj;
-                if (guest == null)//新增
+                jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest != null ? guest.Id : userId, option);
+                success = (jObj != null && jObj.error_code == 0);
+                if (success)
                 {
+                    var entourages = entourageText.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    var entourageNum = entourages.Count();
 
-                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, userId, option);
-
-                    success = (jObj != null && jObj.error_code == 0);
-
-                    if (success)
+                    if (guest == null)//新增
                     {
-
-                        var entourages = entourageText.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        var entourageNum = entourages.Count();
-
                         GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
                         {
                             Id = userId,
@@ -92,22 +89,9 @@ namespace WeddingGreeting
                                 });
                             }
                         }
-
-                        GlobalConfig.SaveGuests();
                     }
-
-                }
-                else
-                {
-                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest.Id, option);
-                    success = (jObj != null && jObj.error_code == 0);
-
-                    if (success)
+                    else
                     {
-
-                        var entourages = entourageText.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        var entourageNum = entourages.Count();
-
                         guest.Name = name;
                         guest.Gender = gender;
                         guest.GuestType = guestType;
@@ -146,11 +130,8 @@ namespace WeddingGreeting
                                 });
                             }
                         }
-
-
-
-                        GlobalConfig.SaveGuests();
                     }
+                    GlobalConfig.SaveGuests();
                 }
                 var newImage = new Bitmap(img);
                 img.Dispose();
@@ -167,6 +148,59 @@ namespace WeddingGreeting
                 return false;
             }
 
+        }
+
+        public static bool UpdateGusetInfo(GuestInfo info)
+        {
+            try
+            {
+                var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Name == info.Name);
+                guest.Name = info.Name;
+                guest.Gender = info.Gender;
+                guest.GuestType = info.GuestType;
+                guest.Entourage = info.Entourage;
+                guest.EntourageNum = info.EntourageNum;
+                guest.Labels = info.Labels;
+                guest.TableNo = info.TableNo;
+                guest.ImagePath = info.ImagePath;
+                guest.CreateTime = DateTime.Now;
+
+                for (int i = 0; i < GlobalConfig.Guests.Count; i++)
+                {
+                    if (GlobalConfig.Guests[i].ParentId == info.Id)
+                        GlobalConfig.Guests.Remove(GlobalConfig.Guests[i]);
+                }
+                var entourages = info.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                var entourageNum = entourages.Count();
+                if (entourages != null)
+                {
+                    foreach (var item in entourages)
+                    {
+                        GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                        {
+                            Id = System.Guid.NewGuid().ToString().ToUpper(),
+                            ParentId = info.Id,
+                            Name = $"{info.Name}_{item}",
+                            Gender = 0,
+                            GuestType = info.GuestType,
+                            Entourage = "",
+                            EntourageNum = 0,
+                            Labels = info.Labels,
+                            TableNo = info.TableNo,
+                            ImagePath = null,
+                            IsAttend = guest.IsAttend,
+                            AttendTime = guest.AttendTime,
+                            CreateTime = DateTime.Now,
+                        });
+                    }
+                }
+                GlobalConfig.SaveGuests();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
     }

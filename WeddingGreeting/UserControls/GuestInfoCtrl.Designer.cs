@@ -47,6 +47,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lbName = new System.Windows.Forms.Label();
             this.picbFacePicture = new System.Windows.Forms.PictureBox();
+            this.btnAttendAction = new EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -217,14 +218,36 @@
             this.picbFacePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picbFacePicture.TabIndex = 38;
             this.picbFacePicture.TabStop = false;
+            this.picbFacePicture.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.picbFacePicture_LoadCompleted);
             this.picbFacePicture.DoubleClick += new System.EventHandler(this.picbFacePicture_DoubleClick);
             this.picbFacePicture.MouseEnter += new System.EventHandler(this.picbFacePicture_MouseEnter);
             this.picbFacePicture.MouseLeave += new System.EventHandler(this.picbFacePicture_MouseLeave);
+            // 
+            // btnAttendAction
+            // 
+            this.btnAttendAction.AutoRebound = false;
+            this.btnAttendAction.BackColor = System.Drawing.Color.Transparent;
+            this.btnAttendAction.ButtonColor = System.Drawing.Color.LightPink;
+            this.btnAttendAction.Font = new System.Drawing.Font("Arial", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAttendAction.ForeColor = System.Drawing.Color.Navy;
+            this.btnAttendAction.Label = "签到";
+            this.btnAttendAction.Location = new System.Drawing.Point(23, 164);
+            this.btnAttendAction.Name = "btnAttendAction";
+            this.btnAttendAction.Renderer = null;
+            this.btnAttendAction.RepeatInterval = 100;
+            this.btnAttendAction.RepeatState = false;
+            this.btnAttendAction.Size = new System.Drawing.Size(72, 68);
+            this.btnAttendAction.StartRepeatInterval = 500;
+            this.btnAttendAction.State = EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonState.Normal;
+            this.btnAttendAction.Style = EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonStyle.Circular;
+            this.btnAttendAction.TabIndex = 41;
+            this.btnAttendAction.Click += new System.EventHandler(this.btnAttendAction_Click);
             // 
             // GuestInfoCtrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAttendAction);
             this.Controls.Add(this.cbbGuestType);
             this.Controls.Add(this.cbbGender);
             this.Controls.Add(this.picbFacePicture);
@@ -245,7 +268,7 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lbName);
             this.Name = "GuestInfoCtrl";
-            this.Size = new System.Drawing.Size(359, 204);
+            this.Size = new System.Drawing.Size(359, 241);
             this.Load += new System.EventHandler(this.GuestInfoCtrl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).EndInit();
             this.ResumeLayout(false);
@@ -274,5 +297,6 @@
         private System.Windows.Forms.Label lbGender;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lbName;
+        private EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton btnAttendAction;
     }
 }
