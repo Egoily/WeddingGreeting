@@ -29,7 +29,7 @@ namespace WeddingGreeting.Forms
             var total = GlobalConfig.Guests.Count();
             var attendance = GlobalConfig.Guests.Count(x => x.IsAttend);
 
-            tspbPercentage.Value = attendance * 100 / total;
+            tspbPercentage.Value = attendance * 100 / (total == 0 ? 1 : total);
             tspbPercentage.Text = $"{attendance}/{total}";
             tslbStatisticInfo.Text = $"总数:{total} 已到:{attendance} 未到:{total - attendance}";
         }
@@ -46,6 +46,11 @@ namespace WeddingGreeting.Forms
 
 
         private void cbbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            QueryByFilter();
+        }
+
+        private void QueryByFilter()
         {
             if (!isLoaded) return;
             if (tscbbFilter.Text == "已签到")
@@ -108,7 +113,7 @@ namespace WeddingGreeting.Forms
             {
                 GlobalConfig.Guests.Remove(guest);
                 GlobalConfig.SaveGuests();
-                dgvGuests.DataSource = QueryGuests();
+                QueryByFilter();
             }
         }
 
@@ -136,7 +141,7 @@ namespace WeddingGreeting.Forms
                     thread.Start(para);
                 }
             }
-
+            SetAttendInformation();
         }
 
         private void Thread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -146,7 +151,7 @@ namespace WeddingGreeting.Forms
             var message = success ? "录入成功" : "录入失败";
             MsgForm.Show(message, "提示", success ? MessageBoxIcon.None : MessageBoxIcon.Error);
             splitContainer.InvokeIfRequired(c => c.Panel2Collapsed = success);
-            dgvGuests.InvokeIfRequired(c => c.DataSource = QueryGuests());
+            dgvGuests.InvokeIfRequired(c => QueryByFilter());
         }
 
         private void btnCancelRegisterOrUpdate_Click(object sender, EventArgs e)
@@ -166,7 +171,7 @@ namespace WeddingGreeting.Forms
 
             return success;
         }
-    
+
 
         private void dgvGuests_RowEnter(object sender, DataGridViewCellEventArgs e)
         {

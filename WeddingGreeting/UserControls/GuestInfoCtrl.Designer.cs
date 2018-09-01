@@ -47,7 +47,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lbName = new System.Windows.Forms.Label();
             this.picbFacePicture = new System.Windows.Forms.PictureBox();
-            this.btnAttendAction = new EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton();
+            this.btnAttendAction = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -225,22 +225,11 @@
             // 
             // btnAttendAction
             // 
-            this.btnAttendAction.AutoRebound = false;
-            this.btnAttendAction.BackColor = System.Drawing.Color.Transparent;
-            this.btnAttendAction.ButtonColor = System.Drawing.Color.LightPink;
-            this.btnAttendAction.Font = new System.Drawing.Font("Arial", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAttendAction.ForeColor = System.Drawing.Color.Navy;
-            this.btnAttendAction.Label = "签到";
-            this.btnAttendAction.Location = new System.Drawing.Point(23, 164);
+            this.btnAttendAction.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAttendAction.Location = new System.Drawing.Point(3, 185);
             this.btnAttendAction.Name = "btnAttendAction";
-            this.btnAttendAction.Renderer = null;
-            this.btnAttendAction.RepeatInterval = 100;
-            this.btnAttendAction.RepeatState = false;
-            this.btnAttendAction.Size = new System.Drawing.Size(72, 68);
-            this.btnAttendAction.StartRepeatInterval = 500;
-            this.btnAttendAction.State = EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonState.Normal;
-            this.btnAttendAction.Style = EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonStyle.Circular;
             this.btnAttendAction.TabIndex = 41;
+            this.btnAttendAction.Text = "签到";
             this.btnAttendAction.Click += new System.EventHandler(this.btnAttendAction_Click);
             // 
             // GuestInfoCtrl
@@ -297,6 +286,6 @@
         private System.Windows.Forms.Label lbGender;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lbName;
-        private EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton btnAttendAction;
+        private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnAttendAction;
     }
 }

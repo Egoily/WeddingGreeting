@@ -43,10 +43,9 @@
             this.tsmiSetThreshold = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfigVideoWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.guestViewer = new EAlbums.ImageViewer();
-            this.hostViewer = new EAlbums.ImageViewer();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
             this.cbbVideoSource = new System.Windows.Forms.ComboBox();
+            this.guestViewer = new EAlbums.ImageViewer();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -166,55 +165,6 @@
             this.tsmiConfig.Size = new System.Drawing.Size(44, 21);
             this.tsmiConfig.Text = "配置";
             // 
-            // guestViewer
-            // 
-            this.guestViewer.AllowDrop = true;
-            this.guestViewer.Alpha = 0.1F;
-            this.guestViewer.AutoScroll = true;
-            this.guestViewer.AutoSize = true;
-            this.guestViewer.BackColor = System.Drawing.Color.Black;
-            this.guestViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.guestViewer.CircleCapacity = 4;
-            this.guestViewer.CircleVerInterval = 100;
-            this.guestViewer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guestViewer.DestinationSize = new System.Drawing.Size(0, 0);
-            this.guestViewer.DisplayCenterOffset = new System.Drawing.Point(100, 0);
-            this.guestViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
-            this.guestViewer.Location = new System.Drawing.Point(2, 126);
-            this.guestViewer.MaxCapacityInCircle = 360;
-            this.guestViewer.MaxImageLength = 120;
-            this.guestViewer.Name = "guestViewer";
-            this.guestViewer.Pattern = EAlbums.ViewPatterns.Pending;
-            this.guestViewer.ScalingOption = EgoDevil.Utilities.ThumbnailCreator.ScalingOptions.MaintainAspect;
-            this.guestViewer.ShownTitle = false;
-            this.guestViewer.Size = new System.Drawing.Size(473, 109);
-            this.guestViewer.SourceFolder = "";
-            this.guestViewer.TabIndex = 5;
-            // 
-            // hostViewer
-            // 
-            this.hostViewer.AllowDrop = true;
-            this.hostViewer.Alpha = 0.1F;
-            this.hostViewer.AutoScroll = true;
-            this.hostViewer.AutoSize = true;
-            this.hostViewer.BackColor = System.Drawing.Color.Black;
-            this.hostViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.hostViewer.CircleCapacity = 1;
-            this.hostViewer.CircleVerInterval = 100;
-            this.hostViewer.DestinationSize = new System.Drawing.Size(80, 120);
-            this.hostViewer.DisplayCenterOffset = new System.Drawing.Point(0, 0);
-            this.hostViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
-            this.hostViewer.Location = new System.Drawing.Point(2, 241);
-            this.hostViewer.MaxCapacityInCircle = 360;
-            this.hostViewer.MaxImageLength = 160;
-            this.hostViewer.Name = "hostViewer";
-            this.hostViewer.Pattern = EAlbums.ViewPatterns.Pending;
-            this.hostViewer.ScalingOption = EgoDevil.Utilities.ThumbnailCreator.ScalingOptions.MaintainAspect;
-            this.hostViewer.ShownTitle = true;
-            this.hostViewer.Size = new System.Drawing.Size(473, 97);
-            this.hostViewer.SourceFolder = "HostImages";
-            this.hostViewer.TabIndex = 5;
-            // 
             // dmAttendance
             // 
             this.dmAttendance.BackColor = System.Drawing.Color.Black;
@@ -239,6 +189,31 @@
             this.cbbVideoSource.SelectedIndexChanged += new System.EventHandler(this.cbbVideoSource_SelectedIndexChanged);
             this.cbbVideoSource.Click += new System.EventHandler(this.cbbVideoSource_Click);
             // 
+            // guestViewer
+            // 
+            this.guestViewer.AllowDrop = true;
+            this.guestViewer.Alpha = 0.5F;
+            this.guestViewer.AutoScroll = true;
+            this.guestViewer.AutoSize = true;
+            this.guestViewer.BackColor = System.Drawing.Color.Black;
+            this.guestViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.guestViewer.CircleCapacity = 4;
+            this.guestViewer.CircleVerInterval = 100;
+            this.guestViewer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guestViewer.DestinationSize = new System.Drawing.Size(0, 0);
+            this.guestViewer.DisplayCenterOffset = new System.Drawing.Point(100, 0);
+            this.guestViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
+            this.guestViewer.Location = new System.Drawing.Point(2, 126);
+            this.guestViewer.MaxCapacityInCircle = 360;
+            this.guestViewer.MaxImageLength = 120;
+            this.guestViewer.Name = "guestViewer";
+            this.guestViewer.Pattern = EAlbums.ViewPatterns.Pending;
+            this.guestViewer.ScalingOption = EgoDevil.Utilities.ThumbnailCreator.ScalingOptions.MaintainAspect;
+            this.guestViewer.ShownTitle = false;
+            this.guestViewer.Size = new System.Drawing.Size(473, 109);
+            this.guestViewer.SourceFolder = "";
+            this.guestViewer.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -249,7 +224,6 @@
             this.Controls.Add(this.picbVideoContainer);
             this.Controls.Add(this.guestViewer);
             this.Controls.Add(this.menuStrip);
-            this.Controls.Add(this.hostViewer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -276,7 +250,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiRecognise;
         private System.Windows.Forms.ToolStripMenuItem tsmiControlVideo;
         private EAlbums.ImageViewer guestViewer;
-        private EAlbums.ImageViewer hostViewer;
         private System.Windows.Forms.ToolStripMenuItem tsmiRefresh;
         private System.Windows.Forms.ToolStripMenuItem tsmiConfig;
         private System.Windows.Forms.ToolStripMenuItem tsmiConfigVideoWindow;

@@ -114,7 +114,7 @@ namespace WeddingGreeting
                             {
                                 GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
                                 {
-                                    Id = System.Guid.NewGuid().ToString().ToUpper(),
+                                    Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                                     ParentId = userId,
                                     Name = $"{name}_{item}",
                                     Gender = 0,
@@ -164,6 +164,8 @@ namespace WeddingGreeting
                 guest.TableNo = info.TableNo;
                 guest.ImagePath = info.ImagePath;
                 guest.CreateTime = DateTime.Now;
+                guest.IsAttend = info.IsAttend;
+                guest.AttendTime = info.AttendTime;
 
                 for (int i = 0; i < GlobalConfig.Guests.Count; i++)
                 {
@@ -178,7 +180,7 @@ namespace WeddingGreeting
                     {
                         GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
                         {
-                            Id = System.Guid.NewGuid().ToString().ToUpper(),
+                            Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                             ParentId = info.Id,
                             Name = $"{info.Name}_{item}",
                             Gender = 0,

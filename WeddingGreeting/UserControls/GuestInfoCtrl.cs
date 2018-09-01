@@ -18,19 +18,28 @@ namespace WeddingGreeting.UserControls
         {
             get
             {
-                information = new GuestInfo()
+                if (information == null)
                 {
-                    Id = txtID.Text.Trim(),
-                    Name = txtName.Text,
-                    Gender = cbbGender.SelectedIndex,
-                    GuestType = cbbGuestType.SelectedIndex,
-                    Labels = txtLabels.Text,
-                    TableNo = txtTableNo.Text,
-                    SeatNo = txtSeatNo.Text,
-                    ImagePath = currentImagePath,
-                    Entourage = txtEntourage.Text ?? "",
-                    CreateTime = DateTime.Now,
-                };
+                    currentImagePath = null;
+                    information = new GuestInfo()
+                    {
+                        IsAttend=false,
+                        AttendTime=null,
+                        CreateTime = DateTime.Now,
+                    };
+                }
+
+                information.Id = txtID.Text.Trim();
+                information.Name = txtName.Text;
+                information.Gender = cbbGender.SelectedIndex;
+                information.GuestType = cbbGuestType.SelectedIndex;
+                information.Labels = txtLabels.Text;
+                information.TableNo = txtTableNo.Text;
+                information.SeatNo = txtSeatNo.Text;
+                information.ImagePath = currentImagePath;
+                information.Entourage = txtEntourage.Text ?? "";
+      
+               
                 return information;
             }
             set
@@ -58,6 +67,10 @@ namespace WeddingGreeting.UserControls
                         picbFacePicture.Image = new Bitmap(img);
                         img.Dispose();
                     }
+                    else
+                    {
+                        picbFacePicture.Image = null;
+                    }
                     btnAttendAction.Visible = true;
                     SetAttend(value.IsAttend);
                 }
@@ -73,6 +86,7 @@ namespace WeddingGreeting.UserControls
                     txtEntourage.Text = string.Empty;
 
                     picbFacePicture.Image = null;
+                    currentImagePath = null;
                     SetAttend(false);
                     btnAttendAction.Visible = false;
                 }
@@ -90,15 +104,13 @@ namespace WeddingGreeting.UserControls
         }
         private void SetAttend(bool isAttend)
         {
-            if(isAttend)
+            if (isAttend)
             {
-                btnAttendAction.Label = "消签";
-                btnAttendAction.ButtonColor = Color.GreenYellow;
+                btnAttendAction.Text = "取消签到";
             }
             else
             {
-                btnAttendAction.Label = "签到";
-                btnAttendAction.ButtonColor = Color.LightCoral;
+                btnAttendAction.Text = "签到";
             }
         }
 
@@ -191,31 +203,20 @@ namespace WeddingGreeting.UserControls
 
         private void btnAttendAction_Click(object sender, EventArgs e)
         {
-            if (btnAttendAction.State == EgoDevil.Utilities.UI.IndustrialCtrls.Buttons.LBButton.ButtonState.Normal)
+            btnAttendAction.Enabled = false;
+            if (btnAttendAction.Text == "签到")
             {
-                btnAttendAction.Label = "消签";
-                btnAttendAction.ButtonColor = Color.GreenYellow;
-
-                var person = GlobalConfig.Guests.FirstOrDefault(x => x.Id == Information.Id);
-                if (person != null)
-                {
-                    person.IsAttend = true;
-                    person.AttendTime = DateTime.Now;
-                    GlobalConfig.SaveGuests();
-                }
+                btnAttendAction.Text = "取消签到";
+                information.IsAttend = true;
+                information.AttendTime = DateTime.Now;
             }
             else
             {
-                btnAttendAction.Label = "签到";
-                btnAttendAction.ButtonColor = Color.LightCoral;
-                var person = GlobalConfig.Guests.FirstOrDefault(x => x.Id == Information.Id);
-                if (person != null)
-                {
-                    person.IsAttend = false;
-                    person.AttendTime = null;
-                    GlobalConfig.SaveGuests();
-                }
+                btnAttendAction.Text = "签到";
+                information.IsAttend = false;
+                information.AttendTime = null;
             }
+            btnAttendAction.Enabled = true;
 
         }
     }

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using log4net;
+using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace WeddingGreeting
 {
     internal static class Program
     {
+
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -13,10 +17,20 @@ namespace WeddingGreeting
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            log4net.Config.XmlConfigurator.Configure();
+            try
+            {
+                GlobalConfig.Load();
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                MessageBox.Show("程序发生异常");
+            }
 
-            GlobalConfig.Load();
 
-            Application.Run(new MainForm());
+
         }
     }
 }

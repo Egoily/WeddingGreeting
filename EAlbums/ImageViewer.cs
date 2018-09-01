@@ -583,12 +583,13 @@ namespace EAlbums
 
                     g.DrawString(Revolver.SelectedObject.Name, font, Brushes.Red, new PointF(0, 0));
                 }
+                //显示信息
                 var message = Revolver.SelectedObject.Description;
 
                 if (!string.IsNullOrEmpty(message))
                 {
                     g.DrawString(message, font, Brushes.BlueViolet,
-                        new PointF(Width / 2 + 64, 2));
+                        new PointF(Width *3/ 4, Height/3));
                 }
             }
         }

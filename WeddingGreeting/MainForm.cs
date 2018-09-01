@@ -21,7 +21,7 @@ namespace WeddingGreeting
         private static bool isProcessing = false;
         private static string currentUserId = "";
         private static int sameUserCount = 0;
-        private static int maxSameUserCont = 100;
+        private static int maxSameUserCont = 50;
         private static bool disableSpeech = false;
 
         private VideoPlayer player;
@@ -50,7 +50,7 @@ namespace WeddingGreeting
             tsControlHost});
 
 
-           
+
 
 
 
@@ -82,13 +82,7 @@ namespace WeddingGreeting
             tsControlHost2});
 
 
-
-
-
-
-
             guestViewer.Loading();
-            hostViewer.Loading();
 
             RefreshGuests();
         }
@@ -145,11 +139,9 @@ namespace WeddingGreeting
             picbVideoContainer.Location = new Point(0, menuStrip.Height);
             picbVideoContainer.Size = new Size(128, 96);
             guestViewer.Location = new Point(0, menuStrip.Height);
-            guestViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
+            guestViewer.Size = new Size(Width, (Height - menuStrip.Height));
             guestViewer.ResetOrginalCenter();
-            hostViewer.Location = new Point(0, menuStrip.Height + (Height - menuStrip.Height) / 2 + 2);
-            hostViewer.Size = new Size(Width, (Height - menuStrip.Height) / 2 - 1);
-            hostViewer.ResetOrginalCenter();
+
 
             dmAttendance.Location = new Point(this.Width - dmAttendance.Width, menuStrip.Height);
 
@@ -185,6 +177,16 @@ namespace WeddingGreeting
         {
             target.IsAttend = true;
             target.AttendTime = DateTime.Now;
+
+            var children = GlobalConfig.Guests.Where(x => x.ParentId == target.Id);
+            if (children != null && children.Any())
+            {
+                foreach (var child in children.ToList())
+                {
+                    child.IsAttend = true;
+                    child.AttendTime = DateTime.Now;
+                }
+            }
             GlobalConfig.SaveGuests();
             SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
         }
@@ -413,7 +415,7 @@ namespace WeddingGreeting
 
         private void cbbVideoSource_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void cbbVideoSource_SelectedIndexChanged(object sender, EventArgs e)
