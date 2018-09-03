@@ -424,34 +424,37 @@ namespace WeddingGreeting
             };
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                List<string> headers = new List<string>();
                 // ID 姓名  相片 性别  宾客类型 标签  随行人员 桌号 礼金
+                List<string> headers = new List<string>
+                {
+                    "Id",
+                    "姓名",
+                    "相片",
+                    "性别",
+                    "宾客类型",
+                    "标签",
+                    "随行人员",
+                    "桌号",
+                    "礼金"
+                };
 
-                headers.Add("Id");
-                headers.Add("姓名");
-                headers.Add("相片");
-                headers.Add("性别");
-                headers.Add("宾客类型");
-                headers.Add("标签");
-                headers.Add("随行人员");
-                headers.Add("桌号");
-                headers.Add("礼金");
 
-
-                List<string> arries = new List<string>();
-                arries.Add("Id");
-                arries.Add("Name");
-                arries.Add("Image");
-                arries.Add("Gender");
-                arries.Add("GuestTypeStr");
-                arries.Add("Labels");
-                arries.Add("Entourage");
-                arries.Add("TableNo");
-                arries.Add("CashGift");
+                List<string> arries = new List<string>
+                {
+                    "Id",
+                    "Name",
+                    "Image",
+                    "Gender",
+                    "GuestTypeStr",
+                    "Labels",
+                    "Entourage",
+                    "TableNo",
+                    "CashGift"
+                };
 
                 var data = GlobalConfig.Guests;
 
-                NpoiHelper.ToExcel2003(data, sfd.FileName, arries, headers);
+                NpoiHelper.ToExcel(data, sfd.FileName, arries, headers);
 
                 MessageBox.Show("导出完成");
             }
