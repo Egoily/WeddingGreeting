@@ -85,6 +85,7 @@ namespace WeddingGreeting
                                     Labels = labels,
                                     TableNo = tableNo,
                                     ImagePath = null,
+                                    CashGift = info.CashGift,
                                     CreateTime = DateTime.Now,
                                 });
                             }
@@ -100,6 +101,7 @@ namespace WeddingGreeting
                         guest.Labels = labels;
                         guest.TableNo = tableNo;
                         guest.ImagePath = imageFileName;
+                        guest.CashGift = info.CashGift;
                         guest.CreateTime = DateTime.Now;
 
                         for (int i = 0; i < GlobalConfig.Guests.Count; i++)

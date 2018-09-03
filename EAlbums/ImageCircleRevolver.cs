@@ -71,7 +71,7 @@ namespace EAlbums
 
                     Index = i,
                     HoverColor = Color.White,
-                    SelectedColor=Color.GreenYellow,
+                    SelectedColor = Color.GreenYellow,
                     Perspective = 4,
                     CircleCenter = center,
                     MaxCapacity = CapacityInCircle,
@@ -104,7 +104,13 @@ namespace EAlbums
                 obj.AlphaAccel = alphaAccel;
             });
         }
-
+        public void SetFixedAlphaAccel(float alphaAccel)
+        {
+            Parallel.ForEach(Circles, obj =>
+            {
+                obj.FixedAlphaAccel = alphaAccel;
+            });
+        }
         public void SetPerspective(float perspective)
         {
             Parallel.ForEach(Circles, obj =>
@@ -162,7 +168,7 @@ namespace EAlbums
             SelectedObject = GetSelectedObject();
             return (SelectedObject != null);
         }
- 
+
         public void SetRevolveType(RevolveTypes revolveType)
         {
             Parallel.ForEach(Circles, obj =>

@@ -26,21 +26,32 @@ namespace WeddingGreeting
 
         private VideoPlayer player;
         EgoDevil.Utilities.UI.TrackBarEx trackBarThreshold;
+        EgoDevil.Utilities.UI.TrackBarEx trackBarSpeed;
         public MainForm()
         {
             InitializeComponent();
 
-
+            guestViewer.Alpha = GlobalConfig.Configurations.Speed / 100F;
 
             trackBarThreshold = new EgoDevil.Utilities.UI.TrackBarEx()
             {
                 Height = 24,
                 Value = (int)GlobalConfig.Configurations.Threshold,
             };
+            trackBarSpeed = new EgoDevil.Utilities.UI.TrackBarEx()
+            {
+                Height = 24,
+                Value = (int)GlobalConfig.Configurations.Speed,
+            };
 
             trackBarThreshold.LostFocus += trackBarThreshold_LostFocus;
-
+            trackBarSpeed.ValueChanged += trackBarSpeed_ValueChanged;
             var tsControlHost = new ToolStripControlHost(trackBarThreshold)
+            {
+                Width = 140,
+                AutoSize = false
+            };
+            var tsControlHost2 = new ToolStripControlHost(trackBarSpeed)
             {
                 Width = 140,
                 AutoSize = false
@@ -48,7 +59,8 @@ namespace WeddingGreeting
 
             this.tsmiSetThreshold.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             tsControlHost});
-
+            this.tsmiSetSpeed.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            tsControlHost2});
 
 
 
@@ -72,21 +84,20 @@ namespace WeddingGreeting
             cbbVideoSource.DataSource = devs;
             cbbVideoSource.SelectedIndex = 0;        //  设置为默认选中第一个
 
-            var tsControlHost2 = new ToolStripControlHost(this.cbbVideoSource)
+            var tsControlHost3 = new ToolStripControlHost(this.cbbVideoSource)
             {
                 Width = 140,
                 AutoSize = true
             };
 
             this.tsmiVideoSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            tsControlHost2});
+            tsControlHost3});
 
 
             guestViewer.Loading();
 
             RefreshGuests();
         }
-
 
 
         private void Player_FaceRecognised(System.Drawing.Bitmap image, string userId, string userInfo)
@@ -403,12 +414,77 @@ namespace WeddingGreeting
             }
         }
 
+
+        private void tsmiExportGuest_Click(object sender, EventArgs e)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Filter = "(Excel文件)|*.xls;",
+                FileName = "E&E宾客名单"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                List<string> headers = new List<string>();
+                // ID 姓名  相片 性别  宾客类型 标签  随行人员 桌号 礼金
+
+                headers.Add("Id");
+                headers.Add("姓名");
+                headers.Add("相片");
+                headers.Add("性别");
+                headers.Add("宾客类型");
+                headers.Add("标签");
+                headers.Add("随行人员");
+                headers.Add("桌号");
+                headers.Add("礼金");
+
+
+                List<string> arries = new List<string>();
+                arries.Add("Id");
+                arries.Add("Name");
+                arries.Add("Image");
+                arries.Add("Gender");
+                arries.Add("GuestTypeStr");
+                arries.Add("Labels");
+                arries.Add("Entourage");
+                arries.Add("TableNo");
+                arries.Add("CashGift");
+
+                var data = GlobalConfig.Guests;
+
+                NpoiHelper.ToExcel2003(data, sfd.FileName, arries, headers);
+
+                MessageBox.Show("导出完成");
+            }
+        }
+
         private void trackBarThreshold_LostFocus(object sender, EventArgs e)
         {
 
             if (GlobalConfig.Configurations.Threshold != trackBarThreshold.Value && trackBarThreshold.Value > 0d)
             {
                 GlobalConfig.Configurations.Threshold = trackBarThreshold.Value;
+                GlobalConfig.SaveConfig();
+            }
+        }
+        private void trackBarSpeed_LostFocus(object sender, EventArgs e)
+        {
+
+            if (GlobalConfig.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
+            {
+                GlobalConfig.Configurations.Speed = trackBarSpeed.Value;
+                guestViewer.SetAlphaAccel(GlobalConfig.Configurations.Speed / 100F);
+
+                GlobalConfig.SaveConfig();
+            }
+        }
+
+        private void trackBarSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            if (GlobalConfig.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
+            {
+                GlobalConfig.Configurations.Speed = trackBarSpeed.Value;
+                guestViewer.SetAlphaAccel(GlobalConfig.Configurations.Speed / 100F);
+
                 GlobalConfig.SaveConfig();
             }
         }

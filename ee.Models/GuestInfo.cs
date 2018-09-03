@@ -89,7 +89,34 @@ namespace ee.Models
         /// 相片路径
         /// </summary>
         public virtual string ImagePath { get; set; }
-  
+        [JsonIgnore]
+        public virtual Image Image
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImagePath)) return null;
+                try
+                {
+                    var img = Bitmap.FromFile(ImagePath);
+
+                    var bmp = new Bitmap(img);
+                    img.Dispose();
+                    return bmp;
+                }
+                catch (Exception)
+                {
+                    return null;
+
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 礼金
+        /// </summary>
+        public virtual string CashGift { get; set; }
+
         public virtual DateTime CreateTime { get; set; }
     }
 }

@@ -96,7 +96,8 @@ namespace WeddingGreeting
         /// <summary>
         /// 
         /// </summary>
-        public double Threshold { get; set; }
+        public float Threshold { get; set; }
+        public float Speed { get; set; }
         /// <summary>
         /// 是否朗读
         /// </summary>
@@ -110,7 +111,8 @@ namespace WeddingGreeting
         public Configuration()
         {
             GroupId = "EE";
-            Threshold = 50d;
+            Threshold = 50f;
+            Speed = 20f;
             IsSpeechable = true;
             GreetFormat = "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!";
         }

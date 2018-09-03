@@ -23,8 +23,8 @@ namespace WeddingGreeting.UserControls
                     currentImagePath = null;
                     information = new GuestInfo()
                     {
-                        IsAttend=false,
-                        AttendTime=null,
+                        IsAttend = false,
+                        AttendTime = null,
                         CreateTime = DateTime.Now,
                     };
                 }
@@ -38,8 +38,8 @@ namespace WeddingGreeting.UserControls
                 information.SeatNo = txtSeatNo.Text;
                 information.ImagePath = currentImagePath;
                 information.Entourage = txtEntourage.Text ?? "";
-      
-               
+                information.CashGift = txtCashGift.Text;
+
                 return information;
             }
             set
@@ -57,7 +57,7 @@ namespace WeddingGreeting.UserControls
                     txtTableNo.Text = information.TableNo;
 
                     txtEntourage.Text = information.Entourage;
-
+                    txtCashGift.Text = information.CashGift;
 
                     currentImagePath = information.ImagePath;
 
@@ -84,7 +84,7 @@ namespace WeddingGreeting.UserControls
                     txtLabels.Text = string.Empty;
                     txtTableNo.Text = string.Empty;
                     txtEntourage.Text = string.Empty;
-
+                    txtCashGift.Text = string.Empty;
                     picbFacePicture.Image = null;
                     currentImagePath = null;
                     SetAttend(false);
@@ -144,22 +144,6 @@ namespace WeddingGreeting.UserControls
             return true;
         }
 
-        public GuestInfo GetInformation()
-        {
-            return new GuestInfo()
-            {
-                Id = txtID.Text.Trim(),
-                Name = txtName.Text,
-                Gender = cbbGender.SelectedIndex,
-                GuestType = cbbGuestType.SelectedIndex,
-                Labels = txtLabels.Text,
-                TableNo = txtTableNo.Text,
-                SeatNo = txtSeatNo.Text,
-                ImagePath = currentImagePath,
-                Entourage = txtEntourage.Text ?? "",
-                CreateTime = DateTime.Now,
-            };
-        }
 
         private void GuestInfoCtrl_Load(object sender, EventArgs e)
         {

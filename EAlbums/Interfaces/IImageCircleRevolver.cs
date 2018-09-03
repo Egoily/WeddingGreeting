@@ -22,7 +22,7 @@ namespace EAlbums
         void SetAngleOffset();
 
         void SetAlphaAccel(float alphaAccel);
-
+        void SetFixedAlphaAccel(float alphaAccel);
         void SetPerspective(float perspective);
 
         void Refresh();

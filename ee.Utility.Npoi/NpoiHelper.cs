@@ -17,9 +17,6 @@ namespace ee.Utility.Npoi
     {
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
-
-
-
         public static void ToExcel<T>(List<T> dataSource, string path, List<string> attries, List<string> headers)
         {
             if (path.IndexOf(".xlsx") > 0) // 2007版本  

@@ -48,6 +48,8 @@
             this.lbName = new System.Windows.Forms.Label();
             this.picbFacePicture = new System.Windows.Forms.PictureBox();
             this.btnAttendAction = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.lbCashGift = new System.Windows.Forms.Label();
+            this.txtCashGift = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -226,11 +228,27 @@
             // btnAttendAction
             // 
             this.btnAttendAction.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAttendAction.Location = new System.Drawing.Point(3, 185);
+            this.btnAttendAction.Location = new System.Drawing.Point(25, 194);
             this.btnAttendAction.Name = "btnAttendAction";
             this.btnAttendAction.TabIndex = 41;
             this.btnAttendAction.Text = "签到";
             this.btnAttendAction.Click += new System.EventHandler(this.btnAttendAction_Click);
+            // 
+            // lbCashGift
+            // 
+            this.lbCashGift.AutoSize = true;
+            this.lbCashGift.Location = new System.Drawing.Point(111, 197);
+            this.lbCashGift.Name = "lbCashGift";
+            this.lbCashGift.Size = new System.Drawing.Size(35, 12);
+            this.lbCashGift.TabIndex = 30;
+            this.lbCashGift.Text = "礼金:";
+            // 
+            // txtCashGift
+            // 
+            this.txtCashGift.Location = new System.Drawing.Point(152, 194);
+            this.txtCashGift.Name = "txtCashGift";
+            this.txtCashGift.Size = new System.Drawing.Size(186, 21);
+            this.txtCashGift.TabIndex = 36;
             // 
             // GuestInfoCtrl
             // 
@@ -242,6 +260,8 @@
             this.Controls.Add(this.picbFacePicture);
             this.Controls.Add(this.txtEntourage);
             this.Controls.Add(this.lbEntourage);
+            this.Controls.Add(this.txtCashGift);
+            this.Controls.Add(this.lbCashGift);
             this.Controls.Add(this.txtSeatNo);
             this.Controls.Add(this.lbSeatNo);
             this.Controls.Add(this.txtTableNo);
@@ -287,5 +307,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lbName;
         private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnAttendAction;
+        private System.Windows.Forms.Label lbCashGift;
+        private System.Windows.Forms.TextBox txtCashGift;
     }
 }

@@ -85,7 +85,10 @@ namespace EAlbums
         public float Alpha
         {
             get => Revolver.CircleParameter.Alpha;
-            set => Revolver.CircleParameter.Alpha = value;
+            set
+            {
+                Revolver.CircleParameter.Alpha = value;
+            }
         }
         //this is the coordinate of the center of the image displayed on the control in reference to
         //the coordinate system of the original image
@@ -589,7 +592,7 @@ namespace EAlbums
                 if (!string.IsNullOrEmpty(message))
                 {
                     g.DrawString(message, font, Brushes.BlueViolet,
-                        new PointF(Width *3/ 4, Height/3));
+                        new PointF(Width * 3 / 4, Height / 3));
                 }
             }
         }
@@ -644,6 +647,12 @@ namespace EAlbums
         public void ResetOrginalCenter()
         {
             Revolver.SetOrginalCenter(new Point(Width / 2, Height / 2));
+            Revolver.Refresh();
+        }
+
+        public void SetAlphaAccel(float value)
+        {
+            Revolver.SetFixedAlphaAccel(value);
             Revolver.Refresh();
         }
     }
