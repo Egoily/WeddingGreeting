@@ -28,24 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ee.Models.GuestInfo guestInfo1 = new ee.Models.GuestInfo();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            ee.Models.GuestInfo guestInfo2 = new ee.Models.GuestInfo();
             this.dgvGuests = new System.Windows.Forms.DataGridView();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTableNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGuestTypeStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGenderStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLabels = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEntourage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEntourageNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSeatNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIsAttendStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAttendTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGuestType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colImagePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colIsAttend = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
             this.tsbEdit = new System.Windows.Forms.ToolStripButton();
@@ -62,6 +47,24 @@
             this.btnCancelRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             this.btnRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             this.guestInfoCtrl = new WeddingGreeting.UserControls.GuestInfoCtrl();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTableNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGenderStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGuestTypeStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLabels = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEntourage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEntourageNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSeatNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsAttendStr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAttendTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCachGift = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGuestType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colImagePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsAttend = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -79,149 +82,45 @@
             this.dgvGuests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
             this.colTableNo,
-            this.colGuestTypeStr,
+            this.colTableName,
             this.colName,
             this.colGenderStr,
+            this.colGuestTypeStr,
             this.colLabels,
             this.colEntourage,
             this.colEntourageNum,
             this.colSeatNo,
             this.colIsAttendStr,
             this.colAttendTime,
+            this.colCachGift,
             this.colGender,
             this.colGuestType,
             this.colImagePath,
             this.colIsAttend,
             this.colCreateTime});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvGuests.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvGuests.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvGuests.Location = new System.Drawing.Point(0, 0);
             this.dgvGuests.MultiSelect = false;
             this.dgvGuests.Name = "dgvGuests";
             this.dgvGuests.ReadOnly = true;
+            this.dgvGuests.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvGuests.RowTemplate.Height = 23;
             this.dgvGuests.RowTemplate.ReadOnly = true;
             this.dgvGuests.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvGuests.Size = new System.Drawing.Size(629, 705);
+            this.dgvGuests.Size = new System.Drawing.Size(795, 705);
             this.dgvGuests.TabIndex = 0;
             this.dgvGuests.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_CellDoubleClick);
+            this.dgvGuests.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvGuests_CellPainting);
             this.dgvGuests.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_RowEnter);
-            // 
-            // colId
-            // 
-            this.colId.DataPropertyName = "Id";
-            this.colId.HeaderText = "Id";
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Visible = false;
-            // 
-            // colTableNo
-            // 
-            this.colTableNo.DataPropertyName = "TableNo";
-            this.colTableNo.HeaderText = "桌号";
-            this.colTableNo.Name = "colTableNo";
-            this.colTableNo.ReadOnly = true;
-            // 
-            // colGuestTypeStr
-            // 
-            this.colGuestTypeStr.DataPropertyName = "GuestTypeStr";
-            this.colGuestTypeStr.HeaderText = "贵宾类型";
-            this.colGuestTypeStr.Name = "colGuestTypeStr";
-            this.colGuestTypeStr.ReadOnly = true;
-            // 
-            // colName
-            // 
-            this.colName.DataPropertyName = "Name";
-            this.colName.HeaderText = "姓名";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            // 
-            // colGenderStr
-            // 
-            this.colGenderStr.DataPropertyName = "GenderStr";
-            this.colGenderStr.HeaderText = "性别";
-            this.colGenderStr.Name = "colGenderStr";
-            this.colGenderStr.ReadOnly = true;
-            // 
-            // colLabels
-            // 
-            this.colLabels.DataPropertyName = "Labels";
-            this.colLabels.HeaderText = "身份";
-            this.colLabels.Name = "colLabels";
-            this.colLabels.ReadOnly = true;
-            // 
-            // colEntourage
-            // 
-            this.colEntourage.DataPropertyName = "Entourage";
-            this.colEntourage.HeaderText = "随行人员";
-            this.colEntourage.Name = "colEntourage";
-            this.colEntourage.ReadOnly = true;
-            // 
-            // colEntourageNum
-            // 
-            this.colEntourageNum.DataPropertyName = "EntourageNum";
-            this.colEntourageNum.HeaderText = "随行人数";
-            this.colEntourageNum.Name = "colEntourageNum";
-            this.colEntourageNum.ReadOnly = true;
-            // 
-            // colSeatNo
-            // 
-            this.colSeatNo.DataPropertyName = "SeatNo";
-            this.colSeatNo.HeaderText = "座位号";
-            this.colSeatNo.Name = "colSeatNo";
-            this.colSeatNo.ReadOnly = true;
-            this.colSeatNo.Visible = false;
-            // 
-            // colIsAttendStr
-            // 
-            this.colIsAttendStr.DataPropertyName = "IsAttendStr";
-            this.colIsAttendStr.HeaderText = "是否签到";
-            this.colIsAttendStr.Name = "colIsAttendStr";
-            this.colIsAttendStr.ReadOnly = true;
-            // 
-            // colAttendTime
-            // 
-            this.colAttendTime.DataPropertyName = "AttendTime";
-            this.colAttendTime.HeaderText = "签到时间";
-            this.colAttendTime.Name = "colAttendTime";
-            this.colAttendTime.ReadOnly = true;
-            // 
-            // colGender
-            // 
-            this.colGender.HeaderText = "Gender";
-            this.colGender.Name = "colGender";
-            this.colGender.ReadOnly = true;
-            this.colGender.Visible = false;
-            // 
-            // colGuestType
-            // 
-            this.colGuestType.HeaderText = "GuestType";
-            this.colGuestType.Name = "colGuestType";
-            this.colGuestType.ReadOnly = true;
-            this.colGuestType.Visible = false;
-            // 
-            // colImagePath
-            // 
-            this.colImagePath.DataPropertyName = "ImagePath";
-            this.colImagePath.HeaderText = "ImagePath";
-            this.colImagePath.Name = "colImagePath";
-            this.colImagePath.ReadOnly = true;
-            this.colImagePath.Visible = false;
-            // 
-            // colIsAttend
-            // 
-            this.colIsAttend.DataPropertyName = "IsAttend";
-            this.colIsAttend.HeaderText = "IsAttend";
-            this.colIsAttend.Name = "colIsAttend";
-            this.colIsAttend.ReadOnly = true;
-            this.colIsAttend.Visible = false;
-            // 
-            // colCreateTime
-            // 
-            this.colCreateTime.DataPropertyName = "CreateTime";
-            this.colCreateTime.HeaderText = "CreateTime";
-            this.colCreateTime.Name = "colCreateTime";
-            this.colCreateTime.ReadOnly = true;
-            this.colCreateTime.Visible = false;
+            this.dgvGuests.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvGuests_RowStateChanged);
             // 
             // toolStrip
             // 
@@ -240,7 +139,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip.Size = new System.Drawing.Size(1008, 25);
+            this.toolStrip.Size = new System.Drawing.Size(1151, 25);
             this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip";
             // 
@@ -351,8 +250,8 @@
             this.splitContainer.Panel2.Controls.Add(this.btnCancelRegisterOrUpdate);
             this.splitContainer.Panel2.Controls.Add(this.btnRegisterOrUpdate);
             this.splitContainer.Panel2.Controls.Add(this.guestInfoCtrl);
-            this.splitContainer.Size = new System.Drawing.Size(1008, 705);
-            this.splitContainer.SplitterDistance = 629;
+            this.splitContainer.Size = new System.Drawing.Size(1151, 705);
+            this.splitContainer.SplitterDistance = 795;
             this.splitContainer.TabIndex = 3;
             // 
             // btnCancelRegisterOrUpdate
@@ -375,31 +274,171 @@
             // 
             // guestInfoCtrl
             // 
-            guestInfo1.AttendTime = null;
-            guestInfo1.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
-            guestInfo1.Entourage = "";
-            guestInfo1.EntourageNum = 0;
-            guestInfo1.Gender = 0;
-            guestInfo1.GuestType = 0;
-            guestInfo1.Id = "";
-            guestInfo1.ImagePath = null;
-            guestInfo1.IsAttend = false;
-            guestInfo1.Labels = "";
-            guestInfo1.Name = "";
-            guestInfo1.ParentId = null;
-            guestInfo1.SeatNo = "";
-            guestInfo1.TableNo = "";
-            this.guestInfoCtrl.Information = guestInfo1;
+            guestInfo2.AttendTime = null;
+            guestInfo2.CashGift = "";
+            guestInfo2.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
+            guestInfo2.Entourage = "";
+            guestInfo2.EntourageNum = 0;
+            guestInfo2.Gender = 0;
+            guestInfo2.GuestType = 0;
+            guestInfo2.Id = "";
+            guestInfo2.ImagePath = null;
+            guestInfo2.IsAttend = false;
+            guestInfo2.Labels = "";
+            guestInfo2.Name = "";
+            guestInfo2.ParentId = null;
+            guestInfo2.SeatNo = "";
+            guestInfo2.TableNo = "";
+            this.guestInfoCtrl.Information = guestInfo2;
             this.guestInfoCtrl.Location = new System.Drawing.Point(3, 3);
             this.guestInfoCtrl.Name = "guestInfoCtrl";
             this.guestInfoCtrl.Size = new System.Drawing.Size(359, 239);
             this.guestInfoCtrl.TabIndex = 0;
+            this.guestInfoCtrl.Tables = null;
+            // 
+            // colId
+            // 
+            this.colId.DataPropertyName = "Id";
+            this.colId.HeaderText = "Id";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Visible = false;
+            // 
+            // colTableNo
+            // 
+            this.colTableNo.DataPropertyName = "TableNo";
+            this.colTableNo.HeaderText = "桌号";
+            this.colTableNo.Name = "colTableNo";
+            this.colTableNo.ReadOnly = true;
+            this.colTableNo.Width = 40;
+            // 
+            // colTableName
+            // 
+            this.colTableName.DataPropertyName = "TableName";
+            this.colTableName.HeaderText = "桌名";
+            this.colTableName.Name = "colTableName";
+            this.colTableName.ReadOnly = true;
+            this.colTableName.Width = 80;
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "姓名";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            // 
+            // colGenderStr
+            // 
+            this.colGenderStr.DataPropertyName = "GenderStr";
+            this.colGenderStr.HeaderText = "性别";
+            this.colGenderStr.Name = "colGenderStr";
+            this.colGenderStr.ReadOnly = true;
+            this.colGenderStr.Width = 60;
+            // 
+            // colGuestTypeStr
+            // 
+            this.colGuestTypeStr.DataPropertyName = "GuestTypeStr";
+            this.colGuestTypeStr.HeaderText = "贵宾类型";
+            this.colGuestTypeStr.Name = "colGuestTypeStr";
+            this.colGuestTypeStr.ReadOnly = true;
+            this.colGuestTypeStr.Width = 80;
+            // 
+            // colLabels
+            // 
+            this.colLabels.DataPropertyName = "Labels";
+            this.colLabels.HeaderText = "身份";
+            this.colLabels.Name = "colLabels";
+            this.colLabels.ReadOnly = true;
+            // 
+            // colEntourage
+            // 
+            this.colEntourage.DataPropertyName = "Entourage";
+            this.colEntourage.HeaderText = "随行人员";
+            this.colEntourage.Name = "colEntourage";
+            this.colEntourage.ReadOnly = true;
+            // 
+            // colEntourageNum
+            // 
+            this.colEntourageNum.DataPropertyName = "EntourageNum";
+            this.colEntourageNum.HeaderText = "随行人数";
+            this.colEntourageNum.Name = "colEntourageNum";
+            this.colEntourageNum.ReadOnly = true;
+            this.colEntourageNum.Width = 80;
+            // 
+            // colSeatNo
+            // 
+            this.colSeatNo.DataPropertyName = "SeatNo";
+            this.colSeatNo.HeaderText = "座位号";
+            this.colSeatNo.Name = "colSeatNo";
+            this.colSeatNo.ReadOnly = true;
+            this.colSeatNo.Visible = false;
+            // 
+            // colIsAttendStr
+            // 
+            this.colIsAttendStr.DataPropertyName = "IsAttendStr";
+            this.colIsAttendStr.HeaderText = "签到";
+            this.colIsAttendStr.Name = "colIsAttendStr";
+            this.colIsAttendStr.ReadOnly = true;
+            this.colIsAttendStr.Width = 40;
+            // 
+            // colAttendTime
+            // 
+            this.colAttendTime.DataPropertyName = "AttendTime";
+            this.colAttendTime.HeaderText = "签到时间";
+            this.colAttendTime.Name = "colAttendTime";
+            this.colAttendTime.ReadOnly = true;
+            this.colAttendTime.Width = 120;
+            // 
+            // colCachGift
+            // 
+            this.colCachGift.DataPropertyName = "CachGift";
+            this.colCachGift.HeaderText = "礼金";
+            this.colCachGift.Name = "colCachGift";
+            this.colCachGift.ReadOnly = true;
+            // 
+            // colGender
+            // 
+            this.colGender.HeaderText = "Gender";
+            this.colGender.Name = "colGender";
+            this.colGender.ReadOnly = true;
+            this.colGender.Visible = false;
+            // 
+            // colGuestType
+            // 
+            this.colGuestType.HeaderText = "GuestType";
+            this.colGuestType.Name = "colGuestType";
+            this.colGuestType.ReadOnly = true;
+            this.colGuestType.Visible = false;
+            // 
+            // colImagePath
+            // 
+            this.colImagePath.DataPropertyName = "ImagePath";
+            this.colImagePath.HeaderText = "ImagePath";
+            this.colImagePath.Name = "colImagePath";
+            this.colImagePath.ReadOnly = true;
+            this.colImagePath.Visible = false;
+            // 
+            // colIsAttend
+            // 
+            this.colIsAttend.DataPropertyName = "IsAttend";
+            this.colIsAttend.HeaderText = "IsAttend";
+            this.colIsAttend.Name = "colIsAttend";
+            this.colIsAttend.ReadOnly = true;
+            this.colIsAttend.Visible = false;
+            // 
+            // colCreateTime
+            // 
+            this.colCreateTime.DataPropertyName = "CreateTime";
+            this.colCreateTime.HeaderText = "CreateTime";
+            this.colCreateTime.Name = "colCreateTime";
+            this.colCreateTime.ReadOnly = true;
+            this.colCreateTime.Visible = false;
             // 
             // FrmGuestManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 730);
+            this.ClientSize = new System.Drawing.Size(1151, 730);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.toolStrip);
             this.MinimizeBox = false;
@@ -407,6 +446,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "宾客管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGuestManagement_FormClosing);
             this.Load += new System.EventHandler(this.FrmGuestManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).EndInit();
             this.toolStrip.ResumeLayout(false);
@@ -441,15 +481,17 @@
         private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnRegisterOrUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTableNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colGuestTypeStr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTableName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGenderStr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colGuestTypeStr;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLabels;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEntourage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEntourageNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSeatNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIsAttendStr;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAttendTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCachGift;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGender;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGuestType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colImagePath;

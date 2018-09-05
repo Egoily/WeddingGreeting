@@ -1,5 +1,6 @@
 ﻿using Baidu.AI.Face;
 using Baidu.AI.Face.Models;
+using ee.Models;
 using ee.Utility.Player;
 using System;
 using System.Collections.Generic;
@@ -107,7 +108,7 @@ namespace WeddingGreeting
             if (jObj != null && jObj.error_code == 0 && (jObj.result?.user_list?.Any() ?? false))
             {
                 var target = jObj.result?.user_list.FirstOrDefault();
-                if (target.score >= GlobalConfig.Configurations.Threshold)
+                if (target.score >= GlobalConfigs.Configurations.Threshold)
                 {
                     FaceRecognised?.Invoke(maxFaceImage, target.user_id, target.user_info);
 

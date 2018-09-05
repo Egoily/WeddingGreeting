@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using ee.Models;
 using EgoDevil.Utilities.UI.MessageForm;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace WeddingGreeting.UserControls
 {
@@ -20,7 +21,10 @@ namespace WeddingGreeting.UserControls
             {
                 if (information == null)
                 {
-                    currentImagePath = null;
+                    if (picbFacePicture.Image == null)
+                    {
+                        currentImagePath = null;
+                    }
                     information = new GuestInfo()
                     {
                         IsAttend = false,
@@ -34,10 +38,17 @@ namespace WeddingGreeting.UserControls
                 information.Gender = cbbGender.SelectedIndex;
                 information.GuestType = cbbGuestType.SelectedIndex;
                 information.Labels = txtLabels.Text;
-                information.TableNo = txtTableNo.Text;
+                information.TableNo = cbbTables.Text;
                 information.SeatNo = txtSeatNo.Text;
                 information.ImagePath = currentImagePath;
-                information.Entourage = txtEntourage.Text ?? "";
+                if (!string.IsNullOrEmpty(information.ParentId))
+                {
+                    information.Entourage = "";
+                }
+                else
+                {
+                    information.Entourage = txtEntourage.Text ?? "";
+                }
                 information.CashGift = txtCashGift.Text;
 
                 return information;
@@ -54,9 +65,28 @@ namespace WeddingGreeting.UserControls
                     cbbGender.SelectedIndex = information.Gender;
                     cbbGuestType.SelectedIndex = information.GuestType;
                     txtLabels.Text = information.Labels;
-                    txtTableNo.Text = information.TableNo;
+                    cbbTables.Text = information.TableNo;
 
-                    txtEntourage.Text = information.Entourage;
+                    if (!string.IsNullOrEmpty(information.ParentId))
+                    {
+                        var parent = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == information.ParentId);
+                        lbEntourage.Text = "跟随:";
+                        txtEntourage.Text = parent?.Name;
+                        txtEntourage.ReadOnly = true;
+                        lbEntourageDesc.Visible = false;
+                        txtCashGift.Enabled = false;
+                    }
+                    else
+                    {
+                        lbEntourage.Text = "随行人员:";
+                        txtEntourage.Text = information.Entourage;
+                        txtEntourage.ReadOnly = false;
+                        lbEntourageDesc.Visible = true;
+                        txtCashGift.Enabled = true;
+                    }
+
+
+
                     txtCashGift.Text = information.CashGift;
 
                     currentImagePath = information.ImagePath;
@@ -82,7 +112,7 @@ namespace WeddingGreeting.UserControls
                     txtID.Text = string.Empty;
                     txtName.Text = string.Empty;
                     txtLabels.Text = string.Empty;
-                    txtTableNo.Text = string.Empty;
+                    cbbTables.SelectedIndex = -1;
                     txtEntourage.Text = string.Empty;
                     txtCashGift.Text = string.Empty;
                     picbFacePicture.Image = null;
@@ -97,6 +127,20 @@ namespace WeddingGreeting.UserControls
 
 
         public bool IsPictureChanged { get; private set; }
+        public Dictionary<string, string> tables;
+        public Dictionary<string, string> Tables
+        {
+            get => tables;
+            set
+            {
+                tables = value;
+                cbbTables.DisplayMember = "Key";   // Text，即显式的文本
+                cbbTables.ValueMember = "Vaue";    // Value，即实际的值
+                cbbTables.DataSource = tables?.ToArray() ?? null;
+                Refresh();
+            }
+        }
+
 
         public GuestInfoCtrl()
         {
@@ -128,13 +172,13 @@ namespace WeddingGreeting.UserControls
                 MsgForm.Show("请输入标签");
                 return false;
             }
-            if (string.IsNullOrEmpty(txtTableNo.Text))
+            if (string.IsNullOrEmpty(cbbTables.Text))
             {
-                txtTableNo.Focus();
-                MsgForm.Show("请输入桌号");
+                cbbTables.Focus();
+                MsgForm.Show("请选择桌号");
                 return false;
             }
-            if (picbFacePicture.Image == null)
+            if (picbFacePicture.Image == null && string.IsNullOrEmpty(information.ParentId))
             {
                 picbFacePicture.Focus();
                 MsgForm.Show("请选择相片");
@@ -144,6 +188,25 @@ namespace WeddingGreeting.UserControls
             return true;
         }
 
+        public void Clear()
+        {
+
+        }
+        private void ShowTableInfo(string tableNo)
+        {
+            lbTableName.Text = "";
+            if (GlobalConfigs.Configurations != null && GlobalConfigs.Configurations.Tables != null && GlobalConfigs.Configurations.Tables.Any())
+            {
+                var tableName = GlobalConfigs.Configurations.Tables.FirstOrDefault(x => x.Key == tableNo);
+                if (tableName.Key != null)
+                {
+                    lbTableName.Text = tableName.Value;
+
+                    var count = GlobalConfigs.Guests.Count(x => x.TableNo == tableNo);
+                    lbTableName.Text += $"  [已坐 {count} 人]";
+                }
+            }
+        }
 
         private void GuestInfoCtrl_Load(object sender, EventArgs e)
         {
@@ -202,6 +265,13 @@ namespace WeddingGreeting.UserControls
             }
             btnAttendAction.Enabled = true;
 
+        }
+
+
+
+        private void cbbTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowTableInfo(cbbTables.Text);
         }
     }
 }

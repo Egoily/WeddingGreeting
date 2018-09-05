@@ -110,8 +110,8 @@
     <Compile Include="FrameControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GlobalConfig.cs" />
-    <Compile Include="GuestManagement.cs" />
+    <Compile Include="GlobalConfigMgr.cs" />
+    <Compile Include="GuestMgr.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +128,12 @@
     </Compile>
     <Compile Include="UserControls\GuestInfoCtrl.Designer.cs">
       <DependentUpon>GuestInfoCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TableControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TableControl.Designer.cs">
+      <DependentUpon>TableControl.cs</DependentUpon>
     </Compile>
     <Compile Include="VideoPlayer.cs" />
     <EmbeddedResource Include="Forms\FrmConfigVideoWindow.resx">
@@ -154,6 +160,9 @@
     </Compile>
     <EmbeddedResource Include="UserControls\GuestInfoCtrl.resx">
       <DependentUpon>GuestInfoCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TableControl.resx">
+      <DependentUpon>TableControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

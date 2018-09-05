@@ -82,12 +82,12 @@ namespace WeddingGreeting.Forms
                 };
 
 
-                var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Name == name);
+                var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Name == name);
                 BaseResponse<FaceRegisterResult> jObj;
                 if (guest == null)//新增
                 {
 
-                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, userId, option);
+                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfigs.Configurations.GroupId, userId, option);
 
                     success = (jObj != null && jObj.error_code == 0);
 
@@ -97,7 +97,7 @@ namespace WeddingGreeting.Forms
                         var entourages = entourageText.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
                         var entourageNum = entourages.Count();
 
-                        GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                        GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                         {
                             Id = userId,
                             Name = name,
@@ -114,7 +114,7 @@ namespace WeddingGreeting.Forms
                         {
                             foreach (var item in entourages)
                             {
-                                GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                                GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                                 {
                                     Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                                     ParentId = userId,
@@ -131,13 +131,13 @@ namespace WeddingGreeting.Forms
                             }
                         }
 
-                        GlobalConfig.SaveGuests();
+                        GlobalConfigMgr.SaveGuests();
                     }
 
                 }
                 else
                 {
-                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest.Id, option);
+                    jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfigs.Configurations.GroupId, guest.Id, option);
                     success = (jObj != null && jObj.error_code == 0);
 
                     if (success)
@@ -156,17 +156,17 @@ namespace WeddingGreeting.Forms
                         guest.ImagePath = null;
                         guest.CreateTime = DateTime.Now;
 
-                        for (int i = 0; i < GlobalConfig.Guests.Count; i++)
+                        for (int i = 0; i < GlobalConfigs.Guests.Count; i++)
                         {
-                            if (GlobalConfig.Guests[i].ParentId == userId)
-                                GlobalConfig.Guests.Remove(GlobalConfig.Guests[i]);
+                            if (GlobalConfigs.Guests[i].ParentId == userId)
+                                GlobalConfigs.Guests.Remove(GlobalConfigs.Guests[i]);
                         }
 
                         if (entourages != null)
                         {
                             foreach (var item in entourages)
                             {
-                                GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                                GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                                 {
                                     Id = System.Guid.NewGuid().ToString().ToUpper(),
                                     ParentId = userId,
@@ -187,7 +187,7 @@ namespace WeddingGreeting.Forms
 
 
 
-                        GlobalConfig.SaveGuests();
+                        GlobalConfigMgr.SaveGuests();
                     }
                 }
                 var newImage = new Bitmap(img);

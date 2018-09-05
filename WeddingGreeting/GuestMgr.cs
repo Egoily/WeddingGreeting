@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace WeddingGreeting
 {
-    public class GuestManagement
+    public class GuestMgr
     {
 
         public static bool SaveOrUpdate(GuestInfo info)
@@ -45,9 +45,9 @@ namespace WeddingGreeting
                 };
 
 
-                var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Name == name);
+                var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Name == name);
                 BaseResponse<FaceRegisterResult> jObj;
-                jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfig.Configurations.GroupId, guest != null ? guest.Id : userId, option);
+                jObj = FaceApi.FaceSaveOrUpdate(new Bitmap(img), GlobalConfigs.Configurations.GroupId, guest != null ? guest.Id : userId, option);
                 success = (jObj != null && jObj.error_code == 0);
                 if (success)
                 {
@@ -56,7 +56,7 @@ namespace WeddingGreeting
 
                     if (guest == null)//新增
                     {
-                        GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                        GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                         {
                             Id = userId,
                             Name = name,
@@ -67,13 +67,14 @@ namespace WeddingGreeting
                             Labels = labels,
                             TableNo = tableNo,
                             ImagePath = imageFileName,
+                            CashGift = info.CashGift,
                             CreateTime = DateTime.Now,
                         });
                         if (entourages != null)
                         {
                             foreach (var item in entourages)
                             {
-                                GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                                GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                                 {
                                     Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                                     ParentId = userId,
@@ -82,10 +83,9 @@ namespace WeddingGreeting
                                     GuestType = guestType,
                                     Entourage = "",
                                     EntourageNum = 0,
-                                    Labels = labels,
+                                    Labels = $"{name} 随行人员",
                                     TableNo = tableNo,
                                     ImagePath = null,
-                                    CashGift = info.CashGift,
                                     CreateTime = DateTime.Now,
                                 });
                             }
@@ -104,17 +104,17 @@ namespace WeddingGreeting
                         guest.CashGift = info.CashGift;
                         guest.CreateTime = DateTime.Now;
 
-                        for (int i = 0; i < GlobalConfig.Guests.Count; i++)
+                        for (int i = 0; i < GlobalConfigs.Guests.Count; i++)
                         {
-                            if (GlobalConfig.Guests[i].ParentId == userId)
-                                GlobalConfig.Guests.Remove(GlobalConfig.Guests[i]);
+                            if (GlobalConfigs.Guests[i].ParentId == userId)
+                                GlobalConfigs.Guests.Remove(GlobalConfigs.Guests[i]);
                         }
 
                         if (entourages != null)
                         {
                             foreach (var item in entourages)
                             {
-                                GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                                GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                                 {
                                     Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                                     ParentId = userId,
@@ -123,7 +123,7 @@ namespace WeddingGreeting
                                     GuestType = guestType,
                                     Entourage = "",
                                     EntourageNum = 0,
-                                    Labels = labels,
+                                    Labels = $"{name} 随行人员",
                                     TableNo = tableNo,
                                     ImagePath = null,
                                     IsAttend = guest.IsAttend,
@@ -133,7 +133,7 @@ namespace WeddingGreeting
                             }
                         }
                     }
-                    GlobalConfig.SaveGuests();
+                    GlobalConfigMgr.SaveGuests();
                 }
                 var newImage = new Bitmap(img);
                 img.Dispose();
@@ -156,7 +156,7 @@ namespace WeddingGreeting
         {
             try
             {
-                var guest = GlobalConfig.Guests.FirstOrDefault(x => x.Name == info.Name);
+                var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Name == info.Name);
                 guest.Name = info.Name;
                 guest.Gender = info.Gender;
                 guest.GuestType = info.GuestType;
@@ -165,14 +165,15 @@ namespace WeddingGreeting
                 guest.Labels = info.Labels;
                 guest.TableNo = info.TableNo;
                 guest.ImagePath = info.ImagePath;
+                guest.CashGift = info.CashGift;
                 guest.CreateTime = DateTime.Now;
                 guest.IsAttend = info.IsAttend;
                 guest.AttendTime = info.AttendTime;
 
-                for (int i = 0; i < GlobalConfig.Guests.Count; i++)
+                for (int i = 0; i < GlobalConfigs.Guests.Count; i++)
                 {
-                    if (GlobalConfig.Guests[i].ParentId == info.Id)
-                        GlobalConfig.Guests.Remove(GlobalConfig.Guests[i]);
+                    if (GlobalConfigs.Guests[i].ParentId == info.Id)
+                        GlobalConfigs.Guests.Remove(GlobalConfigs.Guests[i]);
                 }
                 var entourages = info.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
                 var entourageNum = entourages.Count();
@@ -180,7 +181,7 @@ namespace WeddingGreeting
                 {
                     foreach (var item in entourages)
                     {
-                        GlobalConfig.Guests.Add(new ee.Models.GuestInfo()
+                        GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
                         {
                             Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                             ParentId = info.Id,
@@ -198,7 +199,7 @@ namespace WeddingGreeting
                         });
                     }
                 }
-                GlobalConfig.SaveGuests();
+                GlobalConfigMgr.SaveGuests();
                 return true;
             }
             catch (Exception ex)

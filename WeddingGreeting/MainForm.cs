@@ -31,17 +31,17 @@ namespace WeddingGreeting
         {
             InitializeComponent();
 
-            guestViewer.Alpha = GlobalConfig.Configurations.Speed / 100F;
+            guestViewer.Alpha = GlobalConfigs.Configurations.Speed / 100F;
 
             trackBarThreshold = new EgoDevil.Utilities.UI.TrackBarEx()
             {
                 Height = 24,
-                Value = (int)GlobalConfig.Configurations.Threshold,
+                Value = (int)GlobalConfigs.Configurations.Threshold,
             };
             trackBarSpeed = new EgoDevil.Utilities.UI.TrackBarEx()
             {
                 Height = 24,
-                Value = (int)GlobalConfig.Configurations.Speed,
+                Value = (int)GlobalConfigs.Configurations.Speed,
             };
 
             trackBarThreshold.LostFocus += trackBarThreshold_LostFocus;
@@ -112,7 +112,7 @@ namespace WeddingGreeting
                     currentUserId = userId;
                     guestViewer.InvokeIfRequired(c => c.ShowItem(currentUserId));
 
-                    var target = GlobalConfig.Guests.FirstOrDefault(x => x.Id == userId);
+                    var target = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == userId);
                     if (target != null)
                     {
                         Attend(target);
@@ -170,7 +170,7 @@ namespace WeddingGreeting
         private void RefreshGuests()
         {
             var thumbElements = new List<ThumbElement>();
-            foreach (var item in GlobalConfig.Guests.Where(x => x.ImagePath != null && x.ImagePath != ""))
+            foreach (var item in GlobalConfigs.Guests.Where(x => x.ImagePath != null && x.ImagePath != ""))
             {
                 thumbElements.Add(new ThumbElement()
                 {
@@ -182,14 +182,14 @@ namespace WeddingGreeting
             }
             guestViewer.LoadingByThumbElements(thumbElements);
 
-            SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
+            SetAttendance(GlobalConfigs.Guests.Count(x => x.IsAttend));
         }
         private void Attend(GuestInfo target)
         {
             target.IsAttend = true;
             target.AttendTime = DateTime.Now;
 
-            var children = GlobalConfig.Guests.Where(x => x.ParentId == target.Id);
+            var children = GlobalConfigs.Guests.Where(x => x.ParentId == target.Id);
             if (children != null && children.Any())
             {
                 foreach (var child in children.ToList())
@@ -198,8 +198,8 @@ namespace WeddingGreeting
                     child.AttendTime = DateTime.Now;
                 }
             }
-            GlobalConfig.SaveGuests();
-            SetAttendance(GlobalConfig.Guests.Count(x => x.IsAttend));
+            GlobalConfigMgr.SaveGuests();
+            SetAttendance(GlobalConfigs.Guests.Count(x => x.IsAttend));
         }
         private void SetAttendance(int count)
         {
@@ -214,12 +214,12 @@ namespace WeddingGreeting
         }
         private void Speech(GuestInfo target)
         {
-            if (GlobalConfig.Configurations.IsSpeechable)
+            if (GlobalConfigs.Configurations.IsSpeechable)
             {
                 var message = "";
                 try
                 {
-                    message = string.Format(GlobalConfig.Configurations.GreetFormat, target.Name, target.Labels, target.TableNo);
+                    message = string.Format(GlobalConfigs.Configurations.GreetFormat, target.Name, target.Labels, target.TableNo);
                 }
                 catch (Exception)
                 {
@@ -405,7 +405,7 @@ namespace WeddingGreeting
                         TableNo = person.TableNo,
                         CreateTime = DateTime.Now,
                     };
-                    GuestManagement.SaveOrUpdate(info);
+                    GuestMgr.SaveOrUpdate(info);
 
 
                 }
@@ -452,7 +452,7 @@ namespace WeddingGreeting
                     "CashGift"
                 };
 
-                var data = GlobalConfig.Guests;
+                var data = GlobalConfigs.Guests;
 
                 NpoiHelper.ToExcel(data, sfd.FileName, arries, headers);
 
@@ -463,32 +463,32 @@ namespace WeddingGreeting
         private void trackBarThreshold_LostFocus(object sender, EventArgs e)
         {
 
-            if (GlobalConfig.Configurations.Threshold != trackBarThreshold.Value && trackBarThreshold.Value > 0d)
+            if (GlobalConfigs.Configurations.Threshold != trackBarThreshold.Value && trackBarThreshold.Value > 0d)
             {
-                GlobalConfig.Configurations.Threshold = trackBarThreshold.Value;
-                GlobalConfig.SaveConfig();
+                GlobalConfigs.Configurations.Threshold = trackBarThreshold.Value;
+                GlobalConfigMgr.SaveConfig();
             }
         }
         private void trackBarSpeed_LostFocus(object sender, EventArgs e)
         {
 
-            if (GlobalConfig.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
+            if (GlobalConfigs.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
             {
-                GlobalConfig.Configurations.Speed = trackBarSpeed.Value;
-                guestViewer.SetAlphaAccel(GlobalConfig.Configurations.Speed / 100F);
+                GlobalConfigs.Configurations.Speed = trackBarSpeed.Value;
+                guestViewer.SetAlphaAccel(GlobalConfigs.Configurations.Speed / 100F);
 
-                GlobalConfig.SaveConfig();
+                GlobalConfigMgr.SaveConfig();
             }
         }
 
         private void trackBarSpeed_ValueChanged(object sender, EventArgs e)
         {
-            if (GlobalConfig.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
+            if (GlobalConfigs.Configurations.Speed != trackBarSpeed.Value && trackBarSpeed.Value > 0d)
             {
-                GlobalConfig.Configurations.Speed = trackBarSpeed.Value;
-                guestViewer.SetAlphaAccel(GlobalConfig.Configurations.Speed / 100F);
+                GlobalConfigs.Configurations.Speed = trackBarSpeed.Value;
+                guestViewer.SetAlphaAccel(GlobalConfigs.Configurations.Speed / 100F);
 
-                GlobalConfig.SaveConfig();
+                GlobalConfigMgr.SaveConfig();
             }
         }
 

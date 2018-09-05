@@ -9,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace WeddingGreeting
 {
-    public static class GlobalConfig
+    public static class GlobalConfigMgr
     {
         /// <summary>
         /// 明文配置文件路径
         /// </summary>
         private static string DataFile = System.Environment.CurrentDirectory + @"\data.json";
         private static string ConfigFile = System.Environment.CurrentDirectory + @"\config.json";
-        public static List<GuestInfo> Guests { get; set; }
-        public static Configuration Configurations { get; set; }
 
         public static void LoadGuests()
         {
@@ -29,12 +27,12 @@ namespace WeddingGreeting
 
             var json = File.ReadAllText(DataFile);
 
-            Guests = JsonConvert.DeserializeObject<List<GuestInfo>>(json);
+            GlobalConfigs.Guests = JsonConvert.DeserializeObject<List<GuestInfo>>(json);
 
 
-            if (Guests == null)
+            if (GlobalConfigs.Guests == null)
             {
-                Guests = new List<GuestInfo>();
+                GlobalConfigs.Guests = new List<GuestInfo>();
             }
 
         }
@@ -48,12 +46,12 @@ namespace WeddingGreeting
 
             var json = File.ReadAllText(ConfigFile);
 
-            Configurations = JsonConvert.DeserializeObject<Configuration>(json);
+            GlobalConfigs.Configurations = JsonConvert.DeserializeObject<Configuration>(json);
 
 
-            if (Configurations == null)
+            if (GlobalConfigs.Configurations == null)
             {
-                Configurations = new Configuration();
+                GlobalConfigs.Configurations = new Configuration();
             }
 
         }
@@ -69,7 +67,7 @@ namespace WeddingGreeting
             {
                 Formatting = Formatting.Indented
             };
-            var json = JsonConvert.SerializeObject(Guests, jsonSetting);
+            var json = JsonConvert.SerializeObject(GlobalConfigs.Guests, jsonSetting);
 
             File.WriteAllText(DataFile, json);
         }
@@ -80,46 +78,10 @@ namespace WeddingGreeting
             {
                 Formatting = Formatting.Indented
             };
-            var json = JsonConvert.SerializeObject(Configurations, jsonSetting);
+            var json = JsonConvert.SerializeObject(GlobalConfigs.Configurations, jsonSetting);
 
             File.WriteAllText(ConfigFile, json);
         }
-
-    }
-
-    public class Configuration
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string GroupId { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float Threshold { get; set; }
-        public float Speed { get; set; }
-        /// <summary>
-        /// 是否朗读
-        /// </summary>
-        public bool IsSpeechable { get; set; }
-        /// <summary>
-        /// 问候语格式
-        /// </summary>
-        public string GreetFormat { get; set; }
-
-
-        public Configuration()
-        {
-            GroupId = "EE";
-            Threshold = 50f;
-            Speed = 20f;
-            IsSpeechable = true;
-            GreetFormat = "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!";
-        }
-
-
-
-
 
     }
 }

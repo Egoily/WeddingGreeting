@@ -20,7 +20,7 @@ namespace WeddingGreeting
             log4net.Config.XmlConfigurator.Configure();
             try
             {
-                GlobalConfig.Load();
+                GlobalConfigMgr.Load();
                 Application.Run(new MainForm());
             }
             catch (Exception ex)

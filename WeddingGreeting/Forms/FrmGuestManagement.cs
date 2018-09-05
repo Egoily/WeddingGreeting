@@ -20,14 +20,16 @@ namespace WeddingGreeting.Forms
             dgvGuests.AutoGenerateColumns = false;
             tscbbFilter.SelectedIndex = 0;
             splitContainer.Panel2Collapsed = true;
+
+            guestInfoCtrl.Tables = GlobalConfigs.Configurations.Tables;
         }
 
 
         private void SetAttendInformation()
         {
 
-            var total = GlobalConfig.Guests.Count();
-            var attendance = GlobalConfig.Guests.Count(x => x.IsAttend);
+            var total = GlobalConfigs.Guests.Count();
+            var attendance = GlobalConfigs.Guests.Count(x => x.IsAttend);
 
             tspbPercentage.Value = attendance * 100 / (total == 0 ? 1 : total);
             tspbPercentage.Text = $"{attendance}/{total}";
@@ -55,27 +57,58 @@ namespace WeddingGreeting.Forms
             if (!isLoaded) return;
             if (tscbbFilter.Text == "已签到")
             {
-                dgvGuests.DataSource = QueryGuests(true);
+                dgvGuests.DataSource = QueryGuestsByAttendance(true);
 
             }
             else if (tscbbFilter.Text == "未签到")
             {
-                dgvGuests.DataSource = QueryGuests(false);
+                dgvGuests.DataSource = QueryGuestsByAttendance(false);
             }
             else
             {
-                dgvGuests.DataSource = QueryGuests();
+                dgvGuests.DataSource = QueryGuestsByAttendance();
             }
             dgvGuests.Refresh();
         }
+        private void QueryByName()
+        {
+            if (!isLoaded) return;
 
-        private List<GuestInfo> QueryGuests(bool? isAttend = null)
+            bool? isAttend = null;
+            if (tscbbFilter.Text == "已签到")
+            {
+                isAttend = true;
+            }
+            else if (tscbbFilter.Text == "未签到")
+            {
+                isAttend = false;
+            }
+
+            dgvGuests.DataSource = QueryGuests(isAttend, tstxtName.Text);
+            dgvGuests.Refresh();
+        }
+
+
+        private List<GuestInfo> QueryGuestsByAttendance(bool? isAttend = null)
         {
             if (isAttend.HasValue)
             {
-                return GlobalConfig.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo).ToList();
+                return GlobalConfigs.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo).ToList();
             }
-            return GlobalConfig.Guests.OrderBy(x => x.TableNo).ToList();
+            return GlobalConfigs.Guests.OrderBy(x => x.TableNo).ToList();
+        }
+        private List<GuestInfo> QueryGuests(bool? isAttend = null, string name = null)
+        {
+            var list = GlobalConfigs.Guests;
+            if (isAttend.HasValue)
+            {
+                list = list.Where(x => x.IsAttend == isAttend.Value).ToList();
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                list = list.Where(x => x.Name.Contains(name)).ToList();
+            }
+            return list.OrderBy(x => x.TableNo).ToList();
         }
 
         private void tsbNew_Click(object sender, EventArgs e)
@@ -109,17 +142,21 @@ namespace WeddingGreeting.Forms
 
             var guest = obj.DataBoundItem as GuestInfo;
 
-            if (MessageBox.Show(this, $"确定要删除{guest.Name} 吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(this, $"确定要删除{guest.Name} 及其随行人员吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                GlobalConfig.Guests.Remove(guest);
-                GlobalConfig.SaveGuests();
+                var id = guest.Id;
+                GlobalConfigs.Guests.RemoveAll(x => x.ParentId == id || x.Id == id);
+
+                GlobalConfigMgr.SaveGuests();
                 QueryByFilter();
+                dgvGuests.ClearSelection();
+                splitContainer.Panel2Collapsed = true;
             }
         }
 
         private void tsbQuery_Click(object sender, EventArgs e)
         {
-
+            QueryByName();
         }
 
         private void btnRegisterOrUpdate_Click(object sender, EventArgs e)
@@ -161,13 +198,13 @@ namespace WeddingGreeting.Forms
 
         private object Register(object obj)
         {
-            var success = GuestManagement.SaveOrUpdate(obj as GuestInfo);
+            var success = GuestMgr.SaveOrUpdate(obj as GuestInfo);
 
             return success;
         }
         private object Update(object obj)
         {
-            var success = GuestManagement.UpdateGusetInfo(obj as GuestInfo);
+            var success = GuestMgr.UpdateGusetInfo(obj as GuestInfo);
 
             return success;
         }
@@ -184,6 +221,61 @@ namespace WeddingGreeting.Forms
             splitContainer.Panel2Collapsed = false;
 
             ShowCurrentRowData();
+        }
+
+        private void dgvGuests_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                var tableNoString = (this.dgvGuests.Rows[e.RowIndex].Cells["colTableNo"].Value?.ToString());
+                if (!string.IsNullOrEmpty(tableNoString))
+                {
+                    tableNoString = tableNoString.Replace("3A", "4");
+                    tableNoString = tableNoString.Replace("6A", "7");
+                    Int32.TryParse(tableNoString, out int tableNo);
+                    if (tableNo % 2 == 0)
+                    {
+                        dgvGuests.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.AntiqueWhite;
+                    }
+                    else
+                    {
+                        dgvGuests.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Aqua;
+                    }
+                }
+                else
+                {
+                    dgvGuests.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGray;
+                }
+
+                //-------------------
+                var isAttend = (this.dgvGuests.Rows[e.RowIndex].Cells["colIsAttend"].Value?.ToString() ?? "");
+                if (isAttend.Equals("True"))
+                {
+                    //new Font("宋体", 9, FontStyle.Bold);
+                    var font = new Font(dgvGuests.DefaultCellStyle.Font, FontStyle.Bold);
+                    dgvGuests.Rows[e.RowIndex].DefaultCellStyle.Font = font;
+                    //dgvGuests.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+
+            }
+
+        }
+
+        private void dgvGuests_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (isCosing) return;
+            //显示在HeaderCell上
+            for (int i = 0; i < this.dgvGuests.Rows.Count; i++)
+            {
+                DataGridViewRow r = this.dgvGuests.Rows[i];
+                r.HeaderCell.Value = string.Format("{0}", i + 1);
+            }
+            this.dgvGuests.Refresh();
+        }
+        bool isCosing = false;
+        private void FrmGuestManagement_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isCosing = true;
         }
     }
 }

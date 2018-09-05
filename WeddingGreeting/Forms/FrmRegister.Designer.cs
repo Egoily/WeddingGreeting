@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRegister));
             this.lbName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lbLabels = new System.Windows.Forms.Label();
@@ -48,6 +49,7 @@
             this.lbOperationResult = new System.Windows.Forms.Label();
             this.btnRegister = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             this.btnLoadFromFile = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.tableControl1 = new WeddingGreeting.UserControls.TableControl();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -235,11 +237,22 @@
             this.btnLoadFromFile.TabIndex = 5;
             this.btnLoadFromFile.Text = "从文件加载";
             // 
+            // tableControl1
+            // 
+            this.tableControl1.Location = new System.Drawing.Point(395, 121);
+            this.tableControl1.Name = "tableControl1";
+            this.tableControl1.Names = ((System.Collections.Generic.List<string>)(resources.GetObject("tableControl1.Names")));
+            this.tableControl1.Size = new System.Drawing.Size(205, 199);
+            this.tableControl1.TabIndex = 6;
+            this.tableControl1.TableName = "百年好合";
+            this.tableControl1.TableNo = "01";
+            // 
             // FrmRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(658, 344);
+            this.Controls.Add(this.tableControl1);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLoadFromFile);
             this.Controls.Add(this.cbbGuestType);
@@ -294,5 +307,6 @@
         private System.Windows.Forms.Label lbOperationResult;
         private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnLoadFromFile;
         private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnRegister;
+        private UserControls.TableControl tableControl1;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace ee.Models
 {
@@ -62,6 +63,22 @@ namespace ee.Models
         /// 桌号
         /// </summary>
         public virtual string TableNo { get; set; }
+        public virtual string TableName
+        {
+            get
+            {
+                if (GlobalConfigs.Configurations == null || GlobalConfigs.Configurations.Tables == null)
+                {
+                    return TableNo;
+                }
+                var tableName = GlobalConfigs.Configurations.Tables.FirstOrDefault(x => x.Key == TableNo);
+                if (tableName.Key == null)
+                    return TableNo;
+                else
+                    return tableName.Value;
+            }
+
+        }
 
         /// <summary>
         /// 座位号
