@@ -41,6 +41,9 @@ namespace ee.Models
             IsSpeechable = true;
             GreetFormat = "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!";
             Tables = new Dictionary<string, string>() { };
+            Tables.Add("01", "百年好合");
+            Tables.Add("02", "百年好合");
+
         }
 
 
