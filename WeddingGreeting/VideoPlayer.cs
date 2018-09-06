@@ -126,14 +126,17 @@ namespace WeddingGreeting
         {
             player?.Play();
         }
-
+        public void Pause()
+        {
+            player?.Pause();
+        }
         public void Stop()
         {
             player?.Stop();
         }
         public void SetVideoSource(string devName)
         {
-            player.VideoSourceName=devName;
+            player.VideoSourceName = devName;
         }
         public void Dispose()
         {

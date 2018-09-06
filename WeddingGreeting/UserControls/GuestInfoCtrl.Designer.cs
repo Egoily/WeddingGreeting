@@ -51,6 +51,7 @@
             this.lbTableName = new System.Windows.Forms.Label();
             this.btnAttendAction = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             this.cbbTables = new System.Windows.Forms.ComboBox();
+            this.btnSnap = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
             ((System.ComponentModel.ISupportInitialize)(this.picbFacePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,20 +83,20 @@
             // 
             // txtEntourage
             // 
-            this.txtEntourage.Location = new System.Drawing.Point(103, 146);
+            this.txtEntourage.Location = new System.Drawing.Point(152, 146);
             this.txtEntourage.Name = "txtEntourage";
-            this.txtEntourage.Size = new System.Drawing.Size(235, 21);
+            this.txtEntourage.Size = new System.Drawing.Size(186, 21);
             this.txtEntourage.TabIndex = 37;
             // 
             // lbEntourage
             // 
             this.lbEntourage.AutoSize = true;
-            this.lbEntourage.Location = new System.Drawing.Point(38, 149);
+            this.lbEntourage.Location = new System.Drawing.Point(87, 155);
             this.lbEntourage.Name = "lbEntourage";
             this.lbEntourage.Size = new System.Drawing.Size(59, 12);
             this.lbEntourage.TabIndex = 29;
             this.lbEntourage.Text = "随行人员:";
-            this.lbEntourage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbEntourage.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtSeatNo
             // 
@@ -249,7 +250,7 @@
             // btnAttendAction
             // 
             this.btnAttendAction.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAttendAction.Location = new System.Drawing.Point(25, 190);
+            this.btnAttendAction.Location = new System.Drawing.Point(0, 185);
             this.btnAttendAction.Name = "btnAttendAction";
             this.btnAttendAction.TabIndex = 41;
             this.btnAttendAction.Text = "签到";
@@ -269,10 +270,20 @@
             this.cbbTables.TabIndex = 39;
             this.cbbTables.SelectedIndexChanged += new System.EventHandler(this.cbbTables_SelectedIndexChanged);
             // 
+            // btnSnap
+            // 
+            this.btnSnap.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSnap.Location = new System.Drawing.Point(0, 137);
+            this.btnSnap.Name = "btnSnap";
+            this.btnSnap.TabIndex = 41;
+            this.btnSnap.Text = "拍照";
+            this.btnSnap.Click += new System.EventHandler(this.btnSnap_Click);
+            // 
             // GuestInfoCtrl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnSnap);
             this.Controls.Add(this.btnAttendAction);
             this.Controls.Add(this.cbbGuestType);
             this.Controls.Add(this.cbbTables);
@@ -330,5 +341,6 @@
         private System.Windows.Forms.TextBox txtCashGift;
         private System.Windows.Forms.Label lbTableName;
         private System.Windows.Forms.ComboBox cbbTables;
+        private EgoDevil.Utilities.UI.AquaButtons.AquaButton btnSnap;
     }
 }

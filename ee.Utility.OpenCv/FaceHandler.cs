@@ -78,15 +78,15 @@ namespace ee.Utility.OpenCv
         public static Rectangle ConvertFaceRect(Rectangle rect, int width, int height)
         {
             //计算高
-            int y = Convert.ToInt32(rect.Y - rect.Height * 0.5 / 1.75);
+            int y = Convert.ToInt32(rect.Y - rect.Height * 0.3 / 2);
             y = y > 0 ? y : 0;
-            int h = Convert.ToInt32(rect.Height * 1.5);
+            int h = Convert.ToInt32(rect.Height * 1.3);
             h = y + h > height ? height - y : h;
 
             //计算宽
-            int x = Convert.ToInt32(rect.X - rect.Width * 0.1 / 2);
+            int x = Convert.ToInt32(rect.X - rect.Width * 0.3 / 2);
             x = x > 0 ? x : 0;
-            int w = Convert.ToInt32(rect.Width * 1.1);
+            int w = Convert.ToInt32(rect.Width * 1.3);
             w = x + w > width ? width - x : w;
 
             Rectangle resultRect = new Rectangle(x, y, w, h);

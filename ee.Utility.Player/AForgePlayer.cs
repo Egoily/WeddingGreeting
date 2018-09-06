@@ -46,7 +46,7 @@ namespace ee.Utility.Player
         /// </summary>
         public bool IsRunning
         {
-            get { return VideoSource?.IsRunning??false; }
+            get { return VideoSource?.IsRunning ?? false; }
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace ee.Utility.Player
         {
             if (Player == null)
                 return;
-   
+
 
             Player?.SignalToStop();
             VideoSource?.Stop();
@@ -317,7 +317,7 @@ namespace ee.Utility.Player
 
         public virtual void Dispose()
         {
-            if (Player != null)
+            if (Player != null && !Player.IsDisposed)
             {
                 Player.NewFrame -= OnNewFrame;
                 Player.SignalToStop();

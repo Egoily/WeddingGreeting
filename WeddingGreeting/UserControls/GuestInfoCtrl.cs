@@ -5,6 +5,7 @@ using ee.Models;
 using EgoDevil.Utilities.UI.MessageForm;
 using System.Linq;
 using System.Collections.Generic;
+using WeddingGreeting.Forms;
 
 namespace WeddingGreeting.UserControls
 {
@@ -178,13 +179,13 @@ namespace WeddingGreeting.UserControls
                 MsgForm.Show("请选择桌号");
                 return false;
             }
-            if (picbFacePicture.Image == null && string.IsNullOrEmpty(information.ParentId))
-            {
-                picbFacePicture.Focus();
-                MsgForm.Show("请选择相片");
-                return false;
+            //if (picbFacePicture.Image == null && string.IsNullOrEmpty(information.ParentId))
+            //{
+            //    picbFacePicture.Focus();
+            //    MsgForm.Show("请选择相片");
+            //    return false;
 
-            }
+            //}
             return true;
         }
 
@@ -272,6 +273,17 @@ namespace WeddingGreeting.UserControls
         private void cbbTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowTableInfo(cbbTables.Text);
+        }
+
+        private void btnSnap_Click(object sender, EventArgs e)
+        {
+            var frm = new FrmVideoSnap();
+            frm.ShowDialog(this);
+            if (frm.DlgResult == DialogResult.OK)
+            {
+                picbFacePicture.Image = frm.Image;
+
+            }
         }
     }
 }

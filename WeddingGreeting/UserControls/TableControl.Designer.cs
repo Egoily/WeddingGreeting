@@ -34,6 +34,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.DoubleBuffered = true;
             this.Name = "TableControl";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.TableControl_Paint);
             this.ResumeLayout(false);

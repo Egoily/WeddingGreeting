@@ -145,6 +145,7 @@ namespace WeddingGreeting.Forms
             if (MessageBox.Show(this, $"确定要删除{guest.Name} 及其随行人员吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 var id = guest.Id;
+                GuestMgr.RemoveGuest(id);
                 GlobalConfigs.Guests.RemoveAll(x => x.ParentId == id || x.Id == id);
 
                 GlobalConfigMgr.SaveGuests();
@@ -165,18 +166,21 @@ namespace WeddingGreeting.Forms
             if (val)
             {
                 var para = guestInfoCtrl.Information;
-                if (guestInfoCtrl.IsPictureChanged)
-                {
-                    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
+                var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
                     thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
                     thread.Start(para);
-                }
-                else
-                {
-                    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Update);
-                    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
-                    thread.Start(para);
-                }
+                //if (guestInfoCtrl.IsPictureChanged)
+                //{
+                //    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
+                //    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
+                //    thread.Start(para);
+                //}
+                //else
+                //{
+                //    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Update);
+                //    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
+                //    thread.Start(para);
+                //}
             }
             SetAttendInformation();
         }
@@ -198,13 +202,13 @@ namespace WeddingGreeting.Forms
 
         private object Register(object obj)
         {
-            var success = GuestMgr.SaveOrUpdate(obj as GuestInfo);
+            var success = GuestMgr.SaveOrUpdateFace(obj as GuestInfo);
 
             return success;
         }
         private object Update(object obj)
         {
-            var success = GuestMgr.UpdateGusetInfo(obj as GuestInfo);
+            var success = GuestMgr.UpdateGuestInfo(obj as GuestInfo);
 
             return success;
         }

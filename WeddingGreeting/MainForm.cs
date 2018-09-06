@@ -68,11 +68,20 @@ namespace WeddingGreeting
 
             this.BackColor = Color.Black;
             ResizeControlls();
+
+            InitPlayer();
+
+
+
+            guestViewer.Loading();
+
+            RefreshGuests();
+        }
+        private void InitPlayer()
+        {
             player = new VideoPlayer(this.picbVideoContainer);
             player.FaceRecognised += Player_FaceRecognised;
             player.NotRecognisedLongTime += Player_NotRecognisedLongTime;
-
-
 
 
 
@@ -92,13 +101,7 @@ namespace WeddingGreeting
 
             this.tsmiVideoSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             tsControlHost3});
-
-
-            guestViewer.Loading();
-
-            RefreshGuests();
         }
-
 
         private void Player_FaceRecognised(System.Drawing.Bitmap image, string userId, string userInfo)
         {
@@ -405,7 +408,7 @@ namespace WeddingGreeting
                         TableNo = person.TableNo,
                         CreateTime = DateTime.Now,
                     };
-                    GuestMgr.SaveOrUpdate(info);
+                    GuestMgr.SaveOrUpdateFace(info);
 
 
                 }

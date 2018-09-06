@@ -107,6 +107,18 @@
     <Compile Include="Forms\FrmGuestManagement.Designer.cs">
       <DependentUpon>FrmGuestManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmTableLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmTableLayout.Designer.cs">
+      <DependentUpon>FrmTableLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmVideoSnap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmVideoSnap.Designer.cs">
+      <DependentUpon>FrmVideoSnap.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrameControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -144,6 +156,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmGuestManagement.resx">
       <DependentUpon>FrmGuestManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmTableLayout.resx">
+      <DependentUpon>FrmTableLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmVideoSnap.resx">
+      <DependentUpon>FrmVideoSnap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
