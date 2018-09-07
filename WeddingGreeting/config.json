@@ -3,6 +3,7 @@
   "Threshold": 18.0,
   "Speed": 24.0,
   "IsSpeechable": true,
+  "IsHideHeaderCellIndex": false,
   "GreetFormat": "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!",
   "Tables": {
     "01": "百年好合",

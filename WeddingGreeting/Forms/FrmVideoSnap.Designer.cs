@@ -95,7 +95,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmVideoSnap";
+            this.Text = "拍照取图";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmVideoSnap_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).EndInit();
             this.ResumeLayout(false);

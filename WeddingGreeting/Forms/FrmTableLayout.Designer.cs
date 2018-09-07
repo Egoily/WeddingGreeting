@@ -28,46 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableControl1 = new WeddingGreeting.UserControls.TableControl();
+            this.eplStage = new EgoDevil.Utilities.UI.EPanels.EPanel();
             this.SuspendLayout();
             // 
-            // tableControl1
+            // eplStage
             // 
-            this.tableControl1.BackColor = System.Drawing.Color.Transparent;
-            this.tableControl1.GuestNameColor = System.Drawing.Color.Black;
-            this.tableControl1.Location = new System.Drawing.Point(188, 38);
-            this.tableControl1.Name = "tableControl1";
-            this.tableControl1.NameList.Add("黄广毅");
-            this.tableControl1.NameList.Add("高小娜");
-            this.tableControl1.NameList.Add("黄盛");
-            this.tableControl1.NameList.Add("罗桂珍");
-            this.tableControl1.NameList.Add("张春端");
-            this.tableControl1.NameList.Add("秋娣");
-            this.tableControl1.NameList.Add("秋银");
-            this.tableControl1.NameList.Add("景浩");
-            this.tableControl1.NameList.Add("丽珠");
-            this.tableControl1.NameList.Add("建全");
-            this.tableControl1.Size = new System.Drawing.Size(271, 237);
-            this.tableControl1.TabIndex = 0;
-            this.tableControl1.TableColor = System.Drawing.Color.PeachPuff;
-            this.tableControl1.TableName = null;
-            this.tableControl1.TableNameColor = System.Drawing.Color.Red;
-            this.tableControl1.TableNo = null;
+            this.eplStage.AssociatedSplitter = null;
+            this.eplStage.BackColor = System.Drawing.Color.Transparent;
+            this.eplStage.CaptionFont = new System.Drawing.Font("Microsoft YaHei", 11.75F, System.Drawing.FontStyle.Bold);
+            this.eplStage.CaptionHeight = 27;
+            this.eplStage.CustomColors.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(184)))), ((int)(((byte)(184)))));
+            this.eplStage.CustomColors.CaptionCloseIcon = System.Drawing.SystemColors.ControlText;
+            this.eplStage.CustomColors.CaptionExpandIcon = System.Drawing.SystemColors.ControlText;
+            this.eplStage.CustomColors.CaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.eplStage.CustomColors.CaptionGradientEnd = System.Drawing.SystemColors.ButtonFace;
+            this.eplStage.CustomColors.CaptionGradientMiddle = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.eplStage.CustomColors.CaptionSelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
+            this.eplStage.CustomColors.CaptionSelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
+            this.eplStage.CustomColors.CaptionText = System.Drawing.SystemColors.ControlText;
+            this.eplStage.CustomColors.CollapsedCaptionText = System.Drawing.SystemColors.ControlText;
+            this.eplStage.CustomColors.ContentGradientBegin = System.Drawing.SystemColors.ButtonFace;
+            this.eplStage.CustomColors.ContentGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.eplStage.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
+            this.eplStage.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.eplStage.Image = global::WeddingGreeting.Properties.Resources.user_edit;
+            this.eplStage.Location = new System.Drawing.Point(312, 12);
+            this.eplStage.MinimumSize = new System.Drawing.Size(27, 27);
+            this.eplStage.Name = "eplStage";
+            this.eplStage.PanelStyle = EgoDevil.Utilities.UI.EPanels.PanelStyle.Office2007;
+            this.eplStage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.eplStage.Size = new System.Drawing.Size(200, 100);
+            this.eplStage.TabIndex = 1;
+            this.eplStage.Text = "舞台";
+            this.eplStage.ToolTipTextCloseIcon = null;
+            this.eplStage.ToolTipTextExpandIconPanelCollapsed = null;
+            this.eplStage.ToolTipTextExpandIconPanelExpanded = null;
             // 
             // FrmTableLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(638, 383);
-            this.Controls.Add(this.tableControl1);
+            this.AutoScroll = true;
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(892, 598);
+            this.Controls.Add(this.eplStage);
+            this.MinimizeBox = false;
             this.Name = "FrmTableLayout";
+            this.ShowIcon = false;
             this.Text = "FrmTableLayout";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmTableLayout_FormClosing);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private UserControls.TableControl tableControl1;
+        private EgoDevil.Utilities.UI.EPanels.EPanel eplStage;
     }
 }

@@ -167,8 +167,8 @@ namespace WeddingGreeting.Forms
             {
                 var para = guestInfoCtrl.Information;
                 var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
-                    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
-                    thread.Start(para);
+                thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
+                thread.Start(para);
                 //if (guestInfoCtrl.IsPictureChanged)
                 //{
                 //    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
@@ -268,13 +268,17 @@ namespace WeddingGreeting.Forms
         private void dgvGuests_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             if (isCosing) return;
-            //显示在HeaderCell上
-            for (int i = 0; i < this.dgvGuests.Rows.Count; i++)
+            if (!GlobalConfigs.Configurations.IsHideHeaderCellIndex)
             {
-                DataGridViewRow r = this.dgvGuests.Rows[i];
-                r.HeaderCell.Value = string.Format("{0}", i + 1);
+                //显示在HeaderCell上
+                for (int i = 0; i < this.dgvGuests.Rows.Count; i++)
+                {
+                    DataGridViewRow r = this.dgvGuests.Rows[i];
+                    r.HeaderCell.Value = string.Format("{0}", i + 1);
+                }
+
+                this.dgvGuests.Refresh();
             }
-            this.dgvGuests.Refresh();
         }
         bool isCosing = false;
         private void FrmGuestManagement_FormClosing(object sender, FormClosingEventArgs e)

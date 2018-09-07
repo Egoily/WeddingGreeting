@@ -16,7 +16,7 @@ namespace WeddingGreeting
         /// </summary>
         private static string DataFile = System.Environment.CurrentDirectory + @"\data.json";
         private static string ConfigFile = System.Environment.CurrentDirectory + @"\config.json";
-
+        private static string TableLayoutFile = System.Environment.CurrentDirectory + @"\tables.json";
         public static void LoadGuests()
         {
             if (!File.Exists(DataFile))
@@ -55,11 +55,30 @@ namespace WeddingGreeting
             }
 
         }
+        public static void LoadTables()
+        {
+            if (!File.Exists(TableLayoutFile))
+            {
+                var fs = new FileStream(TableLayoutFile, FileMode.Create, FileAccess.ReadWrite);
+                fs.Close();
+            }
 
+            var json = File.ReadAllText(TableLayoutFile);
+
+            TableConfig.TableControls = JsonConvert.DeserializeObject<List<TableControlData>>(json);
+
+
+            if (TableConfig.TableControls == null)
+            {
+                TableConfig.TableControls = new List<TableControlData>();
+            }
+
+        }
         public static void Load()
         {
             LoadConfig();
             LoadGuests();
+            LoadTables();
         }
         public static void SaveGuests()
         {
@@ -82,6 +101,15 @@ namespace WeddingGreeting
 
             File.WriteAllText(ConfigFile, json);
         }
+        public static void SaveTables()
+        {
+            var jsonSetting = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            };
+            var json = JsonConvert.SerializeObject(TableConfig.TableControls, jsonSetting);
 
+            File.WriteAllText(TableLayoutFile, json);
+        }
     }
 }

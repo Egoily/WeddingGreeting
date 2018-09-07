@@ -181,11 +181,11 @@ namespace WeddingGreeting.UserControls
                         var point = new Point(r - 60, 0);
                         p.AddString(nameList[i], new FontFamily("Arial"), (int)System.Drawing.FontStyle.Underline, 10, point, new StringFormat());
 
-                        //if (i * angle > 90 && i * angle < 270)
-                        //{
-                        //    var offsetX = (float)r+60;
-                        //    p.Transform(new System.Drawing.Drawing2D.Matrix(-1, 0, 0, -1, offsetX, 0));
-                        //}
+                        if (i * angle > 90 && i * angle < 270)
+                        {
+                            var offsetX = (float)r+30;
+                            p.Transform(new System.Drawing.Drawing2D.Matrix(-1, 0, 0, -1, offsetX, 0));
+                        }
 
                         g.FillPath(guestNameBrush, p);
                         g.RotateTransform(angle);

@@ -36,18 +36,19 @@
             this.tsmiManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiGuestManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiImportGuest = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiExport = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRecognise = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiControlVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideoSource = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSetThreshold = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetSpeed = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfigVideoWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.cbbVideoSource = new System.Windows.Forms.ComboBox();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
-            this.tsmiExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSetSpeed = new System.Windows.Forms.ToolStripMenuItem();
             this.guestViewer = new EAlbums.ImageViewer();
+            this.tsmiTableLayout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -97,6 +98,7 @@
             // 
             this.tsmiManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiGuestManagement,
+            this.tsmiTableLayout,
             this.tsmiImportGuest,
             this.tsmiExport,
             this.tsmiRefresh});
@@ -117,6 +119,13 @@
             this.tsmiImportGuest.Size = new System.Drawing.Size(152, 22);
             this.tsmiImportGuest.Text = "导入...";
             this.tsmiImportGuest.Click += new System.EventHandler(this.tsmiImportGuest_Click);
+            // 
+            // tsmiExport
+            // 
+            this.tsmiExport.Name = "tsmiExport";
+            this.tsmiExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExport.Text = "导出...";
+            this.tsmiExport.Click += new System.EventHandler(this.tsmiExportGuest_Click);
             // 
             // tsmiRefresh
             // 
@@ -156,6 +165,12 @@
             this.tsmiSetThreshold.Size = new System.Drawing.Size(152, 22);
             this.tsmiSetThreshold.Text = "阈值";
             // 
+            // tsmiSetSpeed
+            // 
+            this.tsmiSetSpeed.Name = "tsmiSetSpeed";
+            this.tsmiSetSpeed.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSetSpeed.Text = "速度";
+            // 
             // tsmiConfigVideoWindow
             // 
             this.tsmiConfigVideoWindow.Name = "tsmiConfigVideoWindow";
@@ -193,19 +208,6 @@
             this.dmAttendance.TabIndex = 6;
             this.dmAttendance.Value = 0D;
             // 
-            // tsmiExport
-            // 
-            this.tsmiExport.Name = "tsmiExport";
-            this.tsmiExport.Size = new System.Drawing.Size(152, 22);
-            this.tsmiExport.Text = "导出...";
-            this.tsmiExport.Click += new System.EventHandler(this.tsmiExportGuest_Click);
-            // 
-            // tsmiSetSpeed
-            // 
-            this.tsmiSetSpeed.Name = "tsmiSetSpeed";
-            this.tsmiSetSpeed.Size = new System.Drawing.Size(152, 22);
-            this.tsmiSetSpeed.Text = "速度";
-            // 
             // guestViewer
             // 
             this.guestViewer.AllowDrop = true;
@@ -230,6 +232,13 @@
             this.guestViewer.Size = new System.Drawing.Size(473, 109);
             this.guestViewer.SourceFolder = "";
             this.guestViewer.TabIndex = 5;
+            // 
+            // tsmiTableLayout
+            // 
+            this.tsmiTableLayout.Name = "tsmiTableLayout";
+            this.tsmiTableLayout.Size = new System.Drawing.Size(152, 22);
+            this.tsmiTableLayout.Text = "座位图...";
+            this.tsmiTableLayout.Click += new System.EventHandler(this.tsmiTableLayout_Click);
             // 
             // MainForm
             // 
@@ -281,6 +290,7 @@
         private System.Windows.Forms.ComboBox cbbVideoSource;
         private System.Windows.Forms.ToolStripMenuItem tsmiExport;
         private System.Windows.Forms.ToolStripMenuItem tsmiSetSpeed;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTableLayout;
     }
 }
 

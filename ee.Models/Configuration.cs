@@ -26,6 +26,10 @@ namespace ee.Models
         /// </summary>
         public bool IsSpeechable { get; set; }
         /// <summary>
+        /// 是否隐藏行头显示序号
+        /// </summary>
+        public bool IsHideHeaderCellIndex { get; set; }
+        /// <summary>
         /// 问候语格式
         /// </summary>
         public string GreetFormat { get; set; }
@@ -41,8 +45,7 @@ namespace ee.Models
             IsSpeechable = true;
             GreetFormat = "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!";
             Tables = new Dictionary<string, string>() { };
-            Tables.Add("01", "百年好合");
-            Tables.Add("02", "百年好合");
+            IsHideHeaderCellIndex = false;
 
         }
 

@@ -326,7 +326,10 @@ namespace WeddingGreeting
         {
             menuStrip.Visible = false;
         }
-
+        private void tsmiExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         private void tsmiControlVideo_Click(object sender, EventArgs e)
         {
             if (tsmiControlVideo.Text == "开始")
@@ -355,14 +358,24 @@ namespace WeddingGreeting
         }
         private void tsmiGuestManagement_Click(object sender, EventArgs e)
         {
+            if (tsmiControlVideo.Text == "停止")
+            {
+                StopVideo();
+            }
             var frm = new FrmGuestManagement();
             frm.ShowDialog(this);
+            if (tsmiControlVideo.Text == "停止")
+            {
+                StartVideo();
+            }
             RefreshGuests();
         }
-        private void tsmiExit_Click(object sender, EventArgs e)
+        private void tsmiTableLayout_Click(object sender, EventArgs e)
         {
-            this.Close();
+            var frm = new FrmTableLayout();
+            frm.ShowDialog(this);
         }
+    
 
         private void tsmiImportGuest_Click(object sender, EventArgs e)
         {
@@ -513,5 +526,7 @@ namespace WeddingGreeting
                 player?.SetVideoSource(cbbVideoSource.SelectedValue.ToString());
             }
         }
+
+  
     }
 }
