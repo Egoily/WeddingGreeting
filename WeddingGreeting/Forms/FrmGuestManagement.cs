@@ -97,7 +97,6 @@ namespace WeddingGreeting.Forms
             {
                 return GlobalConfigs.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo,comparer).ToList();
             }
-
             return GlobalConfigs.Guests.OrderBy(x => x.TableNo, comparer).ToList();
         }
         private List<GuestInfo> QueryGuests(bool? isAttend = null, string name = null)
@@ -178,18 +177,7 @@ namespace WeddingGreeting.Forms
                 var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
                 thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
                 thread.Start(para);
-                //if (guestInfoCtrl.IsPictureChanged)
-                //{
-                //    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
-                //    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
-                //    thread.Start(para);
-                //}
-                //else
-                //{
-                //    var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Update);
-                //    thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
-                //    thread.Start(para);
-                //}
+              
             }
             SetAttendInformation();
         }

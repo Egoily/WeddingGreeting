@@ -99,6 +99,8 @@ namespace WeddingGreeting
 
 
                 }
+                TableComparer comparer = new TableComparer();
+                GlobalConfigs.Guests=GlobalConfigs.Guests.OrderBy(x => x.TableNo, comparer).ToList();
                 GlobalConfigMgr.SaveGuests();
             }
         }

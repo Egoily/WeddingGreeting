@@ -63,6 +63,7 @@ namespace ee.Models
         /// 桌号
         /// </summary>
         public virtual string TableNo { get; set; }
+        [JsonIgnore]
         public virtual string TableName
         {
             get
