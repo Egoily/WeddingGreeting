@@ -25,9 +25,9 @@ namespace WeddingGreeting
                     info.Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper();
                 }
 
-                var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Name == info.Name);
+                var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == info.Id);
                 string imageFileName = null;
-                if (!string.IsNullOrEmpty(info.ImagePath))
+                if (!string.IsNullOrEmpty(info.ImagePath) && (info.ImagePath != guest?.ImagePath || guest == null))
                 {
                     imageFileName = Path.Combine($"GuestImages\\{info.Id}.jpg");
                     var img = Bitmap.FromFile(info.ImagePath);
@@ -69,6 +69,7 @@ namespace WeddingGreeting
                         {
                             Id = info.Id,
                             Name = info.Name,
+                            FullName = info.Name,
                             Gender = info.Gender,
                             GuestType = info.GuestType,
                             Entourage = entourageText,
@@ -87,7 +88,8 @@ namespace WeddingGreeting
                                 {
                                     Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
                                     ParentId = info.Id,
-                                    Name = $"{info.Name}_{item}",
+                                    Name = $"{item}",
+                                    FullName = $"{info.Name}_{item}",
                                     Gender = 0,
                                     GuestType = info.GuestType,
                                     Entourage = "",
@@ -102,45 +104,66 @@ namespace WeddingGreeting
                     }
                     else
                     {
+
+                        var oldName = guest.Name;
                         guest.Name = info.Name;
                         guest.Gender = info.Gender;
                         guest.GuestType = info.GuestType;
-                        guest.Entourage = entourageText;
-                        guest.EntourageNum = entourageNum;
                         guest.Labels = info.Labels;
                         guest.TableNo = info.TableNo;
                         guest.ImagePath = imageFileName;
                         guest.CashGift = info.CashGift;
                         guest.CreateTime = DateTime.Now;
 
-                        for (int i = 0; i < GlobalConfigs.Guests.Count; i++)
-                        {
-                            if (GlobalConfigs.Guests[i].ParentId == info.Id)
-                                GlobalConfigs.Guests.Remove(GlobalConfigs.Guests[i]);
-                        }
 
-                        if (entourages != null)
+
+                        if (guest.Entourage != info.Entourage)
                         {
-                            foreach (var item in entourages)
+                            GlobalConfigs.Guests.RemoveAll(x => x.ParentId == info.Id);
+                            guest.Entourage = entourageText;
+                            guest.EntourageNum = entourageNum;
+                            if (entourages != null)
                             {
-                                GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
+                                foreach (var item in entourages)
                                 {
-                                    Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
-                                    ParentId = info.Id,
-                                    Name = $"{info.Name}_{item}",
-                                    Gender = 0,
-                                    GuestType = info.GuestType,
-                                    Entourage = "",
-                                    EntourageNum = 0,
-                                    Labels = $"{info.Name} 随行人员",
-                                    TableNo = info.TableNo,
-                                    ImagePath = null,
-                                    IsAttend = guest.IsAttend,
-                                    AttendTime = guest.AttendTime,
-                                    CreateTime = DateTime.Now,
-                                });
+                                    GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
+                                    {
+                                        Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
+                                        ParentId = info.Id,
+                                        Name = $"{item}",
+                                        FullName = $"{info.Name}_{item}",
+                                        Gender = 0,
+                                        GuestType = info.GuestType,
+                                        Entourage = "",
+                                        EntourageNum = 0,
+                                        Labels = $"{info.Name} 随行人员",
+                                        TableNo = info.TableNo,
+                                        ImagePath = null,
+                                        IsAttend = guest.IsAttend,
+                                        AttendTime = guest.AttendTime,
+                                        CreateTime = DateTime.Now,
+                                    });
+                                }
                             }
                         }
+                        #region 关联更新
+                        var parent = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == guest.ParentId);
+                        if (parent != null && !string.IsNullOrEmpty(parent.Entourage))
+                        {
+                            var pEntourages = parent.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            for (var i = 0; i < pEntourages.Length; i++)
+                            {
+                                if (pEntourages[i] == oldName)
+                                {
+                                    pEntourages[i] = guest.Name;
+                                }
+                            }
+                            parent.Entourage = string.Join(",", pEntourages);
+                            parent.EntourageNum = pEntourages.Count();
+                            guest.FullName = $"{parent.Name}_{guest.Name}";
+                        }
+                        #endregion
+
                     }
                     GlobalConfigMgr.SaveGuests();
                 }
@@ -160,11 +183,12 @@ namespace WeddingGreeting
             try
             {
                 var guest = GlobalConfigs.Guests.FirstOrDefault(x => x.Name == info.Name);
+                var oldName = guest.Name;
                 guest.Name = info.Name;
                 guest.Gender = info.Gender;
                 guest.GuestType = info.GuestType;
-                guest.Entourage = info.Entourage;
-                guest.EntourageNum = info.EntourageNum;
+
+
                 guest.Labels = info.Labels;
                 guest.TableNo = info.TableNo;
                 guest.ImagePath = info.ImagePath;
@@ -173,35 +197,60 @@ namespace WeddingGreeting
                 guest.IsAttend = info.IsAttend;
                 guest.AttendTime = info.AttendTime;
 
-                for (int i = 0; i < GlobalConfigs.Guests.Count; i++)
-                {
-                    if (GlobalConfigs.Guests[i].ParentId == info.Id)
-                        GlobalConfigs.Guests.Remove(GlobalConfigs.Guests[i]);
-                }
+
+
                 var entourages = info.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
                 var entourageNum = entourages.Count();
-                if (entourages != null)
+
+                if (guest.Entourage != info.Entourage)
                 {
-                    foreach (var item in entourages)
+                    GlobalConfigs.Guests.RemoveAll(x => x.ParentId == info.Id);
+                    guest.Entourage = info.Entourage;
+                    if (entourages != null)
                     {
-                        GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
+                        foreach (var item in entourages)
                         {
-                            Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
-                            ParentId = info.Id,
-                            Name = $"{info.Name}_{item}",
-                            Gender = 0,
-                            GuestType = info.GuestType,
-                            Entourage = "",
-                            EntourageNum = 0,
-                            Labels = info.Labels,
-                            TableNo = info.TableNo,
-                            ImagePath = null,
-                            IsAttend = guest.IsAttend,
-                            AttendTime = guest.AttendTime,
-                            CreateTime = DateTime.Now,
-                        });
+                            GlobalConfigs.Guests.Add(new ee.Models.GuestInfo()
+                            {
+                                Id = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
+                                ParentId = info.Id,
+                                Name = $"{item}",
+                                FullName = $"{info.Name}_{item}",
+                                Gender = 0,
+                                GuestType = info.GuestType,
+                                Entourage = "",
+                                EntourageNum = 0,
+                                Labels = info.Labels,
+                                TableNo = info.TableNo,
+                                ImagePath = null,
+                                IsAttend = guest.IsAttend,
+                                AttendTime = guest.AttendTime,
+                                CreateTime = DateTime.Now,
+                            });
+                        }
                     }
                 }
+
+                #region 关联更新
+                var parent = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == guest.ParentId);
+                if (parent != null && !string.IsNullOrEmpty(parent.Entourage))
+                {
+                    var pEntourages = parent.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    for (var i = 0; i < pEntourages.Length; i++)
+                    {
+                        if (pEntourages[i] == oldName)
+                        {
+                            pEntourages[i] = guest.Name;
+                        }
+                    }
+
+                    parent.Entourage = string.Join(",", pEntourages);
+                    guest.EntourageNum = pEntourages.Count();
+                    guest.FullName = $"{parent.Name}_{guest.Name}";
+                }
+                #endregion
+
                 GlobalConfigMgr.SaveGuests();
                 return true;
             }
@@ -209,6 +258,35 @@ namespace WeddingGreeting
             {
                 return false;
             }
+        }
+
+        public static void RemoveGuest(GuestInfo guest)
+        {
+            var id = guest.Id;
+            RemoveGuest(id);
+            if (guest.ParentId != null)
+            {
+                var parent = GlobalConfigs.Guests.FirstOrDefault(x => x.Id == guest.ParentId);
+                if (parent != null && !string.IsNullOrEmpty(parent.Entourage))
+                {
+                    var pEntourages = parent.Entourage.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    for (var i = 0; i < pEntourages.Length; i++)
+                    {
+                        if (pEntourages[i] == guest.Name)
+                        {
+                            pEntourages[i] = null;
+                            break;
+                        }
+                    }
+                    parent.Entourage = string.Join(",", pEntourages.Where(x => x != null));
+                    var num = pEntourages.Count(x => x != null);
+                    parent.EntourageNum = num;
+                }
+            }
+            GlobalConfigs.Guests.RemoveAll(x => x.ParentId == id || x.Id == id);
+
+            GlobalConfigMgr.SaveGuests();
         }
 
         public static bool RemoveGuest(string userId)

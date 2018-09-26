@@ -29,6 +29,7 @@ namespace ee.Models
         /// 是否隐藏行头显示序号
         /// </summary>
         public bool IsHideHeaderCellIndex { get; set; }
+        public bool IsGroupTable { get; set; }
         /// <summary>
         /// 问候语格式
         /// </summary>

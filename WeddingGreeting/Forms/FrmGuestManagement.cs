@@ -28,8 +28,9 @@ namespace WeddingGreeting.Forms
         private void SetAttendInformation()
         {
 
-            var total = GlobalConfigs.Guests.Count();
+            var total = GlobalConfigs.Guests.Count(x => x.TableNo != "");
             var attendance = GlobalConfigs.Guests.Count(x => x.IsAttend);
+            var notAttend = GlobalConfigs.Guests.Count(x => x.TableNo == "");
 
             tspbPercentage.Value = attendance * 100 / (total == 0 ? 1 : total);
             tspbPercentage.Text = $"{attendance}/{total}";
@@ -91,11 +92,13 @@ namespace WeddingGreeting.Forms
 
         private List<GuestInfo> QueryGuestsByAttendance(bool? isAttend = null)
         {
+            TableComparer comparer = new TableComparer();
             if (isAttend.HasValue)
             {
-                return GlobalConfigs.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo).ToList();
+                return GlobalConfigs.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo,comparer).ToList();
             }
-            return GlobalConfigs.Guests.OrderBy(x => x.TableNo).ToList();
+
+            return GlobalConfigs.Guests.OrderBy(x => x.TableNo, comparer).ToList();
         }
         private List<GuestInfo> QueryGuests(bool? isAttend = null, string name = null)
         {
@@ -108,8 +111,11 @@ namespace WeddingGreeting.Forms
             {
                 list = list.Where(x => x.Name.Contains(name)).ToList();
             }
-            return list.OrderBy(x => x.TableNo).ToList();
+            TableComparer comparer = new TableComparer();
+            return list.OrderBy(x => x.TableNo, comparer).ToList();
         }
+
+
 
         private void tsbNew_Click(object sender, EventArgs e)
         {
@@ -144,22 +150,25 @@ namespace WeddingGreeting.Forms
 
             if (MessageBox.Show(this, $"确定要删除{guest.Name} 及其随行人员吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                var id = guest.Id;
-                GuestMgr.RemoveGuest(id);
-                GlobalConfigs.Guests.RemoveAll(x => x.ParentId == id || x.Id == id);
-
-                GlobalConfigMgr.SaveGuests();
+                GuestMgr.RemoveGuest(guest);
                 QueryByFilter();
                 dgvGuests.ClearSelection();
                 splitContainer.Panel2Collapsed = true;
+                LocateScrollBar();
             }
+        }
+
+        private void LocateScrollBar()
+        {
+            //滚动条定位
+            dgvGuests.FirstDisplayedScrollingRowIndex = verticalScrollIndex;
+            dgvGuests.HorizontalScrollingOffset = horizontalOffset;
         }
 
         private void tsbQuery_Click(object sender, EventArgs e)
         {
             QueryByName();
         }
-
         private void btnRegisterOrUpdate_Click(object sender, EventArgs e)
         {
             var val = guestInfoCtrl.Validation();
@@ -193,6 +202,7 @@ namespace WeddingGreeting.Forms
             MsgForm.Show(message, "提示", success ? MessageBoxIcon.None : MessageBoxIcon.Error);
             splitContainer.InvokeIfRequired(c => c.Panel2Collapsed = success);
             dgvGuests.InvokeIfRequired(c => QueryByFilter());
+            LocateScrollBar();
         }
 
         private void btnCancelRegisterOrUpdate_Click(object sender, EventArgs e)
@@ -229,6 +239,7 @@ namespace WeddingGreeting.Forms
 
         private void dgvGuests_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+            if (!GlobalConfigs.Configurations.IsGroupTable) return;
             if (e.RowIndex > -1)
             {
                 var tableNoString = (this.dgvGuests.Rows[e.RowIndex].Cells["colTableNo"].Value?.ToString());
@@ -284,6 +295,30 @@ namespace WeddingGreeting.Forms
         private void FrmGuestManagement_FormClosing(object sender, FormClosingEventArgs e)
         {
             isCosing = true;
+        }
+        int verticalScrollIndex = 0;
+        int horizontalOffset = 0;
+        private void dgvGuests_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+            {
+                verticalScrollIndex = e.NewValue;
+            }
+            else if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+            {
+                horizontalOffset = e.NewValue;
+            }
+        }
+    }
+
+
+    public class TableComparer : System.Collections.Generic.IComparer<string>
+    {
+        public int Compare(string x, string y)
+        {
+            if (x == "") x = "999";
+            if (y == "") y = "999";
+            return String.CompareOrdinal(x, y);
         }
     }
 }

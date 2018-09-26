@@ -56,7 +56,7 @@ namespace WeddingGreeting.UserControls
             }
             set
             {
-                information = value;
+                information = value?.Clone();
                 IsPictureChanged = false;
                 if (information != null)
                 {
@@ -120,6 +120,11 @@ namespace WeddingGreeting.UserControls
                     currentImagePath = null;
                     SetAttend(false);
                     btnAttendAction.Visible = false;
+
+                    lbEntourage.Text = "随行人员:";
+                    txtEntourage.ReadOnly = false;
+                    lbEntourageDesc.Visible = true;
+                    txtCashGift.Enabled = true;
                 }
 
             }
@@ -173,12 +178,12 @@ namespace WeddingGreeting.UserControls
                 MsgForm.Show("请输入标签");
                 return false;
             }
-            if (string.IsNullOrEmpty(cbbTables.Text))
-            {
-                cbbTables.Focus();
-                MsgForm.Show("请选择桌号");
-                return false;
-            }
+            //if (string.IsNullOrEmpty(cbbTables.Text))
+            //{
+            //    cbbTables.Focus();
+            //    MsgForm.Show("请选择桌号");
+            //    return false;
+            //}
             //if (picbFacePicture.Image == null && string.IsNullOrEmpty(information.ParentId))
             //{
             //    picbFacePicture.Focus();
@@ -282,7 +287,7 @@ namespace WeddingGreeting.UserControls
             if (frm.DlgResult == DialogResult.OK)
             {
                 picbFacePicture.Image = frm.Image;
-
+                currentImagePath = frm.ImagePath;
             }
         }
     }

@@ -13,7 +13,7 @@ namespace ee.Models
         public virtual string Id { get; set; }
         public virtual string ParentId { get; set; }
         public virtual string Name { get; set; }
-
+        public virtual string FullName { get; set; }
         /// <summary>
         /// 性别:0未定义,1男,2女
         /// </summary>
@@ -135,5 +135,29 @@ namespace ee.Models
         public virtual string CashGift { get; set; }
 
         public virtual DateTime CreateTime { get; set; }
+
+
+        public virtual GuestInfo Clone()
+        {
+            return new GuestInfo()
+            {
+                Id = this.Id,
+                ParentId = this.ParentId,
+                Name = this.Name,
+                FullName = this.FullName,
+                Labels = this.Labels,
+                Gender = this.Gender,
+                GuestType = this.GuestType,
+                TableNo = this.TableNo,
+                SeatNo = this.SeatNo,
+                CashGift = this.CashGift,
+                ImagePath = this.ImagePath,
+                Entourage = this.Entourage,
+                EntourageNum = this.EntourageNum,
+                IsAttend = this.IsAttend,
+                AttendTime = this.AttendTime,
+                CreateTime = this.CreateTime,
+            };
+        }
     }
 }

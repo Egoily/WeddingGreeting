@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            ee.Models.GuestInfo guestInfo2 = new ee.Models.GuestInfo();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            ee.Models.GuestInfo guestInfo1 = new ee.Models.GuestInfo();
             this.dgvGuests = new System.Windows.Forms.DataGridView();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tsbNew = new System.Windows.Forms.ToolStripButton();
@@ -98,14 +98,14 @@
             this.colImagePath,
             this.colIsAttend,
             this.colCreateTime});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvGuests.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvGuests.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvGuests.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvGuests.Location = new System.Drawing.Point(0, 0);
             this.dgvGuests.MultiSelect = false;
@@ -121,6 +121,7 @@
             this.dgvGuests.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvGuests_CellPainting);
             this.dgvGuests.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_RowEnter);
             this.dgvGuests.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvGuests_RowStateChanged);
+            this.dgvGuests.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvGuests_Scroll);
             // 
             // toolStrip
             // 
@@ -274,22 +275,22 @@
             // 
             // guestInfoCtrl
             // 
-            guestInfo2.AttendTime = null;
-            guestInfo2.CashGift = "";
-            guestInfo2.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
-            guestInfo2.Entourage = "";
-            guestInfo2.EntourageNum = 0;
-            guestInfo2.Gender = 0;
-            guestInfo2.GuestType = 0;
-            guestInfo2.Id = "";
-            guestInfo2.ImagePath = null;
-            guestInfo2.IsAttend = false;
-            guestInfo2.Labels = "";
-            guestInfo2.Name = "";
-            guestInfo2.ParentId = null;
-            guestInfo2.SeatNo = "";
-            guestInfo2.TableNo = "";
-            this.guestInfoCtrl.Information = guestInfo2;
+            guestInfo1.AttendTime = null;
+            guestInfo1.CashGift = "";
+            guestInfo1.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
+            guestInfo1.Entourage = "";
+            guestInfo1.EntourageNum = 0;
+            guestInfo1.Gender = 0;
+            guestInfo1.GuestType = 0;
+            guestInfo1.Id = "";
+            guestInfo1.ImagePath = null;
+            guestInfo1.IsAttend = false;
+            guestInfo1.Labels = "";
+            guestInfo1.Name = "";
+            guestInfo1.ParentId = null;
+            guestInfo1.SeatNo = "";
+            guestInfo1.TableNo = "";
+            this.guestInfoCtrl.Information = guestInfo1;
             this.guestInfoCtrl.Location = new System.Drawing.Point(3, 3);
             this.guestInfoCtrl.Name = "guestInfoCtrl";
             this.guestInfoCtrl.Size = new System.Drawing.Size(359, 239);
@@ -322,7 +323,7 @@
             // 
             // colName
             // 
-            this.colName.DataPropertyName = "Name";
+            this.colName.DataPropertyName = "FullName";
             this.colName.HeaderText = "姓名";
             this.colName.Name = "colName";
             this.colName.ReadOnly = true;

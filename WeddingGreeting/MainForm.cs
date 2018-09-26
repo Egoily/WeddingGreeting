@@ -75,7 +75,32 @@ namespace WeddingGreeting
 
             guestViewer.Loading();
 
+            FixGuest();
+
             RefreshGuests();
+        }
+
+        private void FixGuest()
+        {
+            if(GlobalConfigs.Guests.Any())
+            {
+                foreach (var item in GlobalConfigs.Guests)
+                {
+                    if (string.IsNullOrEmpty(item.FullName))
+                    {
+                        item.FullName = item.Name;
+                    }
+                    if(item.Name.Contains("_"))
+                    {
+                        var index = item.Name.IndexOf('_');
+                        var trueName = item.Name.Substring(index + 1);
+                        item.Name = trueName;
+                    }
+
+
+                }
+                GlobalConfigMgr.SaveGuests();
+            }
         }
         private void InitPlayer()
         {

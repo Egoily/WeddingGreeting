@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace WeddingGreeting.Forms
 
         public DialogResult DlgResult { get; set; }
         public Bitmap Image { get; set; }
+        public string ImagePath { get; set; }
         public FrmVideoSnap()
         {
             InitializeComponent();
@@ -74,6 +76,16 @@ namespace WeddingGreeting.Forms
         private void btnOk_Click(object sender, EventArgs e)
         {
             DlgResult = DialogResult.OK;
+            if (Image != null)
+            {
+                var dir = @"/tmp";
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                ImagePath = Path.Combine(dir, DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg");
+                Image.Save(ImagePath);
+            }
             this.Close();
         }
 
