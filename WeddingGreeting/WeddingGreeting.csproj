@@ -142,6 +142,12 @@
     <Compile Include="UserControls\GuestInfoCtrl.Designer.cs">
       <DependentUpon>GuestInfoCtrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PagerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\PagerControl.Designer.cs">
+      <DependentUpon>PagerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\TableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     </Compile>
     <EmbeddedResource Include="UserControls\GuestInfoCtrl.resx">
       <DependentUpon>GuestInfoCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\PagerControl.resx">
+      <DependentUpon>PagerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\TableControl.resx">
       <DependentUpon>TableControl.cs</DependentUpon>

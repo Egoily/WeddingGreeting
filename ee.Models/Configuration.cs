@@ -38,6 +38,11 @@ namespace ee.Models
         public Dictionary<string, string> Tables { get; set; }
 
 
+        public int CircleCapacity { get; set; }
+        public int CircleVerInterval { get; set; }
+        public int MaxCapacityInCircle { get; set; }
+        public int CircleModel { get; set; }
+
         public Configuration()
         {
             GroupId = "EE";
@@ -47,7 +52,10 @@ namespace ee.Models
             GreetFormat = "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!";
             Tables = new Dictionary<string, string>() { };
             IsHideHeaderCellIndex = false;
-
+            CircleCapacity = 4;
+            CircleVerInterval = 150;
+            MaxCapacityInCircle = 100;
+            CircleModel = 0;
         }
 
 

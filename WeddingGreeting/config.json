@@ -1,10 +1,14 @@
 {
   "GroupId": "EE",
-  "Threshold": 18.0,
+  "Threshold": 29.0,
   "Speed": 24.0,
   "IsSpeechable": true,
   "IsHideHeaderCellIndex": true,
   "IsGroupTable": false,
+  "CircleCapacity":4,
+  "CircleVerInterval":150,
+  "MaxCapacityInCircle":100,
+  "CircleModel":1,
   "GreetFormat": "{0},{1},欢迎光临黄广毅/高小娜夫妇的婚礼,请就坐 {2} 号桌.谢谢!",
   "Tables": {
     "": "缺席",

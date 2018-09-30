@@ -96,6 +96,11 @@ namespace EAlbums
         public Point DisplayCenterOffset { get; set; }
         [Browsable(true), Category("Custom")]
         public bool ShownTitle { get; set; }
+
+        [Browsable(true), Category("Custom")]
+        [DefaultValue(0.0F)]
+        public int ViewModel { get; set; }
+
         public ImageViewer()
         {
             InitializeComponent();
@@ -142,7 +147,7 @@ namespace EAlbums
 
         public void LoadingByThumbElements(List<ThumbElement> thumbElements)
         {
-            Revolver.Load(thumbElements);
+            Revolver.Load(thumbElements, ViewModel);
         }
 
         public void LoadThumbs(string dir)
@@ -157,7 +162,7 @@ namespace EAlbums
 
         public void LoadThumbs(List<string> filePaths)
         {
-            Revolver.Load(filePaths);
+            Revolver.Load(filePaths, ViewModel);
         }
 
         /// <summary>

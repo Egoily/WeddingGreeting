@@ -35,6 +35,7 @@
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiGuestManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTableLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiImportGuest = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExport = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +49,6 @@
             this.cbbVideoSource = new System.Windows.Forms.ComboBox();
             this.dmAttendance = new EgoDevil.Utilities.UI.IndustrialCtrls.Meters.LBDigitalMeter();
             this.guestViewer = new EAlbums.ImageViewer();
-            this.tsmiTableLayout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picbVideoContainer)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -109,28 +109,35 @@
             // tsmiGuestManagement
             // 
             this.tsmiGuestManagement.Name = "tsmiGuestManagement";
-            this.tsmiGuestManagement.Size = new System.Drawing.Size(152, 22);
+            this.tsmiGuestManagement.Size = new System.Drawing.Size(121, 22);
             this.tsmiGuestManagement.Text = "宾客...";
             this.tsmiGuestManagement.Click += new System.EventHandler(this.tsmiGuestManagement_Click);
+            // 
+            // tsmiTableLayout
+            // 
+            this.tsmiTableLayout.Name = "tsmiTableLayout";
+            this.tsmiTableLayout.Size = new System.Drawing.Size(121, 22);
+            this.tsmiTableLayout.Text = "座位图...";
+            this.tsmiTableLayout.Click += new System.EventHandler(this.tsmiTableLayout_Click);
             // 
             // tsmiImportGuest
             // 
             this.tsmiImportGuest.Name = "tsmiImportGuest";
-            this.tsmiImportGuest.Size = new System.Drawing.Size(152, 22);
+            this.tsmiImportGuest.Size = new System.Drawing.Size(121, 22);
             this.tsmiImportGuest.Text = "导入...";
             this.tsmiImportGuest.Click += new System.EventHandler(this.tsmiImportGuest_Click);
             // 
             // tsmiExport
             // 
             this.tsmiExport.Name = "tsmiExport";
-            this.tsmiExport.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExport.Size = new System.Drawing.Size(121, 22);
             this.tsmiExport.Text = "导出...";
             this.tsmiExport.Click += new System.EventHandler(this.tsmiExportGuest_Click);
             // 
             // tsmiRefresh
             // 
             this.tsmiRefresh.Name = "tsmiRefresh";
-            this.tsmiRefresh.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRefresh.Size = new System.Drawing.Size(121, 22);
             this.tsmiRefresh.Text = "刷新";
             this.tsmiRefresh.Click += new System.EventHandler(this.tsmiRefresh_Click);
             // 
@@ -149,32 +156,32 @@
             // tsmiControlVideo
             // 
             this.tsmiControlVideo.Name = "tsmiControlVideo";
-            this.tsmiControlVideo.Size = new System.Drawing.Size(152, 22);
+            this.tsmiControlVideo.Size = new System.Drawing.Size(133, 22);
             this.tsmiControlVideo.Text = "开始";
             this.tsmiControlVideo.Click += new System.EventHandler(this.tsmiControlVideo_Click);
             // 
             // tsmiVideoSource
             // 
             this.tsmiVideoSource.Name = "tsmiVideoSource";
-            this.tsmiVideoSource.Size = new System.Drawing.Size(152, 22);
+            this.tsmiVideoSource.Size = new System.Drawing.Size(133, 22);
             this.tsmiVideoSource.Text = "视频源";
             // 
             // tsmiSetThreshold
             // 
             this.tsmiSetThreshold.Name = "tsmiSetThreshold";
-            this.tsmiSetThreshold.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSetThreshold.Size = new System.Drawing.Size(133, 22);
             this.tsmiSetThreshold.Text = "阈值";
             // 
             // tsmiSetSpeed
             // 
             this.tsmiSetSpeed.Name = "tsmiSetSpeed";
-            this.tsmiSetSpeed.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSetSpeed.Size = new System.Drawing.Size(133, 22);
             this.tsmiSetSpeed.Text = "速度";
             // 
             // tsmiConfigVideoWindow
             // 
             this.tsmiConfigVideoWindow.Name = "tsmiConfigVideoWindow";
-            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(152, 22);
+            this.tsmiConfigVideoWindow.Size = new System.Drawing.Size(133, 22);
             this.tsmiConfigVideoWindow.Text = "视频窗口...";
             this.tsmiConfigVideoWindow.Click += new System.EventHandler(this.tsmiConfigVideoWindow_Click);
             // 
@@ -217,13 +224,13 @@
             this.guestViewer.BackColor = System.Drawing.Color.Black;
             this.guestViewer.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.guestViewer.CircleCapacity = 4;
-            this.guestViewer.CircleVerInterval = 100;
+            this.guestViewer.CircleVerInterval = 150;
             this.guestViewer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guestViewer.DestinationSize = new System.Drawing.Size(0, 0);
             this.guestViewer.DisplayCenterOffset = new System.Drawing.Point(100, 0);
             this.guestViewer.ImagePreviewMode = EAlbums.PreviewMode.None;
             this.guestViewer.Location = new System.Drawing.Point(2, 126);
-            this.guestViewer.MaxCapacityInCircle = 360;
+            this.guestViewer.MaxCapacityInCircle = 100;
             this.guestViewer.MaxImageLength = 120;
             this.guestViewer.Name = "guestViewer";
             this.guestViewer.Pattern = EAlbums.ViewPatterns.Pending;
@@ -232,13 +239,6 @@
             this.guestViewer.Size = new System.Drawing.Size(473, 109);
             this.guestViewer.SourceFolder = "";
             this.guestViewer.TabIndex = 5;
-            // 
-            // tsmiTableLayout
-            // 
-            this.tsmiTableLayout.Name = "tsmiTableLayout";
-            this.tsmiTableLayout.Size = new System.Drawing.Size(152, 22);
-            this.tsmiTableLayout.Text = "座位图...";
-            this.tsmiTableLayout.Click += new System.EventHandler(this.tsmiTableLayout_Click);
             // 
             // MainForm
             // 

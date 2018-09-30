@@ -16,8 +16,8 @@ namespace EAlbums
         ImageCircleParameter CircleParameter { get; set; }
         ThumbElement SelectedObject { get; set; }
 
-        void Load(List<string> filePaths);
-        void Load(List<ThumbElement> thumbElements);
+        void Load(List<string> filePaths, int model);
+        void Load(List<ThumbElement> thumbElements, int model);
 
         void SetAngleOffset();
 

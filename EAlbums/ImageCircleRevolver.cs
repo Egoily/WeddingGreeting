@@ -11,6 +11,8 @@ namespace EAlbums
     {
         public List<ImageCircle> Circles { get; set; }
         public ImageCircleParameter CircleParameter { get; set; }
+        public int CircleModel { get; set; }
+
         public ThumbElement SelectedObject { get; set; }
 
         public int CircleCount { get; protected set; }
@@ -30,7 +32,7 @@ namespace EAlbums
 
         }
 
-        public void Load(List<string> filePaths)
+        public void Load(List<string> filePaths, int model)
         {
             var imageCount = filePaths.Count;
             var thumbElements = new List<ThumbElement>();
@@ -42,25 +44,41 @@ namespace EAlbums
                     Name = Path.GetFileNameWithoutExtension(filePaths[i]),
                 });
             }
-            Load(thumbElements);
+            Load(thumbElements,model);
         }
-
-        public void Load(List<ThumbElement> thumbElements)
+        
+        public void Load(List<ThumbElement> thumbElements,int model)
         {
             if (thumbElements == null || !thumbElements.Any()) return;
             Circles.Clear();
 
             var imageCount = thumbElements.Count;
-            CircleCount = (int)Math.Ceiling(imageCount / (CircleParameter.MaxCapacityInCircle * 1d));
-            if (CircleCount > CircleParameter.MaxCircleCapacity)
+
+            if (model == 0)
             {
-                CircleCount = CircleParameter.MaxCircleCapacity;
+                CircleCount = (int)Math.Ceiling(imageCount / (CircleParameter.MaxCapacityInCircle * 1d));
+                if (CircleCount > CircleParameter.MaxCircleCapacity)
+                {
+                    CircleCount = CircleParameter.MaxCircleCapacity;
+                }
+                CapacityInCircle = (int)Math.Ceiling(imageCount / (CircleCount * 1d));
+                if (CapacityInCircle > CircleParameter.MaxCapacityInCircle)
+                {
+                    CapacityInCircle = CircleParameter.MaxCapacityInCircle;
+                }
+
             }
-            CapacityInCircle = (int)Math.Ceiling(imageCount / (CircleCount * 1d));
-            if (CapacityInCircle > CircleParameter.MaxCapacityInCircle)
+            else
             {
-                CapacityInCircle = CircleParameter.MaxCapacityInCircle;
+                CircleCount= CircleParameter.MaxCircleCapacity;
+                CapacityInCircle = (int)Math.Ceiling(imageCount / (CircleCount * 1d));
+                if (CapacityInCircle > CircleParameter.MaxCapacityInCircle)
+                {
+                    CapacityInCircle = CircleParameter.MaxCapacityInCircle;
+                }
             }
+
+
             var startPoint = new Point(CircleParameter.OrginalCenter.X, CircleParameter.OrginalCenter.Y - (int)(CircleCount - 1) * CircleParameter.CircleVerInterval / 2);
 
             for (var i = 0; i < CircleCount; i++)
@@ -85,7 +103,7 @@ namespace EAlbums
                 };
                 Circles.Add(circle);
 
-                circle.Load(thumbElements);
+                circle.Load(thumbElements.Skip(i* CapacityInCircle).Take(CapacityInCircle).ToList());
             }
         }
 

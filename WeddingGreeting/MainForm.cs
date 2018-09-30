@@ -32,7 +32,10 @@ namespace WeddingGreeting
             InitializeComponent();
 
             guestViewer.Alpha = GlobalConfigs.Configurations.Speed / 100F;
-
+            guestViewer.MaxCapacityInCircle = GlobalConfigs.Configurations.MaxCapacityInCircle;
+            guestViewer.CircleCapacity = GlobalConfigs.Configurations.CircleCapacity;
+            guestViewer.CircleVerInterval = GlobalConfigs.Configurations.CircleVerInterval;
+            guestViewer.ViewModel=GlobalConfigs.Configurations.CircleModel;
             trackBarThreshold = new EgoDevil.Utilities.UI.TrackBarEx()
             {
                 Height = 24,
@@ -82,7 +85,7 @@ namespace WeddingGreeting
 
         private void FixGuest()
         {
-            if(GlobalConfigs.Guests.Any())
+            if (GlobalConfigs.Guests.Any())
             {
                 foreach (var item in GlobalConfigs.Guests)
                 {
@@ -90,7 +93,7 @@ namespace WeddingGreeting
                     {
                         item.FullName = item.Name;
                     }
-                    if(item.Name.Contains("_"))
+                    if (item.Name.Contains("_"))
                     {
                         var index = item.Name.IndexOf('_');
                         var trueName = item.Name.Substring(index + 1);
@@ -99,8 +102,7 @@ namespace WeddingGreeting
 
 
                 }
-                TableComparer comparer = new TableComparer();
-                GlobalConfigs.Guests=GlobalConfigs.Guests.OrderBy(x => x.TableNo, comparer).ToList();
+                GlobalConfigs.Guests = GlobalConfigs.Guests.OrderBy(x => x.TableNo, new TableComparer()).ThenBy(x => x.FullName).ToList();
                 GlobalConfigMgr.SaveGuests();
             }
         }
@@ -206,7 +208,7 @@ namespace WeddingGreeting
                 {
                     Name = item.Id,
                     FullPath = item.ImagePath,
-                    Description = $"姓名: {item.Name} \n身份: {item.Labels}\n桌号: {item.TableNo} ",
+                    Description = $"姓名: {item.Name} \n身份: {item.Labels}\n桌号: {item.TableName} ",
                     IsSelected = item.IsAttend,
                 });
             }
@@ -402,7 +404,7 @@ namespace WeddingGreeting
             var frm = new FrmTableLayout();
             frm.ShowDialog(this);
         }
-    
+
 
         private void tsmiImportGuest_Click(object sender, EventArgs e)
         {
@@ -554,6 +556,6 @@ namespace WeddingGreeting
             }
         }
 
-  
+
     }
 }

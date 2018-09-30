@@ -31,22 +31,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             ee.Models.GuestInfo guestInfo1 = new ee.Models.GuestInfo();
             this.dgvGuests = new System.Windows.Forms.DataGridView();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.tsbNew = new System.Windows.Forms.ToolStripButton();
-            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
-            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tscbbFilter = new System.Windows.Forms.ToolStripComboBox();
-            this.tslbName = new System.Windows.Forms.ToolStripLabel();
-            this.tstxtName = new System.Windows.Forms.ToolStripTextBox();
-            this.tsbQuery = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tspbPercentage = new EgoDevil.Utilities.UI.EPanels.EToolStripProgressBar();
-            this.tslbStatisticInfo = new System.Windows.Forms.ToolStripLabel();
-            this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.btnCancelRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
-            this.btnRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
-            this.guestInfoCtrl = new WeddingGreeting.UserControls.GuestInfoCtrl();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTableNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,6 +49,23 @@
             this.colImagePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colIsAttend = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCreateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.tsbNew = new System.Windows.Forms.ToolStripButton();
+            this.tsbEdit = new System.Windows.Forms.ToolStripButton();
+            this.tsbRemove = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tscbbFilter = new System.Windows.Forms.ToolStripComboBox();
+            this.tslbName = new System.Windows.Forms.ToolStripLabel();
+            this.tstxtName = new System.Windows.Forms.ToolStripTextBox();
+            this.tsbQuery = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tspbPercentage = new EgoDevil.Utilities.UI.EPanels.EToolStripProgressBar();
+            this.tslbStatisticInfo = new System.Windows.Forms.ToolStripLabel();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.pagerControl = new WeddingGreeting.UserControls.PagerControl();
+            this.btnCancelRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.btnRegisterOrUpdate = new EgoDevil.Utilities.UI.AquaButtons.AquaButton();
+            this.guestInfoCtrl = new WeddingGreeting.UserControls.GuestInfoCtrl();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGuests)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -122,180 +123,6 @@
             this.dgvGuests.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGuests_RowEnter);
             this.dgvGuests.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvGuests_RowStateChanged);
             this.dgvGuests.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dgvGuests_Scroll);
-            // 
-            // toolStrip
-            // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsbNew,
-            this.tsbEdit,
-            this.tsbRemove,
-            this.toolStripSeparator1,
-            this.tscbbFilter,
-            this.tslbName,
-            this.tstxtName,
-            this.tsbQuery,
-            this.toolStripSeparator2,
-            this.tspbPercentage,
-            this.tslbStatisticInfo});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.toolStrip.Size = new System.Drawing.Size(1151, 25);
-            this.toolStrip.TabIndex = 2;
-            this.toolStrip.Text = "toolStrip";
-            // 
-            // tsbNew
-            // 
-            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbNew.Image = global::WeddingGreeting.Properties.Resources.user_add;
-            this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbNew.Name = "tsbNew";
-            this.tsbNew.Size = new System.Drawing.Size(23, 22);
-            this.tsbNew.Text = "新增";
-            this.tsbNew.Click += new System.EventHandler(this.tsbNew_Click);
-            // 
-            // tsbEdit
-            // 
-            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbEdit.Image = global::WeddingGreeting.Properties.Resources.user_edit;
-            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbEdit.Name = "tsbEdit";
-            this.tsbEdit.Size = new System.Drawing.Size(23, 22);
-            this.tsbEdit.Text = "编辑";
-            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
-            // 
-            // tsbRemove
-            // 
-            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbRemove.Image = global::WeddingGreeting.Properties.Resources.user_del;
-            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbRemove.Name = "tsbRemove";
-            this.tsbRemove.Size = new System.Drawing.Size(23, 22);
-            this.tsbRemove.Text = "删除";
-            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tscbbFilter
-            // 
-            this.tscbbFilter.AutoCompleteCustomSource.AddRange(new string[] {
-            "全部",
-            "已签到",
-            "未签到"});
-            this.tscbbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tscbbFilter.Items.AddRange(new object[] {
-            "全部",
-            "已签到",
-            "未签到"});
-            this.tscbbFilter.Name = "tscbbFilter";
-            this.tscbbFilter.Size = new System.Drawing.Size(121, 25);
-            this.tscbbFilter.SelectedIndexChanged += new System.EventHandler(this.cbbFilter_SelectedIndexChanged);
-            // 
-            // tslbName
-            // 
-            this.tslbName.Name = "tslbName";
-            this.tslbName.Size = new System.Drawing.Size(35, 22);
-            this.tslbName.Text = "姓名:";
-            // 
-            // tstxtName
-            // 
-            this.tstxtName.Name = "tstxtName";
-            this.tstxtName.Size = new System.Drawing.Size(100, 25);
-            // 
-            // tsbQuery
-            // 
-            this.tsbQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbQuery.Image = global::WeddingGreeting.Properties.Resources.user_query;
-            this.tsbQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbQuery.Name = "tsbQuery";
-            this.tsbQuery.Size = new System.Drawing.Size(23, 22);
-            this.tsbQuery.Text = "搜索";
-            this.tsbQuery.Click += new System.EventHandler(this.tsbQuery_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tspbPercentage
-            // 
-            this.tspbPercentage.BackColor = System.Drawing.Color.Transparent;
-            this.tspbPercentage.BackgroundColor = System.Drawing.Color.Silver;
-            this.tspbPercentage.Name = "tspbPercentage";
-            this.tspbPercentage.Size = new System.Drawing.Size(100, 22);
-            this.tspbPercentage.Text = "1/100";
-            this.tspbPercentage.ToolTipText = "已到人数/总人数";
-            this.tspbPercentage.ValueColor = System.Drawing.Color.Lime;
-            // 
-            // tslbStatisticInfo
-            // 
-            this.tslbStatisticInfo.Name = "tslbStatisticInfo";
-            this.tslbStatisticInfo.Size = new System.Drawing.Size(142, 22);
-            this.tslbStatisticInfo.Text = "总数:{0} 已到:{1} 未到:{2}";
-            // 
-            // splitContainer
-            // 
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer.Name = "splitContainer";
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.dgvGuests);
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Controls.Add(this.btnCancelRegisterOrUpdate);
-            this.splitContainer.Panel2.Controls.Add(this.btnRegisterOrUpdate);
-            this.splitContainer.Panel2.Controls.Add(this.guestInfoCtrl);
-            this.splitContainer.Size = new System.Drawing.Size(1151, 705);
-            this.splitContainer.SplitterDistance = 795;
-            this.splitContainer.TabIndex = 3;
-            // 
-            // btnCancelRegisterOrUpdate
-            // 
-            this.btnCancelRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelRegisterOrUpdate.Location = new System.Drawing.Point(221, 276);
-            this.btnCancelRegisterOrUpdate.Name = "btnCancelRegisterOrUpdate";
-            this.btnCancelRegisterOrUpdate.TabIndex = 1;
-            this.btnCancelRegisterOrUpdate.Text = "取消";
-            this.btnCancelRegisterOrUpdate.Click += new System.EventHandler(this.btnCancelRegisterOrUpdate_Click);
-            // 
-            // btnRegisterOrUpdate
-            // 
-            this.btnRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRegisterOrUpdate.Location = new System.Drawing.Point(126, 276);
-            this.btnRegisterOrUpdate.Name = "btnRegisterOrUpdate";
-            this.btnRegisterOrUpdate.TabIndex = 1;
-            this.btnRegisterOrUpdate.Text = "确定";
-            this.btnRegisterOrUpdate.Click += new System.EventHandler(this.btnRegisterOrUpdate_Click);
-            // 
-            // guestInfoCtrl
-            // 
-            guestInfo1.AttendTime = null;
-            guestInfo1.CashGift = "";
-            guestInfo1.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
-            guestInfo1.Entourage = "";
-            guestInfo1.EntourageNum = 0;
-            guestInfo1.Gender = 0;
-            guestInfo1.GuestType = 0;
-            guestInfo1.Id = "";
-            guestInfo1.ImagePath = null;
-            guestInfo1.IsAttend = false;
-            guestInfo1.Labels = "";
-            guestInfo1.Name = "";
-            guestInfo1.ParentId = null;
-            guestInfo1.SeatNo = "";
-            guestInfo1.TableNo = "";
-            this.guestInfoCtrl.Information = guestInfo1;
-            this.guestInfoCtrl.Location = new System.Drawing.Point(3, 3);
-            this.guestInfoCtrl.Name = "guestInfoCtrl";
-            this.guestInfoCtrl.Size = new System.Drawing.Size(359, 239);
-            this.guestInfoCtrl.TabIndex = 0;
-            this.guestInfoCtrl.Tables = null;
             // 
             // colId
             // 
@@ -435,6 +262,192 @@
             this.colCreateTime.ReadOnly = true;
             this.colCreateTime.Visible = false;
             // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbNew,
+            this.tsbEdit,
+            this.tsbRemove,
+            this.toolStripSeparator1,
+            this.tscbbFilter,
+            this.tslbName,
+            this.tstxtName,
+            this.tsbQuery,
+            this.toolStripSeparator2,
+            this.tspbPercentage,
+            this.tslbStatisticInfo});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.toolStrip.Size = new System.Drawing.Size(1151, 25);
+            this.toolStrip.TabIndex = 2;
+            this.toolStrip.Text = "toolStrip";
+            // 
+            // tsbNew
+            // 
+            this.tsbNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbNew.Image = global::WeddingGreeting.Properties.Resources.user_add;
+            this.tsbNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbNew.Name = "tsbNew";
+            this.tsbNew.Size = new System.Drawing.Size(23, 22);
+            this.tsbNew.Text = "新增";
+            this.tsbNew.Click += new System.EventHandler(this.tsbNew_Click);
+            // 
+            // tsbEdit
+            // 
+            this.tsbEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbEdit.Image = global::WeddingGreeting.Properties.Resources.user_edit;
+            this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEdit.Name = "tsbEdit";
+            this.tsbEdit.Size = new System.Drawing.Size(23, 22);
+            this.tsbEdit.Text = "编辑";
+            this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
+            // 
+            // tsbRemove
+            // 
+            this.tsbRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRemove.Image = global::WeddingGreeting.Properties.Resources.user_del;
+            this.tsbRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRemove.Name = "tsbRemove";
+            this.tsbRemove.Size = new System.Drawing.Size(23, 22);
+            this.tsbRemove.Text = "删除";
+            this.tsbRemove.Click += new System.EventHandler(this.tsbRemove_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tscbbFilter
+            // 
+            this.tscbbFilter.AutoCompleteCustomSource.AddRange(new string[] {
+            "全部",
+            "已签到",
+            "未签到"});
+            this.tscbbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscbbFilter.Items.AddRange(new object[] {
+            "全部",
+            "已签到",
+            "未签到",
+            "无相片"});
+            this.tscbbFilter.Name = "tscbbFilter";
+            this.tscbbFilter.Size = new System.Drawing.Size(121, 25);
+            this.tscbbFilter.SelectedIndexChanged += new System.EventHandler(this.cbbFilter_SelectedIndexChanged);
+            // 
+            // tslbName
+            // 
+            this.tslbName.Name = "tslbName";
+            this.tslbName.Size = new System.Drawing.Size(35, 22);
+            this.tslbName.Text = "姓名:";
+            // 
+            // tstxtName
+            // 
+            this.tstxtName.Name = "tstxtName";
+            this.tstxtName.Size = new System.Drawing.Size(100, 25);
+            // 
+            // tsbQuery
+            // 
+            this.tsbQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbQuery.Image = global::WeddingGreeting.Properties.Resources.user_query;
+            this.tsbQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbQuery.Name = "tsbQuery";
+            this.tsbQuery.Size = new System.Drawing.Size(23, 22);
+            this.tsbQuery.Text = "搜索";
+            this.tsbQuery.Click += new System.EventHandler(this.tsbQuery_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tspbPercentage
+            // 
+            this.tspbPercentage.BackColor = System.Drawing.Color.Transparent;
+            this.tspbPercentage.BackgroundColor = System.Drawing.Color.Silver;
+            this.tspbPercentage.Name = "tspbPercentage";
+            this.tspbPercentage.Size = new System.Drawing.Size(100, 22);
+            this.tspbPercentage.Text = "1/100";
+            this.tspbPercentage.ToolTipText = "已到人数/总人数";
+            this.tspbPercentage.ValueColor = System.Drawing.Color.Lime;
+            // 
+            // tslbStatisticInfo
+            // 
+            this.tslbStatisticInfo.Name = "tslbStatisticInfo";
+            this.tslbStatisticInfo.Size = new System.Drawing.Size(142, 22);
+            this.tslbStatisticInfo.Text = "总数:{0} 已到:{1} 未到:{2}";
+            // 
+            // splitContainer
+            // 
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer.Name = "splitContainer";
+            // 
+            // splitContainer.Panel1
+            // 
+            this.splitContainer.Panel1.Controls.Add(this.pagerControl);
+            this.splitContainer.Panel1.Controls.Add(this.dgvGuests);
+            // 
+            // splitContainer.Panel2
+            // 
+            this.splitContainer.Panel2.Controls.Add(this.btnCancelRegisterOrUpdate);
+            this.splitContainer.Panel2.Controls.Add(this.btnRegisterOrUpdate);
+            this.splitContainer.Panel2.Controls.Add(this.guestInfoCtrl);
+            this.splitContainer.Size = new System.Drawing.Size(1151, 705);
+            this.splitContainer.SplitterDistance = 795;
+            this.splitContainer.TabIndex = 3;
+            // 
+            // pagerControl
+            // 
+            this.pagerControl.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pagerControl.Location = new System.Drawing.Point(0, 673);
+            this.pagerControl.Name = "pagerControl";
+            this.pagerControl.Size = new System.Drawing.Size(795, 32);
+            this.pagerControl.TabIndex = 1;
+            this.pagerControl.Total = 0;
+            // 
+            // btnCancelRegisterOrUpdate
+            // 
+            this.btnCancelRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelRegisterOrUpdate.Location = new System.Drawing.Point(221, 276);
+            this.btnCancelRegisterOrUpdate.Name = "btnCancelRegisterOrUpdate";
+            this.btnCancelRegisterOrUpdate.TabIndex = 1;
+            this.btnCancelRegisterOrUpdate.Text = "取消";
+            this.btnCancelRegisterOrUpdate.Click += new System.EventHandler(this.btnCancelRegisterOrUpdate_Click);
+            // 
+            // btnRegisterOrUpdate
+            // 
+            this.btnRegisterOrUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegisterOrUpdate.Location = new System.Drawing.Point(126, 276);
+            this.btnRegisterOrUpdate.Name = "btnRegisterOrUpdate";
+            this.btnRegisterOrUpdate.TabIndex = 1;
+            this.btnRegisterOrUpdate.Text = "确定";
+            this.btnRegisterOrUpdate.Click += new System.EventHandler(this.btnRegisterOrUpdate_Click);
+            // 
+            // guestInfoCtrl
+            // 
+            guestInfo1.AttendTime = null;
+            guestInfo1.CashGift = "";
+            guestInfo1.CreateTime = new System.DateTime(2018, 8, 31, 18, 0, 58, 782);
+            guestInfo1.Entourage = "";
+            guestInfo1.EntourageNum = 0;
+            guestInfo1.FullName = null;
+            guestInfo1.Gender = 0;
+            guestInfo1.GuestType = 0;
+            guestInfo1.Id = "";
+            guestInfo1.ImagePath = null;
+            guestInfo1.IsAttend = false;
+            guestInfo1.Labels = "";
+            guestInfo1.Name = "";
+            guestInfo1.ParentId = null;
+            guestInfo1.SeatNo = "";
+            guestInfo1.TableNo = "";
+            this.guestInfoCtrl.Information = guestInfo1;
+            this.guestInfoCtrl.Location = new System.Drawing.Point(3, 3);
+            this.guestInfoCtrl.Name = "guestInfoCtrl";
+            this.guestInfoCtrl.Size = new System.Drawing.Size(359, 239);
+            this.guestInfoCtrl.TabIndex = 0;
+            this.guestInfoCtrl.Tables = null;
+            // 
             // FrmGuestManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -498,5 +511,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colImagePath;
         private System.Windows.Forms.DataGridViewTextBoxColumn colIsAttend;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCreateTime;
+        private UserControls.PagerControl pagerControl;
     }
 }

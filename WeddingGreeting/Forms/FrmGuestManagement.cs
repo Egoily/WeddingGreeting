@@ -14,6 +14,11 @@ namespace WeddingGreeting.Forms
     {
 
         private bool isLoaded = false;
+        bool? isAttend = null;
+        string queryName = null;
+        bool? hasPic = null;
+
+
         public FrmGuestManagement()
         {
             InitializeComponent();
@@ -22,7 +27,10 @@ namespace WeddingGreeting.Forms
             splitContainer.Panel2Collapsed = true;
 
             guestInfoCtrl.Tables = GlobalConfigs.Configurations.Tables;
+
+            pagerControl.PageChanged += PagerControl_PageChanged;
         }
+
 
 
         private void SetAttendInformation()
@@ -38,14 +46,19 @@ namespace WeddingGreeting.Forms
         }
         private void FrmGuestManagement_Load(object sender, EventArgs e)
         {
+            isAttend = null;
+            queryName = null;
+            pagerControl.SetTotal(CountGuest());
 
-            dgvGuests.DataSource = QueryGuests();
 
             SetAttendInformation();
             isLoaded = true;
         }
 
-
+        private void PagerControl_PageChanged(int pageIndex, int pageSize)
+        {
+            dgvGuests.DataSource = QueryGuests(isAttend, queryName,hasPic, pageIndex, pageSize);
+        }
 
 
         private void cbbFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -56,26 +69,10 @@ namespace WeddingGreeting.Forms
         private void QueryByFilter()
         {
             if (!isLoaded) return;
-            if (tscbbFilter.Text == "已签到")
-            {
-                dgvGuests.DataSource = QueryGuestsByAttendance(true);
-
-            }
-            else if (tscbbFilter.Text == "未签到")
-            {
-                dgvGuests.DataSource = QueryGuestsByAttendance(false);
-            }
-            else
-            {
-                dgvGuests.DataSource = QueryGuestsByAttendance();
-            }
-            dgvGuests.Refresh();
-        }
-        private void QueryByName()
-        {
-            if (!isLoaded) return;
-
-            bool? isAttend = null;
+            isAttend = null;
+            queryName = null;
+            tstxtName.Text = "";
+            hasPic = null;
             if (tscbbFilter.Text == "已签到")
             {
                 isAttend = true;
@@ -84,22 +81,38 @@ namespace WeddingGreeting.Forms
             {
                 isAttend = false;
             }
+            else if(tscbbFilter.Text == "无相片")
+            {
+                hasPic = false;
+            }
+          
+            pagerControl.SetTotal(CountGuest(isAttend, queryName,hasPic));
+            dgvGuests.Refresh();
+        }
 
-            dgvGuests.DataSource = QueryGuests(isAttend, tstxtName.Text);
+        private void QueryByName()
+
+
+        {
+            if (!isLoaded) return;
+
+
+            if (tscbbFilter.Text == "已签到")
+            {
+                isAttend = true;
+            }
+            else if (tscbbFilter.Text == "未签到")
+            {
+                isAttend = false;
+            }
+            queryName = tstxtName.Text;
+            pagerControl.SetTotal(CountGuest(isAttend, queryName));
             dgvGuests.Refresh();
         }
 
 
-        private List<GuestInfo> QueryGuestsByAttendance(bool? isAttend = null)
-        {
-            TableComparer comparer = new TableComparer();
-            if (isAttend.HasValue)
-            {
-                return GlobalConfigs.Guests.Where(x => x.IsAttend == isAttend.Value).OrderBy(x => x.TableNo,comparer).ToList();
-            }
-            return GlobalConfigs.Guests.OrderBy(x => x.TableNo, comparer).ToList();
-        }
-        private List<GuestInfo> QueryGuests(bool? isAttend = null, string name = null)
+
+        private List<GuestInfo> QueryGuests(bool? isAttend = null, string name = null, bool? hasPic=null, int pageIndex = 0, int pageSize = 0)
         {
             var list = GlobalConfigs.Guests;
             if (isAttend.HasValue)
@@ -110,10 +123,50 @@ namespace WeddingGreeting.Forms
             {
                 list = list.Where(x => x.Name.Contains(name)).ToList();
             }
-            TableComparer comparer = new TableComparer();
-            return list.OrderBy(x => x.TableNo, comparer).ToList();
-        }
+            if (hasPic.HasValue)
+            {
+                if (hasPic.Value)
+                {
+                    list = list.Where(x => x.ImagePath != "").ToList();
+                }
+                else
+                {
+                    list = list.Where(x => x.ImagePath == "" || x.ImagePath == null).ToList();
+                }
+            }
+            list = list.OrderBy(x => x.TableNo, new TableComparer()).ThenBy(x => x.FullName).ToList();
+            if (pageIndex * pageSize > 0)
+            {
+                list = list.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
 
+            return list;
+        }
+        private int CountGuest(bool? isAttend = null, string name = null,bool? hasPic=null)
+        {
+            var list = GlobalConfigs.Guests;
+            if (isAttend.HasValue)
+            {
+                list = list.Where(x => x.IsAttend == isAttend.Value).ToList();
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                list = list.Where(x => x.Name.Contains(name)).ToList();
+            }
+            if (hasPic.HasValue)
+            {
+                if (hasPic.Value)
+                {
+                    list = list.Where(x => x.ImagePath != "").ToList();
+                }
+                else
+                {
+                    list = list.Where(x => x.ImagePath == ""||x.ImagePath==null).ToList();
+                }
+            }
+
+            return list.Count();
+        }
 
 
         private void tsbNew_Click(object sender, EventArgs e)
@@ -150,7 +203,8 @@ namespace WeddingGreeting.Forms
             if (MessageBox.Show(this, $"确定要删除{guest.Name} 及其随行人员吗？", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 GuestMgr.RemoveGuest(guest);
-                QueryByFilter();
+                //QueryByFilter();
+                pagerControl.InvokeIfRequired(c => c.RefreshData());
                 dgvGuests.ClearSelection();
                 splitContainer.Panel2Collapsed = true;
                 LocateScrollBar();
@@ -177,7 +231,7 @@ namespace WeddingGreeting.Forms
                 var thread = new EgoDevil.Utilities.BkWorker.BackgroundThread(Register);
                 thread.RunWorkerCompleted += Thread_RunWorkerCompleted;
                 thread.Start(para);
-              
+
             }
             SetAttendInformation();
         }
@@ -189,8 +243,10 @@ namespace WeddingGreeting.Forms
             var message = success ? "录入成功" : "录入失败";
             MsgForm.Show(message, "提示", success ? MessageBoxIcon.None : MessageBoxIcon.Error);
             splitContainer.InvokeIfRequired(c => c.Panel2Collapsed = success);
-            dgvGuests.InvokeIfRequired(c => QueryByFilter());
+            //dgvGuests.InvokeIfRequired(c => QueryByFilter());
+            pagerControl.InvokeIfRequired(c => c.RefreshData());
             LocateScrollBar();
+
         }
 
         private void btnCancelRegisterOrUpdate_Click(object sender, EventArgs e)
